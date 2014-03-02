@@ -18,13 +18,14 @@ public class AgendaListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-
+		
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		getListView().setDivider(null);
+		
 		ArrayList<AgendaItem> array = new ArrayList<AgendaItem>();
 		array.add(new AgendaItem("10.15\n11.15", "Przyk³adowy temat",
 				"Jan Kowalski"));

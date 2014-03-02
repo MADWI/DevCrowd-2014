@@ -3,7 +3,6 @@ package pl.devcrowd.app.adapters;
 import java.util.ArrayList;
 
 import pl.devcrowd.app.R;
-import pl.devcrowd.app.R.id;
 import pl.devcrowd.app.models.AgendaItem;
 
 import android.content.Context;

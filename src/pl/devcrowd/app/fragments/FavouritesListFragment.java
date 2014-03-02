@@ -24,7 +24,8 @@ public class FavouritesListFragment extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		getListView().setDivider(null);
+		
 		ArrayList<AgendaItem> array = new ArrayList<AgendaItem>();
 		array.add(new AgendaItem("10.15\n11.15", "Ulubiony temat",
 				"Jan Kowalski"));
@@ -45,7 +46,7 @@ public class FavouritesListFragment extends ListFragment {
 
 		if (isAdded()) {
 			AgendatItemsAdapter adapter = new AgendatItemsAdapter(
-					getActivity(), R.layout.agenda_item_layout, array);
+					getActivity(), R.layout.agenda_item_favo_layout, array);
 			setListAdapter(adapter);
 		}
 	}

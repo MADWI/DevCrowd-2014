@@ -6,16 +6,17 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/cardMargin" >
 
         <RelativeLayout
             android:id="@+id/topicCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/card"
-            android:layout_marginTop="@dimen/cardMargin"
+            android:background="@drawable/normal_card_shape"
+            android:layout_marginLeft="@dimen/cardMargin"
             android:layout_marginRight="@dimen/cardMargin"
-            android:layout_marginLeft="@dimen/cardMargin" >
+            android:layout_marginTop="@dimen/cardMargin" >
 
             <TextView
                 android:id="@+id/textTopic"
@@ -53,12 +54,14 @@
                 android:textColor="@color/gray" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/imageMoreTopic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/textTopicDetails"
-                android:src="@android:drawable/ic_menu_more" />
+                android:layout_marginBottom="2dp"
+                android:layout_marginRight="3dp"
+                android:src="@drawable/arrow" />
 
         </RelativeLayout>
 
@@ -70,7 +73,7 @@
             android:layout_marginLeft="@dimen/cardMargin"
             android:layout_marginRight="@dimen/cardMargin"
             android:layout_marginTop="@dimen/cardMargin"
-            android:background="@drawable/card" >
+            android:background="@drawable/normal_card_shape" >
 
             <RelativeLayout
                 android:id="@+id/relativeLayout2"
@@ -122,12 +125,14 @@
                 android:visibility="gone" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/imageMorePreleg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/textPrelegentDetails"
-                android:src="@android:drawable/ic_menu_more" />
+                android:layout_marginBottom="2dp"
+                android:layout_marginRight="3dp"
+                android:src="@drawable/arrow" />
 
         </RelativeLayout>
 
@@ -136,7 +141,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/prelegentCard"
-            android:background="@drawable/card"
+            android:background="@drawable/normal_card_shape"
             android:layout_margin="@dimen/cardMargin" >
 
             <TextView

@@ -74,14 +74,15 @@
                     android:textAppearance="?android:attr/textAppearance" />
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/imgLogoDevCrowd"
+            <TextView
+                android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:layout_margin="2dp"
-                android:src="@android:drawable/btn_star" />
+                android:layout_margin="3dp"
+                android:text="Sala: 103"
+                android:textAppearance="?android:attr/textAppearance" />
 
         </RelativeLayout>
 
