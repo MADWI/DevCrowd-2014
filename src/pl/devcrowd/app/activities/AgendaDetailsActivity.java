@@ -37,10 +37,10 @@ public class AgendaDetailsActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.agenda_details_layout);
+		setContentView(R.layout.agenda_details);
 
 		getSupportActionBar().setHomeButtonEnabled(true);
-		
+
 		topicCard = (RelativeLayout) findViewById(R.id.topicCard);
 		prelegentCard = (RelativeLayout) findViewById(R.id.prelegentCard);
 		rateCard = (RelativeLayout) findViewById(R.id.rateCard);
@@ -50,7 +50,7 @@ public class AgendaDetailsActivity extends ActionBarActivity {
 		textTopicDetails = (TextView) findViewById(R.id.textTopicDetails);
 		moreTopic = (ImageView) findViewById(R.id.imageMoreTopic);
 		rotateTo0(moreTopic, 0);
-		
+
 		textPrelegent = (TextView) findViewById(R.id.textPrelegent);
 		textPrelegentDetails = (TextView) findViewById(R.id.textPrelegentDetails);
 		morePreleg = (ImageView) findViewById(R.id.imageMorePreleg);
@@ -65,10 +65,11 @@ public class AgendaDetailsActivity extends ActionBarActivity {
 					@Override
 					public void run() {
 						if (textTopicDetails.getVisibility() == View.GONE) {
-							setAnimation(textTopicDetails, android.R.anim.fade_in, 400);
+							setAnimation(textTopicDetails,
+									android.R.anim.fade_in, 400);
 							textTopicDetails.setVisibility(View.VISIBLE);
 							rotateTo0(moreTopic, 400);
-							
+
 						} else if (textTopicDetails.getVisibility() == View.VISIBLE) {
 							textTopicDetails.setVisibility(View.GONE);
 							rotateTo180(moreTopic, 400);
@@ -86,7 +87,8 @@ public class AgendaDetailsActivity extends ActionBarActivity {
 					@Override
 					public void run() {
 						if (textPrelegentDetails.getVisibility() == View.GONE) {
-							setAnimation(textPrelegentDetails, android.R.anim.fade_in, 400);
+							setAnimation(textPrelegentDetails,
+									android.R.anim.fade_in, 400);
 							textPrelegentDetails.setVisibility(View.VISIBLE);
 							rotateTo0(morePreleg, 400);
 						} else if (textPrelegentDetails.getVisibility() == View.VISIBLE) {
@@ -111,22 +113,25 @@ public class AgendaDetailsActivity extends ActionBarActivity {
 		});
 
 	}
-	
+
 	private void setAnimation(View view, int animation, int duration) {
-		Animation anim = AnimationUtils.loadAnimation(AgendaDetailsActivity.this, animation);
+		Animation anim = AnimationUtils.loadAnimation(
+				AgendaDetailsActivity.this, animation);
 		anim.setDuration(duration);
 		view.setAnimation(anim);
 	}
-	
+
 	private void rotateTo0(View view, int duration) {
-		Animation anim = AnimationUtils.loadAnimation(AgendaDetailsActivity.this, R.anim.rotate_to_0);
+		Animation anim = AnimationUtils.loadAnimation(
+				AgendaDetailsActivity.this, R.anim.rotate_to_0);
 		anim.setDuration(duration);
 		anim.setFillAfter(true);
 		view.startAnimation(anim);
 	}
-	
+
 	private void rotateTo180(View view, int duration) {
-		Animation anim = AnimationUtils.loadAnimation(AgendaDetailsActivity.this, R.anim.rotate_to_180);
+		Animation anim = AnimationUtils.loadAnimation(
+				AgendaDetailsActivity.this, R.anim.rotate_to_180);
 		anim.setDuration(duration);
 		anim.setFillAfter(true);
 		view.startAnimation(anim);

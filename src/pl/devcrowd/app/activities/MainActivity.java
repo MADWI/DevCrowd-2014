@@ -6,7 +6,7 @@ import pl.devcrowd.app.R;
 import pl.devcrowd.app.dialogs.AboutDialog;
 import pl.devcrowd.app.drawer.NavDrawerItem;
 import pl.devcrowd.app.drawer.NavDrawerListAdapter;
-import pl.devcrowd.app.fragments.AgendaListFragment;
+import pl.devcrowd.app.fragments.AgendaHostFragment;
 import pl.devcrowd.app.fragments.FavouritesListFragment;
 import pl.devcrowd.app.fragments.HomeFragment;
 import android.content.res.Configuration;
@@ -136,7 +136,7 @@ public class MainActivity extends ActionBarActivity {
 			fragment = new HomeFragment();
 			break;
 		case DRAWER_AGENDA_NUM:
-			fragment = new AgendaListFragment();
+			fragment = new AgendaHostFragment();
 			break;
 		case DRAWER_FAVOURITES_NUM:
 			fragment = new FavouritesListFragment();
@@ -160,16 +160,21 @@ public class MainActivity extends ActionBarActivity {
 					.beginTransaction();
 			fragmentTransaction.replace(R.id.frame_container, fragment);
 
-			//fragmentTransaction.addToBackStack(null);
+			// fragmentTransaction.addToBackStack(null);
 			fragmentTransaction.commit();
+			setSelection(position);
 
-			mDrawerList.setItemChecked(position, true);
-			mDrawerList.setSelection(position);
-			setTitle(navMenuTitles[position]);
-			mDrawerLayout.closeDrawer(mDrawerList);
 		} else {
 			Log.e(TAG, "Error in creating fragment");
 		}
+	}
+
+	private void setSelection(int position) {
+		mDrawerList.setItemChecked(position, true);
+		mDrawerList.setSelection(position);
+		setTitle(navMenuTitles[position]);
+		mDrawerLayout.closeDrawer(mDrawerList);
+
 	}
 
 	@Override

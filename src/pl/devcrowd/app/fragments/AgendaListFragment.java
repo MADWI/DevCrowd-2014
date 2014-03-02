@@ -46,7 +46,7 @@ public class AgendaListFragment extends ListFragment {
 
 		if (isAdded()) {
 			AgendatItemsAdapter adapter = new AgendatItemsAdapter(
-					getActivity(), R.layout.agenda_item_layout, array);
+					getActivity(), R.layout.agenda_item, array);
 			setListAdapter(adapter);
 		}
 	}

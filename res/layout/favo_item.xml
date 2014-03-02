@@ -10,7 +10,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_margin="@dimen/cardMargin"
-        android:background="@drawable/list_item_selector" >
+        android:background="@drawable/list_item_selector"
+        android:baselineAligned="false" >
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -18,7 +19,7 @@
             android:layout_weight="0.25" >
 
             <TextView
-                android:id="@+id/textItemHour"
+                android:id="@+id/textFavoItemHour"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
@@ -28,7 +29,6 @@
                 android:paddingTop="@dimen/cardMargin"
                 android:text="10.15\n11.15"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -39,9 +39,9 @@
             <RelativeLayout
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/bgGray"
+                android:layout_marginBottom="4dp"
                 android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp" >
+                android:background="@color/bgGray" >
             </RelativeLayout>
 
             <RelativeLayout
@@ -53,7 +53,7 @@
                 android:layout_centerVertical="true" >
 
                 <TextView
-                    android:id="@+id/textItemTopic"
+                    android:id="@+id/textFavoItemTopic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -63,29 +63,31 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
-                    android:id="@+id/textItemPrelegent"
+                    android:id="@+id/textFavoItemPrelegent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignRight="@+id/textItemTopic"
-                    android:layout_below="@+id/textItemTopic"
+                    android:layout_alignRight="@+id/textFavoItemTopic"
+                    android:layout_below="@+id/textFavoItemTopic"
                     android:layout_marginLeft="@dimen/cardMargin"
                     android:text="Jan Kowalski"
                     android:textAppearance="?android:attr/textAppearance" />
+
+                <TextView
+                    android:id="@+id/textFavoRoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="2dp"
+                    android:layout_toRightOf="@+id/textFavoItemTopic"
+                    android:gravity="center"
+                    android:text="Sala: 128"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="3dp"
-                android:text="Sala: 103"
-                android:textAppearance="?android:attr/textAppearance" />
-
         </RelativeLayout>
-
     </LinearLayout>
 
 </RelativeLayout>

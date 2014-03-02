@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.activities.AgendaDetailsActivity;
-import pl.devcrowd.app.adapters.AgendatItemsAdapter;
+import pl.devcrowd.app.adapters.FavoItemsAdapter;
 import pl.devcrowd.app.models.AgendaItem;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +25,7 @@ public class FavouritesListFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		getListView().setDivider(null);
-		
+
 		ArrayList<AgendaItem> array = new ArrayList<AgendaItem>();
 		array.add(new AgendaItem("10.15\n11.15", "Ulubiony temat",
 				"Jan Kowalski"));
@@ -45,8 +45,8 @@ public class FavouritesListFragment extends ListFragment {
 				"Jan Kowalski"));
 
 		if (isAdded()) {
-			AgendatItemsAdapter adapter = new AgendatItemsAdapter(
-					getActivity(), R.layout.agenda_item_favo_layout, array);
+			FavoItemsAdapter adapter = new FavoItemsAdapter(getActivity(),
+					R.layout.favo_item, array);
 			setListAdapter(adapter);
 		}
 	}
