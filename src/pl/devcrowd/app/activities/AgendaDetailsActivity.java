@@ -1,53 +1,56 @@
-package pl.devcrowd.app;
+package pl.devcrowd.app.activities;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import pl.devcrowd.app.R;
+import pl.devcrowd.app.dialogs.RateDialog;
 import android.os.Bundle;
-import android.provider.ContactsContract.CommonDataKinds.Event;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class AgendaDetailsActivity extends Activity {
+public class AgendaDetailsActivity extends ActionBarActivity {
 
 	private RelativeLayout topicCard;
 	private RelativeLayout prelegentCard;
 	private RelativeLayout rateCard;
-	
+
 	private TextView textTopic;
 	private TextView textHour;
 	private TextView textTopicDetails;
-	
+
 	private TextView textPrelegent;
 	private TextView textPrelegentDetails;
-	
+
 	private RatingBar ratingBar;
-	
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.agenda_details_layout);
-		
+
+		getSupportActionBar().setHomeButtonEnabled(true);
+
 		topicCard = (RelativeLayout) findViewById(R.id.topicCard);
 		prelegentCard = (RelativeLayout) findViewById(R.id.prelegentCard);
 		rateCard = (RelativeLayout) findViewById(R.id.rateCard);
-		
+
 		textTopic = (TextView) findViewById(R.id.textTopic);
 		textHour = (TextView) findViewById(R.id.textHour);
 		textTopicDetails = (TextView) findViewById(R.id.textTopicDetails);
-		
+
 		textPrelegent = (TextView) findViewById(R.id.textPrelegent);
 		textPrelegentDetails = (TextView) findViewById(R.id.textPrelegentDetails);
-		
+
 		ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-		
+
 		topicCard.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				runOnUiThread(new Runnable() {
@@ -62,9 +65,9 @@ public class AgendaDetailsActivity extends Activity {
 				});
 			}
 		});
-		
+
 		prelegentCard.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				runOnUiThread(new Runnable() {
@@ -77,39 +80,40 @@ public class AgendaDetailsActivity extends Activity {
 						}
 					}
 				});
-				
+
 			}
 		});
-		
+
 		ratingBar.setOnTouchListener(new View.OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					AlertDialog dialog = buildRateDialog();
-					dialog.show();
+					showRateDialog();
 				}
 				return true;
 			}
 		});
-		
-	}
-	
-	private AlertDialog buildRateDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(getString(R.string.ratePresentation))
-			.setMessage("Simply content...")
-			.setNegativeButton(getString(R.string.cancel), null)
-			.setPositiveButton(getString(R.string.send), new DialogInterface.OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					Toast.makeText(AgendaDetailsActivity.this, "Rate was send!", Toast.LENGTH_SHORT).show();
-				}
-			});
-		
-		return builder.create();
-		
+
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void showRateDialog() {
+		DialogFragment newFragment = RateDialog.newInstance();
+		newFragment.show(getSupportFragmentManager(), "rate_dialog");
+	}
 }

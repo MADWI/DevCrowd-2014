@@ -1,4 +1,4 @@
-package pl.devcrowd.app;
+package pl.devcrowd.app.models;
 
 public class AgendaItem {
 

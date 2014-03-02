@@ -3,8 +3,37 @@
 
     <string name="app_name">DevCrowd</string>
     <string name="simplyText">Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum. Integer aliquam purus. Quisque lorem tortor fringilla sed, vestibulum id, eleifend justo vel bibendum sapien massa ac turpis faucibus orci luctus non, consectetuer lobortis quis, varius in, purus. Integer ultrices posuere cubilia Curae, Nulla ipsum dolor lacus, suscipit adipiscing. Cum sociis natoque penatibus et ultrices volutpat. Nullam wisi ultricies a, gravida vitae, dapibus risus ante sodales lectus blandit eu, tempor diam pede cursus vitae, ultricies eu, faucibus quis, porttitor eros cursus lectus, </string>
-	<string name="ratePresentation">Oceń prezentację</string>
-	<string name="cancel">Anuluj</string>
-	<string name="send">Wyślij</string>
-	
+    <string name="ratePresentation">Oceń prezentację</string>
+    <string name="cancel">Anuluj</string>
+    <string name="send">Wyślij</string>
+    <string name="about">O aplikacji</string>
+    <string name="about_msg">
+<![CDATA[<body><h1><b>DevCrowd App</b></h1>v 0.0.1<br/>www.devcrowd.pl<br/><br/>
+        Autorzy:<br/>
+        <b>SKN Mobile Applications Developers WI ZUT</b><br/>
+        www.mad.zut.edu.pl<br/></body>
+        ]]>
+    </string>
+    <string name="devcrowd_info_title">DevCrowd\'14</string>
+    <string name="devcrowd_info_body">Otwarta, bezpłatna szczecińska konferencja DevCrowd dla programistów JAVA i innych specjalistów IT</string>
+    <string name="drawer_open">Drawer otwarty</string>
+    <string name="drawer_close">Drawer zamknięty</string>
+
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item>DevCrowd</item>
+        <item>Agenda</item>
+        <item>Ulubione</item>
+        <item>Sponsorzy</item>
+        <item>O aplikacji</item>
+    </string-array>
+
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_launcher</item>
+        <item>@drawable/drawer_agenda</item>
+        <item>@drawable/drawer_favourites</item>
+        <item>@drawable/drawer_founders</item>
+        <item>@drawable/drawer_about</item>
+    </array>
+
 </resources>
