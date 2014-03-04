@@ -18,6 +18,7 @@
     <string name="devcrowd_info_body">Otwarta, bezpłatna szczecińska konferencja DevCrowd dla programistów JAVA i innych specjalistów IT</string>
     <string name="drawer_open">Drawer otwarty</string>
     <string name="drawer_close">Drawer zamknięty</string>
+    <string name="waitforit">Pobieram dane#8230;</string>
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
