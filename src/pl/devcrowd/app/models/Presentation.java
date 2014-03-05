@@ -9,6 +9,15 @@ public class Presentation {
 	private String title;
 	private String prelegent;
 	
+	public Presentation() {
+		super();
+		this.hourStart = null;
+		this.hourEnd = null;
+		this.room = null;
+		this.description = null;
+		this.title = null;
+		this.prelegent = null;
+	}
 	
 	public Presentation(String hourStart, String hourEnd, String room,
 			String description, String title, String prelegent) {

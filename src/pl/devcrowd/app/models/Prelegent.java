@@ -14,7 +14,13 @@ public class Prelegent {
 	private String photoPath;
 	private String description;
 	
-	Prelegent(String name, String photoPath, String description){
+	public Prelegent(){
+		this.name = null;
+		this.photoPath = null;
+		this.description = null;
+	}
+	
+	public Prelegent(String name, String photoPath, String description){
 		this.setName(name);
 		this.setPhotoPath(photoPath);
 		this.setDescription(description);
