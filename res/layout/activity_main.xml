@@ -19,9 +19,9 @@
         android:layout_width="270dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/list_background"
+        android:background="@drawable/background_gradient"
         android:choiceMode="singleChoice"
-        android:divider="@color/list_divider"
+        android:divider="@color/onahau"
         android:dividerHeight="1dp" />
 
 </android.support.v4.widget.DrawerLayout>

@@ -1,5 +1,5 @@
 <resources>
 
-    <dimen name="cardMargin">10dp</dimen>
+    <dimen name="cardMargin">8dp</dimen>
 
 </resources>

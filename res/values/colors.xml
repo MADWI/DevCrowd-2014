@@ -8,5 +8,10 @@
     <color name="list_background_pressed">#fa7000</color>
     <color name="list_divider">#b20900</color>
     <color name="list_title_color">#ffffff</color>
+    
+    <color name="Dark_blue">#006699</color>
+    <color name="Light_blue">#0099ff</color>
+    <color name="buttercup">#e68b16</color>
+    <color name="onahau">#b4e3f4</color>
 
 </resources>
