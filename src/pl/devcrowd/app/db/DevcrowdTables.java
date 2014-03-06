@@ -13,6 +13,7 @@ public class DevcrowdTables {
 	public static final String PRESENTATION_START = "hourStart";
 	public static final String PRESENTATION_END = "hourEnd";
 	public static final String PRESENTATION_PRELEGENT = "prelegentName";
+	public static final String PRESENTATION_DESCRIPTION = "description";
 	
 	public static final String TABLE_PRELEGENCI = "prelegenciTable";
 	public static final String PRELEGENT_COLUMN_ID = "_id";
@@ -28,7 +29,8 @@ public class DevcrowdTables {
 			+ PRESENTATION_ROOM + " text not null, " 
 			+ PRESENTATION_START + " text not null, " 
 			+ PRESENTATION_END + " text not null, " 
-			+ PRESENTATION_PRELEGENT + " text not null "
+			+ PRESENTATION_PRELEGENT + " text not null, "
+			+ PRESENTATION_DESCRIPTION + " text not null "
 			+ ");";
 	
 	// Database creation SQL statement

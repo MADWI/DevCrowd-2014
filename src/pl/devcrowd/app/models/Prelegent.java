@@ -1,5 +1,7 @@
 package pl.devcrowd.app.models;
 
+import java.util.ArrayList;
+
 import pl.devcrowd.app.db.DevcrowdContentProvider;
 import pl.devcrowd.app.db.DevcrowdTables;
 
@@ -7,6 +9,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 public class Prelegent {
 	
@@ -25,6 +28,8 @@ public class Prelegent {
 		this.setPhotoPath(photoPath);
 		this.setDescription(description);
 	}
+	
+	//DB methods
 	
 	Prelegent(ContentResolver resolver, String name) {
 		Uri uri = DevcrowdContentProvider.CONTENT_URI_PRELEGENCI;
@@ -63,6 +68,44 @@ public class Prelegent {
 
 		return resolver.insert(DevcrowdContentProvider.CONTENT_URI_PRELEGENCI, values);
 	}
+	
+	public ArrayList<Prelegent> getPrelegents(ContentResolver resolver) {
+
+		ArrayList<Prelegent> resultList = new ArrayList<Prelegent>();
+
+		Uri uri = DevcrowdContentProvider.CONTENT_URI_PRELEGENCI;
+		String[] projection = { DevcrowdTables.PRELEGENT_COLUMN_NAME,
+				DevcrowdTables.PRELEGENT_COLUMN_DESCRIPTION,
+				DevcrowdTables.PRELEGENT_COLUMN_FOTO };
+		Cursor cursor = resolver.query(uri, projection, null, null, DevcrowdTables.PRELEGENT_COLUMN_ID + " DESC");
+		if (cursor != null) {
+			cursor.moveToFirst();
+			Prelegent tmpPrelegent;
+			String name, description, photoPath;
+
+			do{
+				try {
+					name = cursor
+							.getString(cursor
+									.getColumnIndexOrThrow(DevcrowdTables.PRELEGENT_COLUMN_NAME));
+					description = cursor
+							.getString(cursor
+									.getColumnIndexOrThrow(DevcrowdTables.PRELEGENT_COLUMN_DESCRIPTION));
+					photoPath = cursor
+							.getString(cursor
+									.getColumnIndexOrThrow(DevcrowdTables.PRELEGENT_COLUMN_FOTO));
+					tmpPrelegent = new Prelegent(name, description, photoPath);
+					resultList.add(tmpPrelegent);
+				} catch (Exception e) {
+					Log.e("Prelegent", "Error " + e.toString());
+				}
+			} while(cursor.moveToNext());
+			cursor.close();
+		}		
+		return resultList;
+	}
+	
+	//END - DB methods
 
 	/**
 	 * @return the name

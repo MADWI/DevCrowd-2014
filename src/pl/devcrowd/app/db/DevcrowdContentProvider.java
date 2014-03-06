@@ -167,6 +167,7 @@ public class DevcrowdContentProvider extends ContentProvider {
 				DevcrowdTables.PRESENTATION_START,
 				DevcrowdTables.PRESENTATION_END,
 				DevcrowdTables.PRESENTATION_PRELEGENT,
+				DevcrowdTables.PRESENTATION_DESCRIPTION,
 				DevcrowdTables.PRELEGENT_COLUMN_ID,
 				DevcrowdTables.PRELEGENT_COLUMN_NAME,
 				DevcrowdTables.PRELEGENT_COLUMN_DESCRIPTION,
