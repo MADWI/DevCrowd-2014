@@ -83,21 +83,39 @@
                 android:layout_alignParentRight="true" >
 
                 <RelativeLayout
-                    android:id="@+id/relativeLayout1"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_margin="@dimen/cardMargin"
-                    android:background="@color/imageBgBlack" >
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/relativeLayout1"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/relativeLayout1"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="12dp"
+                    android:background="#A0F0F0F0" >
 
-                    <ImageView
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayout1"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="@dimen/cardMargin"
+                    android:background="@drawable/round_image_view_frame" >
+
+                    <pl.devcrowd.app.overviews.RoundImageView
                         android:id="@+id/imgLogoDevCrowd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="1dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
                         android:scaleType="center"
                         android:src="@drawable/head_simple" />
+
                 </RelativeLayout>
 
                 <TextView
@@ -105,7 +123,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/relativeLayout1"
                     android:text="Jan\nKowalski"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
