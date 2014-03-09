@@ -1,15 +1,17 @@
 package pl.devcrowd.app.parsers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pl.devcrowd.app.models.Prelegent;
+import android.util.Log;
+
+import pl.devcrowd.app.BuildConfig;
+import pl.devcrowd.app.models.Speaker;
 import pl.devcrowd.app.models.Presentation;
-
-
 
 /**
  * JSON Parser class to get useful objects
@@ -21,55 +23,59 @@ public class JSONParser {
 	/**
 	 * list of Presentation objects
 	 * */
-	private ArrayList<Presentation> listOfPresentations = new ArrayList<Presentation>();
+	private List<Presentation> listOfPresentations = new ArrayList<Presentation>();
 
 	/**
-	 * list of Prelegent objects
+	 * list of Speaker objects
 	 * */
-	private ArrayList<Prelegent> listOfPrelegents = new ArrayList<Prelegent>();
+	private List<Speaker> listOfSpeakers = new ArrayList<Speaker>();
 
 	/**
-	 * parse JSON to get ArrayList of Presentation objects
+	 * parse JSON to get List of Presentation objects
 	 * 
 	 * @param response
 	 *            - JSON String from URL
 	 * 
-	 * @return ArrayList of Presentation objects
+	 * @return List of Presentation objects
 	 * */
-	public ArrayList<Presentation> getPresentationFromString(String response) {
+	public List<Presentation> getPresentationFromString(String response) {
 		try {
 			JSONArray responseArray = new JSONArray(response);
 			for (int i = 0; i < responseArray.length(); i++) {
 				parsePresentationArray(responseArray, i);
 			}
 		} catch (JSONException e) {
-			e.printStackTrace();
+			if (BuildConfig.DEBUG) {
+				Log.e("getPresentationFromString()", e.toString());
+			}
 		}
 		return listOfPresentations;
 	}
 
 	/**
-	 * parse JSON to get ArrayList of Prelegent objects
+	 * parse JSON to get List of Speaker objects
 	 * 
 	 * @param response
 	 *            - JSON String from URL
 	 * 
-	 * @return ArrayList of Prelegent objects
+	 * @return List of Speaker objects
 	 * */
-	public ArrayList<Prelegent> getPrelegentsFromString(String response) {
+	public List<Speaker> getSpeakersFromString(String response) {
 		try {
 			JSONArray responseArray = new JSONArray(response);
 			for (int i = 0; i < responseArray.length(); i++) {
-				parsePrelegentObject(responseArray, i);
+				parseSpeakerObject(responseArray, i);
 			}
 		} catch (JSONException e) {
-			e.printStackTrace();
+			if (BuildConfig.DEBUG) {
+				Log.w("getSpeakersFromString()", e.toString());
+			}
 		}
-		return listOfPrelegents;
+		return listOfSpeakers;
 	}
 
 	/**
-	 * add filled Presentation objects to ArrayList
+	 * add filled Presentation objects to List
 	 * 
 	 * @param responseArray
 	 *            - JSON String from URL
@@ -79,60 +85,79 @@ public class JSONParser {
 	 * */
 	private void parsePresentationArray(JSONArray responseArray, int i) {
 		try {
-			String title = null;
-			String description = null;
-			String room = null;
-			String starts = null;
-			String ends = null;
-			String prelegent = null;
+			JSONObject arrayElement = responseArray.getJSONObject(i);
+
+			String title = getJSONFieldFromObject(arrayElement, "title");
+			String description = getJSONFieldFromObject(arrayElement,
+					"description");
+			String room = getJSONFieldFromObject(arrayElement, "room");
+			String starts = getJSONFieldFromObject(arrayElement, "starts");
+			String ends = getJSONFieldFromObject(arrayElement, "ends");
+			String speaker = getJSONFieldFromArray(arrayElement, "prelegent");
+
 			Presentation presentation = new Presentation();
-			JSONObject arrayElement;
-
-			arrayElement = responseArray.getJSONObject(i);
-
-			if (arrayElement.has("title"))
-				title = arrayElement.getString("title");
-			else
-				title = "";
-			if (arrayElement.has("description"))
-				description = arrayElement.getString("description");
-			else
-				description = "";
-			if (arrayElement.has("room"))
-				room = arrayElement.getString("room");
-			else
-				room = "";
-			if (arrayElement.has("starts"))
-				starts = arrayElement.getString("starts");
-			else
-				starts = "";
-			if (arrayElement.has("ends"))
-				ends = arrayElement.getString("ends");
-			else
-				ends = "";
-			if (arrayElement.has("prelegent")) {
-				JSONObject prelegentObject = arrayElement
-						.getJSONObject("prelegent");
-				prelegent = prelegentObject.getString("name");
-			} else {
-				prelegent = "";
-			}
-
 			presentation.setTitle(title);
 			presentation.setDescription(description);
-			presentation.setHourStart(starts);
-			presentation.setHourEnd(ends);
-			presentation.setRoom(room);
-			presentation.setPrelegent(prelegent);
+			presentation.setHourStart(room);
+			presentation.setHourEnd(starts);
+			presentation.setRoom(ends);
+			presentation.setSpeaker(speaker);
+
 			listOfPresentations.add(presentation);
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
 
-	
 	/**
-	 * add filled Prelegent objects to ArrayList
+	 * check value under key and return it
+	 * 
+	 * @param arrayElement
+	 *            - object to check
+	 * @param key
+	 *            - key to check
+	 * @param isSpeakerObject
+	 *            - JSON key is an Speaker object
+	 * 
+	 * @return value under key
+	 * */
+	private String getJSONFieldFromObject(JSONObject arrayElement, String key) {
+		String value = null;
+		try {
+			if (arrayElement.has(key)) {
+				value = arrayElement.getString(key);
+			} else {
+				value = "";
+			}
+		} catch (JSONException e) {
+			if (BuildConfig.DEBUG) {
+				Log.w("DevCrowdApp", e.toString());
+			}
+		}
+		return value;
+	}
+
+	private String getJSONFieldFromArray(JSONObject arrayElement, String key) {
+		String value = null;
+		try {
+			if (arrayElement.has(key)) {
+				JSONObject speakerObject;
+				speakerObject = arrayElement.getJSONObject(key);
+				value = speakerObject.getString("name");
+			} else {
+				value = "";
+			}
+		} catch (JSONException e) {
+			if (BuildConfig.DEBUG) {
+				Log.w("DevCrowdApp", e.toString());
+			}
+		}
+		return value;
+	}
+
+	/**
+	 * add filled Speaker objects to List
 	 * 
 	 * @param responseArray
 	 *            - JSON String from URL
@@ -140,36 +165,25 @@ public class JSONParser {
 	 *            - index of current object
 	 * 
 	 * */
-	private void parsePrelegentObject(JSONArray responseArray, int i) {
+	private void parseSpeakerObject(JSONArray responseArray, int i) {
 		try {
-			String name = null;
-			String photoPath = null;
-			String description = null;
-			JSONObject arrayElement = new JSONObject();
-			Prelegent prelegent = new Prelegent();
+			Speaker speaker = new Speaker();
+			JSONObject arrayElement = responseArray.getJSONObject(i);
 
-			arrayElement = responseArray.getJSONObject(i);
-			if (arrayElement.has("prelegent")) {
-				JSONObject prelegentElement = arrayElement
-						.getJSONObject("prelegent");
-				if (prelegentElement.has("name"))
-					name = prelegentElement.getString("name");
-				else
-					name = "";
-				if (prelegentElement.has("description"))
-					description = prelegentElement.getString("description");
-				else
-					description = "";
-				if (prelegentElement.has("photoUrl"))
-					photoPath = prelegentElement.getString("photoUrl");
-				else
-					photoPath = "";
-			}
+			JSONObject speakerElement = arrayElement
+					.getJSONObject("prelegent");
+			String name = getJSONFieldFromObject(speakerElement, "name");
+			String photoPath = getJSONFieldFromObject(speakerElement,
+					"description");
+			String description = getJSONFieldFromObject(speakerElement,
+					"photoUrl");
 
-			prelegent.setName(name);
-			prelegent.setPhotoPath(photoPath);
-			prelegent.setDescription(description);
-			listOfPrelegents.add(prelegent);
+			speaker.setName(name);
+			speaker.setPhotoPath(photoPath);
+			speaker.setDescription(description);
+
+			listOfSpeakers.add(speaker);
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

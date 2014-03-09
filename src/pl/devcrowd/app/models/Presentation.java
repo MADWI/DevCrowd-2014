@@ -199,7 +199,7 @@ public class Presentation {
 	}
 
 
-	public void setPrelegent(String prelegent) {
+	public void setSpeaker(String prelegent) {
 		this.prelegent = prelegent;
 	}
 	
