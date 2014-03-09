@@ -42,8 +42,8 @@ public class FavoItemsAdapter extends ArrayAdapter<AgendaItem> {
 					.findViewById(R.id.textFavoItemHour);
 			holder.textFavoItemTopic = (TextView) row
 					.findViewById(R.id.textFavoItemTopic);
-			holder.textFavoItemPrelegent = (TextView) row
-					.findViewById(R.id.textFavoItemPrelegent);
+			holder.textFavoItemSpeaker = (TextView) row
+					.findViewById(R.id.textFavoItemSpeaker);
 
 			holder.textFavoRoom = (TextView) row
 					.findViewById(R.id.textFavoRoom);
@@ -54,8 +54,8 @@ public class FavoItemsAdapter extends ArrayAdapter<AgendaItem> {
 
 		holder.textFavoItemHour.setText(items.get(position).getHour());
 		holder.textFavoItemTopic.setText(items.get(position).getTopic());
-		holder.textFavoItemPrelegent
-				.setText(items.get(position).getPrelegent());
+		holder.textFavoItemSpeaker
+				.setText(items.get(position).getSpeaker());
 
 		return row;
 	}
@@ -63,7 +63,7 @@ public class FavoItemsAdapter extends ArrayAdapter<AgendaItem> {
 	static class FavoItemHolder {
 		TextView textFavoItemHour;
 		TextView textFavoItemTopic;
-		TextView textFavoItemPrelegent;
+		TextView textFavoItemSpeaker;
 		TextView textFavoRoom;
 	}
 }

@@ -17,7 +17,7 @@ public class Presentation {
 	private String room;
 	private String description;
 	private String title;
-	private String prelegent;
+	private String speaker;
 	
 	public Presentation() {
 		super();
@@ -26,18 +26,18 @@ public class Presentation {
 		this.room = null;
 		this.description = null;
 		this.title = null;
-		this.prelegent = null;
+		this.speaker = null;
 	}
 	
 	public Presentation(String hourStart, String hourEnd, String room,
-			String description, String title, String prelegent) {
+			String description, String title, String speaker) {
 		super();
 		this.hourStart = hourStart;
 		this.hourEnd = hourEnd;
 		this.room = room;
 		this.description = description;
 		this.title = title;
-		this.prelegent = prelegent;
+		this.speaker = speaker;
 	}
 	
 	Presentation(ContentResolver resolver, String title) {
@@ -69,7 +69,7 @@ public class Presentation {
 			this.hourEnd = cursor
 					.getString(cursor
 							.getColumnIndexOrThrow(DevcrowdTables.PRESENTATION_END));
-			this.prelegent = cursor
+			this.speaker = cursor
 					.getString(cursor
 							.getColumnIndexOrThrow(DevcrowdTables.PRESENTATION_PRELEGENT));
 
@@ -80,7 +80,7 @@ public class Presentation {
 			this.room = null;
 			this.hourStart = null;
 			this.hourEnd = null;
-			this.prelegent = null;
+			this.speaker = null;
 		}
 	}
 	
@@ -91,12 +91,12 @@ public class Presentation {
 		values.put(DevcrowdTables.PRESENTATION_ROOM, this.room);
 		values.put(DevcrowdTables.PRESENTATION_START, this.hourStart);
 		values.put(DevcrowdTables.PRESENTATION_END, this.hourEnd);
-		values.put(DevcrowdTables.PRESENTATION_PRELEGENT, this.prelegent);
+		values.put(DevcrowdTables.PRESENTATION_PRELEGENT, this.speaker);
 
 		return resolver.insert(DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, values);
 	}
 	
-	public ArrayList<Presentation> getPrelegents(ContentResolver resolver) {
+	public ArrayList<Presentation> getSpeakers(ContentResolver resolver) {
 
 		ArrayList<Presentation> resultList = new ArrayList<Presentation>();
 
@@ -111,7 +111,7 @@ public class Presentation {
 		if (cursor != null) {
 			cursor.moveToFirst();
 			Presentation tmpPresentation;
-			String title, description, room, hourStart, hourEnd, prelegent;
+			String title, description, room, hourStart, hourEnd, speaker;
 
 			do{
 				try {
@@ -130,10 +130,10 @@ public class Presentation {
 					hourEnd = cursor
 							.getString(cursor
 									.getColumnIndexOrThrow(DevcrowdTables.PRESENTATION_END));
-					prelegent = cursor
+					speaker = cursor
 							.getString(cursor
 									.getColumnIndexOrThrow(DevcrowdTables.PRESENTATION_PRELEGENT));
-					tmpPresentation = new Presentation(hourStart, hourEnd, room, description, title, prelegent);
+					tmpPresentation = new Presentation(hourStart, hourEnd, room, description, title, speaker);
 					resultList.add(tmpPresentation);
 				} catch (Exception e) {
 					Log.e("Presentation", "Error " + e.toString());
@@ -194,13 +194,13 @@ public class Presentation {
 	}
 
 
-	public String getPrelegent() {
-		return prelegent;
+	public String getSpeaker() {
+		return speaker;
 	}
 
 
-	public void setSpeaker(String prelegent) {
-		this.prelegent = prelegent;
+	public void setSpeaker(String speaker) {
+		this.speaker = speaker;
 	}
 	
 }

@@ -4,12 +4,12 @@ public class AgendaItem {
 
 	private String hour;
 	private String topic;
-	private String prelegent;
+	private String speaker;
 	
-	public AgendaItem(String hour, String topic, String prelegent) {
+	public AgendaItem(String hour, String topic, String speaker) {
 		this.hour = hour;
 		this.topic = topic;
-		this.prelegent = prelegent;
+		this.speaker = speaker;
 	}
 	
 	public String getHour() {
@@ -28,12 +28,12 @@ public class AgendaItem {
 		this.topic = topic;
 	}
 
-	public String getPrelegent() {
-		return prelegent;
+	public String getSpeaker() {
+		return speaker;
 	}
 
-	public void setPrelegent(String prelegent) {
-		this.prelegent = prelegent;
+	public void setSpeaker(String speaker) {
+		this.speaker = speaker;
 	}
 
 }

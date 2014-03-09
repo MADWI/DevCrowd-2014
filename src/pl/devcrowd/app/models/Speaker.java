@@ -80,7 +80,7 @@ public class Speaker {
 		Cursor cursor = resolver.query(uri, projection, null, null, DevcrowdTables.PRELEGENT_COLUMN_ID + " DESC");
 		if (cursor != null) {
 			cursor.moveToFirst();
-			Speaker tmpPrelegent;
+			Speaker tmpSpeaker;
 			String name, description, photoPath;
 
 			do{
@@ -94,10 +94,10 @@ public class Speaker {
 					photoPath = cursor
 							.getString(cursor
 									.getColumnIndexOrThrow(DevcrowdTables.PRELEGENT_COLUMN_FOTO));
-					tmpPrelegent = new Speaker(name, description, photoPath);
-					resultList.add(tmpPrelegent);
+					tmpSpeaker = new Speaker(name, description, photoPath);
+					resultList.add(tmpSpeaker);
 				} catch (Exception e) {
-					Log.e("Prelegent", "Error " + e.toString());
+					Log.e("Speaker", "Error " + e.toString());
 				}
 			} while(cursor.moveToNext());
 			cursor.close();

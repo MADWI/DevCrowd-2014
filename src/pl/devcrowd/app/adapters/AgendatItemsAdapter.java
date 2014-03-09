@@ -42,8 +42,8 @@ public class AgendatItemsAdapter extends ArrayAdapter<AgendaItem> {
 					.findViewById(R.id.textItemHour);
 			holder.textItemTopic = (TextView) row
 					.findViewById(R.id.textItemTopic);
-			holder.textItemPrelegent = (TextView) row
-					.findViewById(R.id.textItemPrelegent);
+			holder.textItemSpeaker = (TextView) row
+					.findViewById(R.id.textItemSpeaker);
 			row.setTag(holder);
 		} else {
 			holder = (AgendaItemHolder) row.getTag();
@@ -51,7 +51,7 @@ public class AgendatItemsAdapter extends ArrayAdapter<AgendaItem> {
 
 		holder.textItemHour.setText(items.get(position).getHour());
 		holder.textItemTopic.setText(items.get(position).getTopic());
-		holder.textItemPrelegent.setText(items.get(position).getPrelegent());
+		holder.textItemSpeaker.setText(items.get(position).getSpeaker());
 
 		return row;
 	}
@@ -59,6 +59,6 @@ public class AgendatItemsAdapter extends ArrayAdapter<AgendaItem> {
 	static class AgendaItemHolder {
 		TextView textItemHour;
 		TextView textItemTopic;
-		TextView textItemPrelegent;
+		TextView textItemSpeaker;
 	}
 }

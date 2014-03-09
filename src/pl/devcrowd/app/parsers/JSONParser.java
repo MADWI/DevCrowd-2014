@@ -93,7 +93,7 @@ public class JSONParser {
 			String room = getJSONFieldFromObject(arrayElement, "room");
 			String starts = getJSONFieldFromObject(arrayElement, "starts");
 			String ends = getJSONFieldFromObject(arrayElement, "ends");
-			String speaker = getJSONFieldFromArray(arrayElement, "prelegent");
+			String speaker = getJSONFieldFromArray(arrayElement, "speaker");
 
 			Presentation presentation = new Presentation();
 			presentation.setTitle(title);
@@ -171,7 +171,7 @@ public class JSONParser {
 			JSONObject arrayElement = responseArray.getJSONObject(i);
 
 			JSONObject speakerElement = arrayElement
-					.getJSONObject("prelegent");
+					.getJSONObject("speaker");
 			String name = getJSONFieldFromObject(speakerElement, "name");
 			String photoPath = getJSONFieldFromObject(speakerElement,
 					"description");
