@@ -3,58 +3,61 @@ package pl.devcrowd.app.db;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class DevcrowdTables {
-
-	// Database table
+public final class DevcrowdTables {
+	
 	public static final String TABLE_PRESENTATIONS = "presentationsTable";
 	public static final String PRESENTATION_ID = "_id";
 	public static final String PRESENTATION_TITLE = "title";
 	public static final String PRESENTATION_ROOM = "room";
 	public static final String PRESENTATION_START = "hourStart";
 	public static final String PRESENTATION_END = "hourEnd";
-	public static final String PRESENTATION_PRELEGENT = "prelegentName";
+	public static final String PRESENTATION_SPEAKER = "speakerName";
 	public static final String PRESENTATION_DESCRIPTION = "description";
 	
-	public static final String TABLE_PRELEGENCI = "prelegenciTable";
-	public static final String PRELEGENT_COLUMN_ID = "_id";
-	public static final String PRELEGENT_COLUMN_NAME = "prelegentName";
-	public static final String PRELEGENT_COLUMN_DESCRIPTION = "prelegentDescription";
-	public static final String PRELEGENT_COLUMN_FOTO = "prelegentFoto";
+	public static final String TABLE_SPEAKERS = "speakersTable";
+	public static final String SPEAKER_COLUMN_ID = "_id";
+	public static final String SPEAKER_COLUMN_NAME = "speakerName";
+	public static final String SPEAKER_COLUMN_DESCRIPTION = "speakerDescription";
+	public static final String SPEAKER_COLUMN_FOTO = "speakerFoto";
+	
+	private static final String ID_COLUMN = " integer primary key autoincrement, ";
+	private static final String TEXT_NOT_NULL_COLUMN = " text not null, ";
 
-	// Database creation SQL statement
 	private static final String DATABASE_PRESENTATIONS_CREATE = "create table " 
 			+ TABLE_PRESENTATIONS
-			+ "(" + PRESENTATION_ID + " integer primary key autoincrement, " 
-			+ PRESENTATION_TITLE + " text not null, " 
-			+ PRESENTATION_ROOM + " text not null, " 
-			+ PRESENTATION_START + " text not null, " 
-			+ PRESENTATION_END + " text not null, " 
-			+ PRESENTATION_PRELEGENT + " text not null, "
-			+ PRESENTATION_DESCRIPTION + " text not null "
+			+ "(" + PRESENTATION_ID + ID_COLUMN
+			+ PRESENTATION_TITLE + TEXT_NOT_NULL_COLUMN
+			+ PRESENTATION_ROOM + TEXT_NOT_NULL_COLUMN
+			+ PRESENTATION_START + TEXT_NOT_NULL_COLUMN
+			+ PRESENTATION_END + TEXT_NOT_NULL_COLUMN
+			+ PRESENTATION_SPEAKER + TEXT_NOT_NULL_COLUMN
+			+ PRESENTATION_DESCRIPTION + TEXT_NOT_NULL_COLUMN
 			+ ");";
-	
-	// Database creation SQL statement
+
 	private static final String DATABASE_PRELEGENCI_CREATE = "create table " 
-			+ TABLE_PRELEGENCI
-			+ "(" + PRELEGENT_COLUMN_ID + " integer primary key autoincrement, " 
-			+ PRELEGENT_COLUMN_NAME + " text not null, " 
-			+ PRELEGENT_COLUMN_DESCRIPTION + " text not null, "
-			+ PRELEGENT_COLUMN_FOTO + " text not null "
+			+ TABLE_SPEAKERS
+			+ "(" + SPEAKER_COLUMN_ID + ID_COLUMN
+			+ SPEAKER_COLUMN_NAME + TEXT_NOT_NULL_COLUMN
+			+ SPEAKER_COLUMN_DESCRIPTION + TEXT_NOT_NULL_COLUMN
+			+ SPEAKER_COLUMN_FOTO + TEXT_NOT_NULL_COLUMN
 			+ ");";
 		
-	public static void onCreate(SQLiteDatabase database) {
+
+	private DevcrowdTables(){};
+	
+	public static void onCreate(final SQLiteDatabase database) {
 		Log.w(DevcrowdTables.class.getName(),"Create DB: " + DATABASE_PRESENTATIONS_CREATE);
 		database.execSQL(DATABASE_PRESENTATIONS_CREATE);
 		database.execSQL(DATABASE_PRELEGENCI_CREATE);
 	}
 
-	public static void onUpgrade(SQLiteDatabase database, int oldVersion,
+	public static void onUpgrade(final SQLiteDatabase database, int oldVersion,
 			int newVersion) {
 		Log.w(DevcrowdTables.class.getName(), "Upgrading database from version "
 				+ oldVersion + " to " + newVersion
 				+ ", which will destroy all old data");
 		database.execSQL("DROP TABLE IF EXISTS " + TABLE_PRESENTATIONS);
-		database.execSQL("DROP TABLE IF EXISTS " + TABLE_PRELEGENCI);
+		database.execSQL("DROP TABLE IF EXISTS " + TABLE_SPEAKERS);
 		onCreate(database);
 	}
 }

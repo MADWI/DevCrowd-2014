@@ -1,6 +1,6 @@
 package pl.devcrowd.app.drawer;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import pl.devcrowd.app.R;
 import android.app.Activity;
@@ -14,11 +14,12 @@ import android.widget.TextView;
 
 public class NavDrawerListAdapter extends BaseAdapter {
 
-	private Context context;
-	private ArrayList<NavDrawerItem> navDrawerItems;
+	private final Context context;
+	private final List<NavDrawerItem> navDrawerItems;
 
-	public NavDrawerListAdapter(Context context,
-			ArrayList<NavDrawerItem> navDrawerItems) {
+	public NavDrawerListAdapter(final Context context,
+			final List<NavDrawerItem> navDrawerItems) {
+		super();
 		this.context = context;
 		this.navDrawerItems = navDrawerItems;
 	}
@@ -40,19 +41,22 @@ public class NavDrawerListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		View createdView;
 		if (convertView == null) {
 			LayoutInflater mInflater = (LayoutInflater) context
 					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-			convertView = mInflater.inflate(R.layout.drawer_item, null);
+			createdView = mInflater.inflate(R.layout.drawer_item, null);
+		} else {
+			createdView = convertView;
 		}
 
-		ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
-		TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
+		ImageView imgIcon = (ImageView) createdView.findViewById(R.id.icon);
+		TextView txtTitle = (TextView) createdView.findViewById(R.id.title);
 
 		imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
 		txtTitle.setText(navDrawerItems.get(position).getTitle());
 
-		return convertView;
+		return createdView;
 	}
 
 }

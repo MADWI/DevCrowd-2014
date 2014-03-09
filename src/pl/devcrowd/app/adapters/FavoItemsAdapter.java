@@ -30,7 +30,7 @@ public class FavoItemsAdapter extends ArrayAdapter<AgendaItem> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		View row = convertView;
-		final FavoItemHolder holder;
+		FavoItemHolder holder;
 
 		if (row == null) {
 			LayoutInflater inflater = (LayoutInflater) context
@@ -60,10 +60,10 @@ public class FavoItemsAdapter extends ArrayAdapter<AgendaItem> {
 		return row;
 	}
 
-	static class FavoItemHolder {
-		TextView textFavoItemHour;
-		TextView textFavoItemTopic;
-		TextView textFavoItemSpeaker;
-		TextView textFavoRoom;
+	private static class FavoItemHolder {
+		public TextView textFavoItemHour;
+		public TextView textFavoItemTopic;
+		public TextView textFavoItemSpeaker;
+		public TextView textFavoRoom;
 	}
 }

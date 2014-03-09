@@ -4,7 +4,6 @@ import pl.devcrowd.app.R;
 import pl.devcrowd.app.dialogs.RateDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,8 +17,12 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class AgendaDetailsActivity extends ActionBarActivity 
-						implements OnClickListener {
+public class AgendaDetailsActivity extends ActionBarActivity implements
+		OnClickListener, View.OnTouchListener {
+
+	private static final int TEXT_DURATION_TIME_MS = 500;
+	private static final int ARROW_DURATION_TIME_MS = 400;
+	private static final int ZERO_DURATION_TIME_MS = 0;
 
 	private RelativeLayout topicCard;
 	private RelativeLayout speakerCard;
@@ -40,7 +43,7 @@ public class AgendaDetailsActivity extends ActionBarActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.agenda_details);
-		
+
 		getSupportActionBar().setHomeButtonEnabled(true);
 		initUIElements();
 
@@ -57,24 +60,14 @@ public class AgendaDetailsActivity extends ActionBarActivity
 		textHour = (TextView) findViewById(R.id.textHour);
 		textTopicDetails = (TextView) findViewById(R.id.textTopicDetails);
 		moreTopic = (ImageView) findViewById(R.id.imageMoreTopic);
-		rotateTo0(moreTopic, 0);
+		rotateTo0(moreTopic, ZERO_DURATION_TIME_MS);
 
 		textSpeaker = (TextView) findViewById(R.id.textSpeaker);
 		textSpeakerDetails = (TextView) findViewById(R.id.textSpeakerDetails);
 		moreSpeaker = (ImageView) findViewById(R.id.imageMoreSpeaker);
 
 		ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-		//This will be change
-		ratingBar.setOnTouchListener(new View.OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP) {
-					showRateDialog();
-				}
-				return true;
-			}
-		});
+		ratingBar.setOnTouchListener(this);
 	}
 
 	@Override
@@ -86,7 +79,7 @@ public class AgendaDetailsActivity extends ActionBarActivity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -110,19 +103,27 @@ public class AgendaDetailsActivity extends ActionBarActivity
 			break;
 		}
 	}
-	
+
+	@Override
+	public boolean onTouch(View view, MotionEvent event) {
+		if (event.getAction() == MotionEvent.ACTION_UP) {
+			showRateDialog();
+		}
+		return true;
+	}
+
 	private void toggleDetailsVisibility(View textDetails, View moreArrow) {
 		if (textDetails.getVisibility() == View.VISIBLE) {
 			textDetails.setVisibility(View.GONE);
-			rotateTo180(moreArrow, 500);
+			rotateTo180(moreArrow, TEXT_DURATION_TIME_MS);
 		} else {
-			setAnimation(textDetails,
-					android.R.anim.fade_in, 500);
+			setAnimation(textDetails, android.R.anim.fade_in,
+					TEXT_DURATION_TIME_MS);
 			textDetails.setVisibility(View.VISIBLE);
-			rotateTo0(moreArrow, 400);
+			rotateTo0(moreArrow, ARROW_DURATION_TIME_MS);
 		}
 	}
-	
+
 	private void setAnimation(View view, int animation, int duration) {
 		Animation anim = AnimationUtils.loadAnimation(
 				AgendaDetailsActivity.this, animation);
@@ -145,4 +146,5 @@ public class AgendaDetailsActivity extends ActionBarActivity
 		anim.setFillAfter(true);
 		view.startAnimation(anim);
 	}
+
 }

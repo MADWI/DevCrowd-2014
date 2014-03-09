@@ -1,6 +1,7 @@
 package pl.devcrowd.app.activities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.dialogs.AboutDialog;
@@ -33,17 +34,18 @@ public class MainActivity extends ActionBarActivity {
 	private static final int DRAWER_FAVOURITES_NUM = 2;
 	private static final int DRAWER_SPONSORS_NUM = 3;
 	private static final int DRAWER_ABOUT_NUM = 4;
+	private static final int RESOURCE_NOT_DEFINED_INDEX = -1;
 
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
+
+	private List<NavDrawerItem> navDrawerItems;
+	private NavDrawerListAdapter adapter;
 	private String[] navMenuTitles;
 	private TypedArray navMenuIcons;
-
-	private ArrayList<NavDrawerItem> navDrawerItems;
-	private NavDrawerListAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,33 +53,30 @@ public class MainActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_main);
 
 		mTitle = mDrawerTitle = getTitle();
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+
+		initNavigationDrawer();
+
+		if (savedInstanceState == null) {
+			displayView(DRAWER_HOME_NUM);
+		}
+
+	}
+
+	private void initNavigationDrawer() {
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
 
 		navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
 		navMenuIcons = getResources()
 				.obtainTypedArray(R.array.nav_drawer_icons);
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
-		navDrawerItems = new ArrayList<NavDrawerItem>();
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[DRAWER_HOME_NUM],
-				navMenuIcons.getResourceId(DRAWER_HOME_NUM, -1)));
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[DRAWER_AGENDA_NUM],
-				navMenuIcons.getResourceId(DRAWER_AGENDA_NUM, -1)));
-		navDrawerItems.add(new NavDrawerItem(
-				navMenuTitles[DRAWER_FAVOURITES_NUM], navMenuIcons
-						.getResourceId(DRAWER_FAVOURITES_NUM, -1)));
-		navDrawerItems.add(new NavDrawerItem(
-				navMenuTitles[DRAWER_SPONSORS_NUM], navMenuIcons.getResourceId(
-						DRAWER_SPONSORS_NUM, -1)));
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[DRAWER_ABOUT_NUM],
-				navMenuIcons.getResourceId(DRAWER_ABOUT_NUM, -1)));
+		navDrawerItems = (ArrayList<NavDrawerItem>) populateNavigationDrawer();
 		navMenuIcons.recycle();
 
 		adapter = new NavDrawerListAdapter(getApplicationContext(),
 				navDrawerItems);
 		mDrawerList.setAdapter(adapter);
-
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_navigation_drawer, R.string.app_name,
@@ -94,13 +93,24 @@ public class MainActivity extends ActionBarActivity {
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-		if (savedInstanceState == null) {
-			displayView(0);
-		}
-
 		mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
+	}
 
+	private List<NavDrawerItem> populateNavigationDrawer() {
+		List<NavDrawerItem> drawerItems = new ArrayList<NavDrawerItem>();
+		addNavigationDrawerItem(DRAWER_HOME_NUM, drawerItems);
+		addNavigationDrawerItem(DRAWER_AGENDA_NUM, drawerItems);
+		addNavigationDrawerItem(DRAWER_FAVOURITES_NUM, drawerItems);
+		addNavigationDrawerItem(DRAWER_SPONSORS_NUM, drawerItems);
+		addNavigationDrawerItem(DRAWER_ABOUT_NUM, drawerItems);
+		return drawerItems;
+	}
+
+	private void addNavigationDrawerItem(int itemNumber,
+			List<NavDrawerItem> drawerItems) {
+		drawerItems.add(new NavDrawerItem(navMenuTitles[itemNumber],
+				navMenuIcons.getResourceId(itemNumber,
+						RESOURCE_NOT_DEFINED_INDEX)));
 	}
 
 	private class SlideMenuClickListener implements
@@ -146,7 +156,7 @@ public class MainActivity extends ActionBarActivity {
 			break;
 		case DRAWER_ABOUT_NUM:
 			DialogFragment newFragment = AboutDialog.newInstance();
-			newFragment.show(getSupportFragmentManager(), "rate_dialog");
+			newFragment.show(getSupportFragmentManager(), "about_dialog");
 
 			return;
 
@@ -159,8 +169,6 @@ public class MainActivity extends ActionBarActivity {
 			FragmentTransaction fragmentTransaction = fragmentManager
 					.beginTransaction();
 			fragmentTransaction.replace(R.id.frame_container, fragment);
-
-			// fragmentTransaction.addToBackStack(null);
 			fragmentTransaction.commit();
 			setSelection(position);
 

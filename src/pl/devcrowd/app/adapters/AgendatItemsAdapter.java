@@ -1,6 +1,6 @@
 package pl.devcrowd.app.adapters;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.models.AgendaItem;
@@ -13,12 +13,12 @@ import android.widget.TextView;
 
 public class AgendatItemsAdapter extends ArrayAdapter<AgendaItem> {
 
-	private Context context;
-	private int resource;
-	private ArrayList<AgendaItem> items;
+	private final Context context;
+	private final int resource;
+	private final List<AgendaItem> items;
 
 	public AgendatItemsAdapter(Context context, int resource,
-			ArrayList<AgendaItem> objects) {
+			List<AgendaItem> objects) {
 		super(context, resource, objects);
 
 		this.context = context;
@@ -30,7 +30,7 @@ public class AgendatItemsAdapter extends ArrayAdapter<AgendaItem> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		View row = convertView;
-		final AgendaItemHolder holder;
+		AgendaItemHolder holder;
 
 		if (row == null) {
 			LayoutInflater inflater = (LayoutInflater) context
@@ -56,9 +56,9 @@ public class AgendatItemsAdapter extends ArrayAdapter<AgendaItem> {
 		return row;
 	}
 
-	static class AgendaItemHolder {
-		TextView textItemHour;
-		TextView textItemTopic;
-		TextView textItemSpeaker;
+	private static class AgendaItemHolder {
+		public TextView textItemHour;
+		public TextView textItemTopic;
+		public TextView textItemSpeaker;
 	}
 }

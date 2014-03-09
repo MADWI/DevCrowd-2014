@@ -53,7 +53,8 @@ public class FavouritesListFragment extends ListFragment {
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		if (isAdded())
+		if (isAdded()) {
 			startActivity(new Intent(getActivity(), AgendaDetailsActivity.class));
+		}
 	}
 }

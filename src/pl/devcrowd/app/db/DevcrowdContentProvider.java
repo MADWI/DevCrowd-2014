@@ -21,35 +21,36 @@ public class DevcrowdContentProvider extends ContentProvider {
 	// Used for the UriMacher
 	private static final int PRESENTATIONS = 10;
 	private static final int PRESENTATION_ID = 20;
-	private static final int PRELEGENCI = 30;
-	private static final int PRELEGENT_ID = 40;
+	private static final int SPEAKERS = 30;
+	private static final int SPEAKER_ID = 40;
 
 	private static final String AUTHORITY = "pl.devcrowd.app.db";
 
 	private static final String PRESENTATIONS_PATH = "presentations";
-	private static final String PRELEGENCI_PATH = "prelegenci";
-	
-	public static final Uri CONTENT_URI_PRESENATIONS = Uri.parse("content://" + AUTHORITY
-			+ "/" + PRESENTATIONS_PATH);
-	public static final Uri CONTENT_URI_PRELEGENCI = Uri.parse("content://" + AUTHORITY
-			+ "/" + PRELEGENCI_PATH);
+	private static final String PRELEGENCI_PATH = "speakers";
+
+	public static final Uri CONTENT_URI_PRESENATIONS = Uri.parse("content://"
+			+ AUTHORITY + "/" + PRESENTATIONS_PATH);
+	public static final Uri CONTENT_URI_PRELEGENCI = Uri.parse("content://"
+			+ AUTHORITY + "/" + PRELEGENCI_PATH);
 
 	public static final String CONTENT_TYPE_PRESENTATIONS = ContentResolver.CURSOR_DIR_BASE_TYPE
 			+ "/presentations";
 	public static final String CONTENT_ITEM_TYPE_PRESENTATIONS = ContentResolver.CURSOR_ITEM_BASE_TYPE
 			+ "/presentation";
-	public static final String CONTENT_TYPE_PRELEGENTS = ContentResolver.CURSOR_DIR_BASE_TYPE
-			+ "/prelegenci";
-	public static final String CONTENT_ITEM_TYPE_PRELEGENTS = ContentResolver.CURSOR_ITEM_BASE_TYPE
-			+ "/prelegent";
+	public static final String CONTENT_TYPE_SPEKAERS = ContentResolver.CURSOR_DIR_BASE_TYPE
+			+ "/speakers";
+	public static final String CONTENT_ITEM_TYPE_SPEKAERS = ContentResolver.CURSOR_ITEM_BASE_TYPE
+			+ "/speaker";
 
 	private static final UriMatcher sURIMatcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
 	static {
 		sURIMatcher.addURI(AUTHORITY, PRESENTATIONS_PATH, PRESENTATIONS);
-		sURIMatcher.addURI(AUTHORITY, PRESENTATIONS_PATH + "/#", PRESENTATION_ID);
-		sURIMatcher.addURI(AUTHORITY, PRELEGENCI_PATH, PRELEGENCI);
-		sURIMatcher.addURI(AUTHORITY, PRELEGENCI_PATH + "/#", PRELEGENT_ID);
+		sURIMatcher.addURI(AUTHORITY, PRESENTATIONS_PATH + "/#",
+				PRESENTATION_ID);
+		sURIMatcher.addURI(AUTHORITY, PRELEGENCI_PATH, SPEAKERS);
+		sURIMatcher.addURI(AUTHORITY, PRELEGENCI_PATH + "/#", SPEAKER_ID);
 	}
 
 	@Override
@@ -79,13 +80,13 @@ public class DevcrowdContentProvider extends ContentProvider {
 			queryBuilder.appendWhere(DevcrowdTables.PRESENTATION_ID + "="
 					+ uri.getLastPathSegment());
 			break;
-		case PRELEGENCI:
-			queryBuilder.setTables(DevcrowdTables.TABLE_PRELEGENCI);
+		case SPEAKERS:
+			queryBuilder.setTables(DevcrowdTables.TABLE_SPEAKERS);
 			break;
-		case PRELEGENT_ID:
-			queryBuilder.setTables(DevcrowdTables.TABLE_PRELEGENCI);
+		case SPEAKER_ID:
+			queryBuilder.setTables(DevcrowdTables.TABLE_SPEAKERS);
 			// Adding the ID to the original query
-			queryBuilder.appendWhere(DevcrowdTables.PRELEGENT_COLUMN_ID + "="
+			queryBuilder.appendWhere(DevcrowdTables.SPEAKER_COLUMN_ID + "="
 					+ uri.getLastPathSegment());
 			break;
 		default:
@@ -117,8 +118,8 @@ public class DevcrowdContentProvider extends ContentProvider {
 			id = sqlDB.insert(DevcrowdTables.TABLE_PRESENTATIONS, null, values);
 			uriPath = PRESENTATIONS_PATH;
 			break;
-		case PRELEGENCI:
-			id = sqlDB.insert(DevcrowdTables.TABLE_PRELEGENCI, null, values);
+		case SPEAKERS:
+			id = sqlDB.insert(DevcrowdTables.TABLE_SPEAKERS, null, values);
 			uriPath = PRELEGENCI_PATH;
 			break;
 		default:
@@ -145,12 +146,13 @@ public class DevcrowdContentProvider extends ContentProvider {
 		case PRESENTATION_ID:
 			String id = uri.getLastPathSegment();
 			if (TextUtils.isEmpty(selection)) {
-				rowsUpdated = sqlDB.update(DevcrowdTables.TABLE_PRESENTATIONS, values,
-						DevcrowdTables.PRESENTATION_ID + "=" + id, null);
+				rowsUpdated = sqlDB
+						.update(DevcrowdTables.TABLE_PRESENTATIONS, values,
+								DevcrowdTables.PRESENTATION_ID + "=" + id, null);
 			} else {
-				rowsUpdated = sqlDB.update(DevcrowdTables.TABLE_PRESENTATIONS, values,
-						DevcrowdTables.PRESENTATION_ID + "=" + id + " and " + selection,
-						selectionArgs);
+				rowsUpdated = sqlDB.update(DevcrowdTables.TABLE_PRESENTATIONS,
+						values, DevcrowdTables.PRESENTATION_ID + "=" + id
+								+ " and " + selection, selectionArgs);
 			}
 			break;
 		default:
@@ -159,19 +161,19 @@ public class DevcrowdContentProvider extends ContentProvider {
 		getContext().getContentResolver().notifyChange(uri, null);
 		return rowsUpdated;
 	}
-	
+
 	private void checkColumns(String[] projection) {
 		String[] available = { DevcrowdTables.PRESENTATION_ID,
 				DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.PRESENTATION_ROOM,
 				DevcrowdTables.PRESENTATION_START,
 				DevcrowdTables.PRESENTATION_END,
-				DevcrowdTables.PRESENTATION_PRELEGENT,
+				DevcrowdTables.PRESENTATION_SPEAKER,
 				DevcrowdTables.PRESENTATION_DESCRIPTION,
-				DevcrowdTables.PRELEGENT_COLUMN_ID,
-				DevcrowdTables.PRELEGENT_COLUMN_NAME,
-				DevcrowdTables.PRELEGENT_COLUMN_DESCRIPTION,
-				DevcrowdTables.PRELEGENT_COLUMN_FOTO };
+				DevcrowdTables.SPEAKER_COLUMN_ID,
+				DevcrowdTables.SPEAKER_COLUMN_NAME,
+				DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION,
+				DevcrowdTables.SPEAKER_COLUMN_FOTO };
 		if (projection != null) {
 			HashSet<String> requestedColumns = new HashSet<String>(
 					Arrays.asList(projection));
