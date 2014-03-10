@@ -5,15 +5,18 @@ import java.util.ArrayList;
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.activities.ScheduleDetailsActivity;
 import pl.devcrowd.app.adapters.ScheduleItemsAdapter;
+import pl.devcrowd.app.alarms.Alarms;
 import pl.devcrowd.app.models.ScheduleItem;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ListView;
+import android.widget.ToggleButton;
 
 public class ScheduleListFragment extends ListFragment {
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,7 +51,7 @@ public class ScheduleListFragment extends ListFragment {
 			ScheduleItemsAdapter adapter = new ScheduleItemsAdapter(
 					getActivity(), R.layout.schedule_item, array);
 			setListAdapter(adapter);
-		}
+		}		
 	}
 
 	@Override
