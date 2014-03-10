@@ -1,15 +1,18 @@
 package pl.devcrowd.app.activities;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import pl.devcrowd.app.R;
+import pl.devcrowd.app.alarms.Alarms;
 import pl.devcrowd.app.dialogs.AboutDialog;
 import pl.devcrowd.app.drawer.NavigationDrawerItem;
 import pl.devcrowd.app.drawer.NavigationDrawerListAdapter;
 import pl.devcrowd.app.fragments.FavouritesListFragment;
 import pl.devcrowd.app.fragments.HomeFragment;
 import pl.devcrowd.app.fragments.ScheduleHostFragment;
+import pl.devcrowd.app.utils.CalendarUtils;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -96,6 +99,13 @@ public class MainActivity extends ActionBarActivity {
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
+		
+    	Calendar cal = CalendarUtils.getTimeAfterInSecs(5);
+    	Calendar cal2 = CalendarUtils.getTimeAfterInSecs(15);
+    	
+    	Alarms al = new Alarms(getApplicationContext());
+    	al.setAlarm(2, cal.getTimeInMillis());
+    	al.setAlarm(3, cal2.getTimeInMillis());
 	}
 
 	private List<NavigationDrawerItem> populateNavigationDrawer() {
