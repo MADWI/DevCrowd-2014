@@ -99,13 +99,6 @@ public class MainActivity extends ActionBarActivity {
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
-		
-    	Calendar cal = CalendarUtils.getTimeAfterInSecs(5);
-    	Calendar cal2 = CalendarUtils.getTimeAfterInSecs(15);
-    	
-    	Alarms al = new Alarms(getApplicationContext());
-    	al.setAlarm(2, cal.getTimeInMillis());
-    	al.setAlarm(3, cal2.getTimeInMillis());
 	}
 
 	private List<NavigationDrawerItem> populateNavigationDrawer() {
