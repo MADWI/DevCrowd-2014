@@ -21,6 +21,11 @@ public final class ContentProviderHelper {
 	private ContentProviderHelper() {
 	};
 
+	public static void notifyChange(final ContentResolver resolver,
+			final Uri uri) {
+		resolver.notifyChange(uri, null);
+	}
+
 	public static Uri addPresenatiton(final ContentResolver resolver,
 			final Presentation presentation) {
 		ContentValues values = new ContentValues();
@@ -53,7 +58,7 @@ public final class ContentProviderHelper {
 				DevcrowdTables.PRESENTATION_ID + DEFAULT_SORT);
 
 		if (cursor != null) {
-			while(cursor.moveToNext()) {
+			while (cursor.moveToNext()) {
 				resultList.add(getPresentation(cursor));
 			}
 			cursor.close();
@@ -79,14 +84,15 @@ public final class ContentProviderHelper {
 
 	}
 
-	public Uri addSpeaker(final ContentResolver resolver, final Speaker speaker) {
+	public static Uri addSpeaker(final ContentResolver resolver,
+			final Speaker speaker) {
 		ContentValues values = new ContentValues();
 		values.put(DevcrowdTables.SPEAKER_COLUMN_NAME, speaker.getName());
 		values.put(DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION,
 				speaker.getDescription());
 		values.put(DevcrowdTables.SPEAKER_COLUMN_FOTO, speaker.getPhotoUrl());
 
-		return resolver.insert(DevcrowdContentProvider.CONTENT_URI_PRELEGENCI,
+		return resolver.insert(DevcrowdContentProvider.CONTENT_URI_SPEAKERS,
 				values);
 	}
 
@@ -114,7 +120,7 @@ public final class ContentProviderHelper {
 
 	public static Speaker getSpeaker(final ContentResolver resolver,
 			final String name) {
-		Uri uri = DevcrowdContentProvider.CONTENT_URI_PRELEGENCI;
+		Uri uri = DevcrowdContentProvider.CONTENT_URI_SPEAKERS;
 		String[] projection = { DevcrowdTables.SPEAKER_COLUMN_NAME,
 				DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION,
 				DevcrowdTables.SPEAKER_COLUMN_FOTO };
@@ -144,14 +150,14 @@ public final class ContentProviderHelper {
 
 		List<Speaker> resultList = new ArrayList<Speaker>();
 
-		Uri uri = DevcrowdContentProvider.CONTENT_URI_PRELEGENCI;
+		Uri uri = DevcrowdContentProvider.CONTENT_URI_SPEAKERS;
 		String[] projection = { DevcrowdTables.SPEAKER_COLUMN_NAME,
 				DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION,
 				DevcrowdTables.SPEAKER_COLUMN_FOTO };
 		Cursor cursor = resolver.query(uri, projection, null, null,
 				DevcrowdTables.SPEAKER_COLUMN_ID + DEFAULT_SORT);
 		if (cursor != null) {
-			while(cursor.moveToNext()) {
+			while (cursor.moveToNext()) {
 				resultList.add(getSpeaker(cursor));
 			}
 			cursor.close();

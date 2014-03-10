@@ -3,9 +3,12 @@ package pl.devcrowd.app.db;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import pl.devcrowd.app.services.ApiService;
+
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -27,12 +30,12 @@ public class DevcrowdContentProvider extends ContentProvider {
 	private static final String AUTHORITY = "pl.devcrowd.app.db";
 
 	private static final String PRESENTATIONS_PATH = "presentations";
-	private static final String PRELEGENCI_PATH = "speakers";
+	private static final String SPEAKERS_PATH = "speakers";
 
 	public static final Uri CONTENT_URI_PRESENATIONS = Uri.parse("content://"
 			+ AUTHORITY + "/" + PRESENTATIONS_PATH);
-	public static final Uri CONTENT_URI_PRELEGENCI = Uri.parse("content://"
-			+ AUTHORITY + "/" + PRELEGENCI_PATH);
+	public static final Uri CONTENT_URI_SPEAKERS = Uri.parse("content://"
+			+ AUTHORITY + "/" + SPEAKERS_PATH);
 
 	public static final String CONTENT_TYPE_PRESENTATIONS = ContentResolver.CURSOR_DIR_BASE_TYPE
 			+ "/presentations";
@@ -49,8 +52,8 @@ public class DevcrowdContentProvider extends ContentProvider {
 		sURIMatcher.addURI(AUTHORITY, PRESENTATIONS_PATH, PRESENTATIONS);
 		sURIMatcher.addURI(AUTHORITY, PRESENTATIONS_PATH + "/#",
 				PRESENTATION_ID);
-		sURIMatcher.addURI(AUTHORITY, PRELEGENCI_PATH, SPEAKERS);
-		sURIMatcher.addURI(AUTHORITY, PRELEGENCI_PATH + "/#", SPEAKER_ID);
+		sURIMatcher.addURI(AUTHORITY, SPEAKERS_PATH, SPEAKERS);
+		sURIMatcher.addURI(AUTHORITY, SPEAKERS_PATH + "/#", SPEAKER_ID);
 	}
 
 	@Override
@@ -99,7 +102,23 @@ public class DevcrowdContentProvider extends ContentProvider {
 		// Make sure that potential listeners are getting notified
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
+		asyncLoadDataFromServer(uriType);
+
 		return cursor;
+	}
+
+	private void asyncLoadDataFromServer(int uriType) {
+
+		if (uriType == PRESENTATIONS || uriType == PRESENTATION_ID) {
+			Intent intent = new Intent(getContext(), ApiService.class);
+			intent.setAction(ApiService.ACTION_GET_PRESENTATIONS);
+			getContext().startService(intent);
+		} else if (uriType == SPEAKERS || uriType == SPEAKER_ID) {
+			Intent intent = new Intent(getContext(), ApiService.class);
+			intent.setAction(ApiService.ACTION_GET_SPEAKERS);
+			getContext().startService(intent);
+		}
+
 	}
 
 	@Override
@@ -120,7 +139,7 @@ public class DevcrowdContentProvider extends ContentProvider {
 			break;
 		case SPEAKERS:
 			id = sqlDB.insert(DevcrowdTables.TABLE_SPEAKERS, null, values);
-			uriPath = PRELEGENCI_PATH;
+			uriPath = SPEAKERS_PATH;
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);

@@ -18,7 +18,11 @@ import pl.devcrowd.app.models.Presentation;
  * 
  * @author Tofer
  * */
-public class JSONParser {
+public final class JSONParser {
+
+	private JSONParser() {
+
+	}
 
 	private static final String TAG = JSONParser.class.getSimpleName();
 	private static final String PRESENTATION_TITLE = "title";
@@ -26,7 +30,7 @@ public class JSONParser {
 	private static final String PRESENTATION_ROOM = "room";
 	private static final String PRESENTATION_START = "starts";
 	private static final String PRESENTATION_END = "ends";
-	//TODO change API to "speaker"
+	// TODO change API to "speaker"
 	private static final String PRESENTATION_SPEAKER = "prelegent";
 
 	private static final String SPEAKER_NAME = "name";
@@ -41,7 +45,8 @@ public class JSONParser {
 	 * 
 	 * @return List of Presentation objects
 	 * */
-	public List<Presentation> getPresentationsFromString(final String response) {
+	public static List<Presentation> getPresentationsFromString(
+			final String response) {
 		List<Presentation> listOfPresentations = new ArrayList<Presentation>();
 		try {
 			JSONArray responseArray = new JSONArray(response);
@@ -65,7 +70,7 @@ public class JSONParser {
 	 * 
 	 * @return List of Speaker objects
 	 * */
-	public List<Speaker> getSpeakersFromString(final String response) {
+	public static List<Speaker> getSpeakersFromString(final String response) {
 		List<Speaker> listOfSpeakers = new ArrayList<Speaker>();
 		try {
 			JSONArray responseArray = new JSONArray(response);
@@ -89,7 +94,8 @@ public class JSONParser {
 	 *            - index of current object
 	 * 
 	 * */
-	private Presentation parsePresentationArray(final JSONArray responseArray, int index) {
+	private static Presentation parsePresentationArray(
+			final JSONArray responseArray, int index) {
 		Presentation presentation = new Presentation();
 		try {
 			JSONObject arrayElement = responseArray.getJSONObject(index);
@@ -127,7 +133,8 @@ public class JSONParser {
 	 *            - index of current object
 	 * 
 	 * */
-	private Speaker parseSpeakerObject(final JSONArray responseArray, int index) {
+	private static Speaker parseSpeakerObject(final JSONArray responseArray,
+			int index) {
 		final Speaker speaker = new Speaker();
 		try {
 			final JSONObject arrayElement = responseArray.getJSONObject(index);
@@ -148,13 +155,13 @@ public class JSONParser {
 		return speaker;
 	}
 
-	private String getStringFromArray(final JSONObject arrayElement, final String key)
-			throws JSONException {
+	private static String getStringFromArray(final JSONObject arrayElement,
+			final String key) throws JSONException {
 		return arrayElement.has(key) ? arrayElement.getString(key) : "";
 	}
 
-	private JSONObject getArrayFromArray(final JSONObject arrayElement, final String key)
-			throws JSONException {
+	private static JSONObject getArrayFromArray(final JSONObject arrayElement,
+			final String key) throws JSONException {
 		return arrayElement.has(key) ? arrayElement.getJSONObject(key)
 				: new JSONObject();
 	}

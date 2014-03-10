@@ -4,6 +4,8 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="19" />
@@ -29,6 +31,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.devcrowd.app.activities.MainActivity" />
         </activity>
+
+        <service
+            android:name=".services.ApiService"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="pl.devcrowd.app.ACTION_GET_PRESENTATIONS" />
+                <action android:name="pl.devcrowd.app.ACTION_GET_SPEAKERS" />
+            </intent-filter>
+        </service>
+
+        <provider
+            android:name=".db.DevcrowdContentProvider"
+            android:authorities="pl.devcrowd.app.db"
+            android:exported="false" >
+        </provider>
     </application>
 
 </manifest>

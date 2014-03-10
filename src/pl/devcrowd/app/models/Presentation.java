@@ -72,4 +72,13 @@ public class Presentation {
 		this.speaker = speaker;
 	}
 
+	@Override
+	public String toString() {
+		return "Presentation [hourStart=" + hourStart + ", hourEnd=" + hourEnd
+				+ ", room=" + room + ", description=" + description
+				+ ", title=" + title + ", speaker=" + speaker + "]";
+	}
+	
+	
+
 }

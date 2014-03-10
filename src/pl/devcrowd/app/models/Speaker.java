@@ -61,4 +61,12 @@ public class Speaker {
 		this.description = description;
 	}
 
+	@Override
+	public String toString() {
+		return "Speaker [name=" + name + ", photoUrl=" + photoUrl
+				+ ", description=" + description + "]";
+	}
+	
+	
+
 }
