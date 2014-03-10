@@ -53,8 +53,7 @@ public final class ContentProviderHelper {
 				DevcrowdTables.PRESENTATION_ID + DEFAULT_SORT);
 
 		if (cursor != null) {
-			for (cursor.moveToFirst(); !cursor.moveToLast(); cursor
-					.moveToNext()) {
+			while(cursor.moveToNext()) {
 				resultList.add(getPresentation(cursor));
 			}
 			cursor.close();
@@ -152,8 +151,7 @@ public final class ContentProviderHelper {
 		Cursor cursor = resolver.query(uri, projection, null, null,
 				DevcrowdTables.SPEAKER_COLUMN_ID + DEFAULT_SORT);
 		if (cursor != null) {
-			for (cursor.moveToFirst(); !cursor.moveToLast(); cursor
-					.moveToNext()) {
+			while(cursor.moveToNext()) {
 				resultList.add(getSpeaker(cursor));
 			}
 			cursor.close();

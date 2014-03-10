@@ -33,7 +33,7 @@ public class DebugLog{
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("[");
 		buffer.append(methodName);
-		buffer.append("]");
+		buffer.append("] ");
 		buffer.append(log);
 
 		return buffer.toString();

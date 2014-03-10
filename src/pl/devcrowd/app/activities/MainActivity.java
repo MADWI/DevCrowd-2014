@@ -5,11 +5,11 @@ import java.util.List;
 
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.dialogs.AboutDialog;
-import pl.devcrowd.app.drawer.NavDrawerItem;
-import pl.devcrowd.app.drawer.NavDrawerListAdapter;
-import pl.devcrowd.app.fragments.AgendaHostFragment;
+import pl.devcrowd.app.drawer.NavigationDrawerItem;
+import pl.devcrowd.app.drawer.NavigationDrawerListAdapter;
 import pl.devcrowd.app.fragments.FavouritesListFragment;
 import pl.devcrowd.app.fragments.HomeFragment;
+import pl.devcrowd.app.fragments.ScheduleHostFragment;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -30,11 +30,12 @@ import android.widget.ListView;
 public class MainActivity extends ActionBarActivity {
 	private static final String TAG = MainActivity.class.getSimpleName();
 	private static final int DRAWER_HOME_NUM = 0;
-	private static final int DRAWER_AGENDA_NUM = 1;
+	private static final int DRAWER_SCHEDULE_NUM = 1;
 	private static final int DRAWER_FAVOURITES_NUM = 2;
 	private static final int DRAWER_SPONSORS_NUM = 3;
 	private static final int DRAWER_ABOUT_NUM = 4;
 	private static final int RESOURCE_NOT_DEFINED_INDEX = -1;
+	private static final String ABOUT_DIALOG_TAG = "about_dialog";
 
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
@@ -42,10 +43,10 @@ public class MainActivity extends ActionBarActivity {
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
 
-	private List<NavDrawerItem> navDrawerItems;
-	private NavDrawerListAdapter adapter;
-	private String[] navMenuTitles;
-	private TypedArray navMenuIcons;
+	private List<NavigationDrawerItem> navigationDrawerItems;
+	private NavigationDrawerListAdapter adapter;
+	private String[] navigationMenuTitles;
+	private TypedArray navigationMenuIcons;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +69,15 @@ public class MainActivity extends ActionBarActivity {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
 
-		navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
-		navMenuIcons = getResources()
-				.obtainTypedArray(R.array.nav_drawer_icons);
-		navDrawerItems = (ArrayList<NavDrawerItem>) populateNavigationDrawer();
-		navMenuIcons.recycle();
+		navigationMenuTitles = getResources().getStringArray(
+				R.array.navigation_drawer_items);
+		navigationMenuIcons = getResources().obtainTypedArray(
+				R.array.navigation_drawer_icons);
+		navigationDrawerItems = (ArrayList<NavigationDrawerItem>) populateNavigationDrawer();
+		navigationMenuIcons.recycle();
 
-		adapter = new NavDrawerListAdapter(getApplicationContext(),
-				navDrawerItems);
+		adapter = new NavigationDrawerListAdapter(getApplicationContext(),
+				navigationDrawerItems);
 		mDrawerList.setAdapter(adapter);
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
@@ -96,10 +98,10 @@ public class MainActivity extends ActionBarActivity {
 		mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 	}
 
-	private List<NavDrawerItem> populateNavigationDrawer() {
-		List<NavDrawerItem> drawerItems = new ArrayList<NavDrawerItem>();
+	private List<NavigationDrawerItem> populateNavigationDrawer() {
+		List<NavigationDrawerItem> drawerItems = new ArrayList<NavigationDrawerItem>();
 		addNavigationDrawerItem(DRAWER_HOME_NUM, drawerItems);
-		addNavigationDrawerItem(DRAWER_AGENDA_NUM, drawerItems);
+		addNavigationDrawerItem(DRAWER_SCHEDULE_NUM, drawerItems);
 		addNavigationDrawerItem(DRAWER_FAVOURITES_NUM, drawerItems);
 		addNavigationDrawerItem(DRAWER_SPONSORS_NUM, drawerItems);
 		addNavigationDrawerItem(DRAWER_ABOUT_NUM, drawerItems);
@@ -107,10 +109,11 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	private void addNavigationDrawerItem(int itemNumber,
-			List<NavDrawerItem> drawerItems) {
-		drawerItems.add(new NavDrawerItem(navMenuTitles[itemNumber],
-				navMenuIcons.getResourceId(itemNumber,
-						RESOURCE_NOT_DEFINED_INDEX)));
+			List<NavigationDrawerItem> drawerItems) {
+		drawerItems
+				.add(new NavigationDrawerItem(navigationMenuTitles[itemNumber],
+						navigationMenuIcons.getResourceId(itemNumber,
+								RESOURCE_NOT_DEFINED_INDEX)));
 	}
 
 	private class SlideMenuClickListener implements
@@ -131,12 +134,11 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
+		boolean stopProcessingMenu = false;
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
+			stopProcessingMenu = true;
 		}
-
-		return true;
+		return stopProcessingMenu;
 	}
 
 	private void displayView(int position) {
@@ -145,8 +147,8 @@ public class MainActivity extends ActionBarActivity {
 		case DRAWER_HOME_NUM:
 			fragment = new HomeFragment();
 			break;
-		case DRAWER_AGENDA_NUM:
-			fragment = new AgendaHostFragment();
+		case DRAWER_SCHEDULE_NUM:
+			fragment = new ScheduleHostFragment();
 			break;
 		case DRAWER_FAVOURITES_NUM:
 			fragment = new FavouritesListFragment();
@@ -156,7 +158,7 @@ public class MainActivity extends ActionBarActivity {
 			break;
 		case DRAWER_ABOUT_NUM:
 			DialogFragment newFragment = AboutDialog.newInstance();
-			newFragment.show(getSupportFragmentManager(), "about_dialog");
+			newFragment.show(getSupportFragmentManager(), ABOUT_DIALOG_TAG);
 
 			return;
 
@@ -180,7 +182,7 @@ public class MainActivity extends ActionBarActivity {
 	private void setSelection(int position) {
 		mDrawerList.setItemChecked(position, true);
 		mDrawerList.setSelection(position);
-		setTitle(navMenuTitles[position]);
+		setTitle(navigationMenuTitles[position]);
 		mDrawerLayout.closeDrawer(mDrawerList);
 
 	}

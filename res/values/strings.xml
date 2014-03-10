@@ -21,7 +21,7 @@
     <string name="waitforit">Pobieram dane#8230;</string>
 
     <!-- Nav Drawer Menu Items -->
-    <string-array name="nav_drawer_items">
+    <string-array name="navigation_drawer_items">
         <item>DevCrowd \'14</item>
         <item>Agenda</item>
         <item>Ulubione</item>
@@ -29,7 +29,7 @@
         <item>O aplikacji</item>
     </string-array>
 
-    <array name="nav_drawer_icons">
+    <array name="navigation_drawer_icons">
         <item>@drawable/ic_launcher</item>
         <item>@drawable/drawer_agenda</item>
         <item>@drawable/drawer_favourites</item>

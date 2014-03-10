@@ -12,26 +12,26 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class NavDrawerListAdapter extends BaseAdapter {
+public class NavigationDrawerListAdapter extends BaseAdapter {
 
 	private final Context context;
-	private final List<NavDrawerItem> navDrawerItems;
+	private final List<NavigationDrawerItem> navigationDrawerItems;
 
-	public NavDrawerListAdapter(final Context context,
-			final List<NavDrawerItem> navDrawerItems) {
+	public NavigationDrawerListAdapter(final Context context,
+			final List<NavigationDrawerItem> navigationDrawerItems) {
 		super();
 		this.context = context;
-		this.navDrawerItems = navDrawerItems;
+		this.navigationDrawerItems = navigationDrawerItems;
 	}
 
 	@Override
 	public int getCount() {
-		return navDrawerItems.size();
+		return navigationDrawerItems.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return navDrawerItems.get(position);
+		return navigationDrawerItems.get(position);
 	}
 
 	@Override
@@ -53,8 +53,8 @@ public class NavDrawerListAdapter extends BaseAdapter {
 		ImageView imgIcon = (ImageView) createdView.findViewById(R.id.icon);
 		TextView txtTitle = (TextView) createdView.findViewById(R.id.title);
 
-		imgIcon.setImageResource(navDrawerItems.get(position).getIcon());
-		txtTitle.setText(navDrawerItems.get(position).getTitle());
+		imgIcon.setImageResource(navigationDrawerItems.get(position).getIcon());
+		txtTitle.setText(navigationDrawerItems.get(position).getTitle());
 
 		return createdView;
 	}

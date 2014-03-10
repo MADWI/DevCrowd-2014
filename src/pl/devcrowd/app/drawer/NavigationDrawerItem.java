@@ -1,11 +1,11 @@
 package pl.devcrowd.app.drawer;
 
-public class NavDrawerItem {
+public class NavigationDrawerItem {
 
 	private String title;
 	private int icon;
 
-	public NavDrawerItem(String title, int icon) {
+	public NavigationDrawerItem(String title, int icon) {
 		this.title = title;
 		this.icon = icon;
 	}

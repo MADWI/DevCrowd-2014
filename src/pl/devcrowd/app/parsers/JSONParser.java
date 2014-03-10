@@ -26,6 +26,7 @@ public class JSONParser {
 	private static final String PRESENTATION_ROOM = "room";
 	private static final String PRESENTATION_START = "starts";
 	private static final String PRESENTATION_END = "ends";
+	//TODO change API to "speaker"
 	private static final String PRESENTATION_SPEAKER = "prelegent";
 
 	private static final String SPEAKER_NAME = "name";
@@ -98,11 +99,11 @@ public class JSONParser {
 			presentation.setDescription(getStringFromArray(arrayElement,
 					PRESENTATION_DESCRIPTION));
 			presentation.setHourStart(getStringFromArray(arrayElement,
-					PRESENTATION_ROOM));
-			presentation.setHourEnd(getStringFromArray(arrayElement,
 					PRESENTATION_START));
-			presentation.setRoom(getStringFromArray(arrayElement,
+			presentation.setHourEnd(getStringFromArray(arrayElement,
 					PRESENTATION_END));
+			presentation.setRoom(getStringFromArray(arrayElement,
+					PRESENTATION_ROOM));
 
 			JSONObject speakerArray = getArrayFromArray(arrayElement,
 					PRESENTATION_SPEAKER);

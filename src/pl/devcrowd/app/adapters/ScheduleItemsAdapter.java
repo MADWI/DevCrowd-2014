@@ -3,7 +3,7 @@ package pl.devcrowd.app.adapters;
 import java.util.List;
 
 import pl.devcrowd.app.R;
-import pl.devcrowd.app.models.AgendaItem;
+import pl.devcrowd.app.models.ScheduleItem;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class AgendatItemsAdapter extends ArrayAdapter<AgendaItem> {
+public class ScheduleItemsAdapter extends ArrayAdapter<ScheduleItem> {
 
 	private final Context context;
 	private final int resource;
-	private final List<AgendaItem> items;
+	private final List<ScheduleItem> items;
 
-	public AgendatItemsAdapter(Context context, int resource,
-			List<AgendaItem> objects) {
+	public ScheduleItemsAdapter(Context context, int resource,
+			List<ScheduleItem> objects) {
 		super(context, resource, objects);
 
 		this.context = context;
@@ -30,14 +30,14 @@ public class AgendatItemsAdapter extends ArrayAdapter<AgendaItem> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		View row = convertView;
-		AgendaItemHolder holder;
+		ScheduleItemHolder holder;
 
 		if (row == null) {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			row = (View) inflater.inflate(resource, parent, false);
 
-			holder = new AgendaItemHolder();
+			holder = new ScheduleItemHolder();
 			holder.textItemHour = (TextView) row
 					.findViewById(R.id.textItemHour);
 			holder.textItemTopic = (TextView) row
@@ -46,7 +46,7 @@ public class AgendatItemsAdapter extends ArrayAdapter<AgendaItem> {
 					.findViewById(R.id.textItemSpeaker);
 			row.setTag(holder);
 		} else {
-			holder = (AgendaItemHolder) row.getTag();
+			holder = (ScheduleItemHolder) row.getTag();
 		}
 
 		holder.textItemHour.setText(items.get(position).getHour());
@@ -56,7 +56,7 @@ public class AgendatItemsAdapter extends ArrayAdapter<AgendaItem> {
 		return row;
 	}
 
-	private static class AgendaItemHolder {
+	private static class ScheduleItemHolder {
 		public TextView textItemHour;
 		public TextView textItemTopic;
 		public TextView textItemSpeaker;

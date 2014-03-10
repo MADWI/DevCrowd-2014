@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="pl.devcrowd.app.activities.AgendaDetailsActivity"
+            android:name="pl.devcrowd.app.activities.ScheduleDetailsActivity"
             android:parentActivityName="pl.devcrowd.app.activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

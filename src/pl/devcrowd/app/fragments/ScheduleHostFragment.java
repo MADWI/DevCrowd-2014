@@ -8,9 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class AgendaHostFragment extends Fragment {
+public class ScheduleHostFragment extends Fragment {
 	private FragmentTabHost mTabHost;
 
+	private static final String TEMP_ROOM_NAME_1 = "Sala 126";
+	private static final String TEMP_ROOM_NAME_2 = "Sala 226";
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -19,10 +22,10 @@ public class AgendaHostFragment extends Fragment {
 		mTabHost.setup(getActivity(), getChildFragmentManager(),
 				R.id.frame_container);
 
-		mTabHost.addTab(mTabHost.newTabSpec("sala_126")
-				.setIndicator("Sala 126"), AgendaListFragment.class, null);
-		mTabHost.addTab(mTabHost.newTabSpec("sala_226")
-				.setIndicator("Sala 226"), AgendaListFragment.class, null);
+		mTabHost.addTab(mTabHost.newTabSpec(TEMP_ROOM_NAME_1)
+				.setIndicator(TEMP_ROOM_NAME_1), ScheduleListFragment.class, null);
+		mTabHost.addTab(mTabHost.newTabSpec(TEMP_ROOM_NAME_2)
+				.setIndicator(TEMP_ROOM_NAME_2), ScheduleListFragment.class, null);
 		return mTabHost;
 	}
 

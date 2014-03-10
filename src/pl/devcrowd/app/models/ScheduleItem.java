@@ -1,12 +1,12 @@
 package pl.devcrowd.app.models;
 
-public class AgendaItem {
+public class ScheduleItem {
 
 	private String hour;
 	private String topic;
 	private String speaker;
 	
-	public AgendaItem(String hour, String topic, String speaker) {
+	public ScheduleItem(String hour, String topic, String speaker) {
 		this.hour = hour;
 		this.topic = topic;
 		this.speaker = speaker;

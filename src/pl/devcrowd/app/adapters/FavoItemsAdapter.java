@@ -1,9 +1,9 @@
 package pl.devcrowd.app.adapters;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import pl.devcrowd.app.R;
-import pl.devcrowd.app.models.AgendaItem;
+import pl.devcrowd.app.models.ScheduleItem;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class FavoItemsAdapter extends ArrayAdapter<AgendaItem> {
+public class FavoItemsAdapter extends ArrayAdapter<ScheduleItem> {
 
 	private Context context;
 	private int resource;
-	private ArrayList<AgendaItem> items;
+	private List<ScheduleItem> items;
 
 	public FavoItemsAdapter(Context context, int resource,
-			ArrayList<AgendaItem> objects) {
+			List<ScheduleItem> objects) {
 		super(context, resource, objects);
 
 		this.context = context;
@@ -54,8 +54,7 @@ public class FavoItemsAdapter extends ArrayAdapter<AgendaItem> {
 
 		holder.textFavoItemHour.setText(items.get(position).getHour());
 		holder.textFavoItemTopic.setText(items.get(position).getTopic());
-		holder.textFavoItemSpeaker
-				.setText(items.get(position).getSpeaker());
+		holder.textFavoItemSpeaker.setText(items.get(position).getSpeaker());
 
 		return row;
 	}

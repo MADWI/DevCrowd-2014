@@ -17,12 +17,13 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class AgendaDetailsActivity extends ActionBarActivity implements
+public class ScheduleDetailsActivity extends ActionBarActivity implements
 		OnClickListener, View.OnTouchListener {
 
 	private static final int TEXT_DURATION_TIME_MS = 500;
 	private static final int ARROW_DURATION_TIME_MS = 400;
 	private static final int ZERO_DURATION_TIME_MS = 0;
+	private static final String RATE_DIALOG_TAG = "rate_dialog";
 
 	private RelativeLayout topicCard;
 	private RelativeLayout speakerCard;
@@ -42,7 +43,7 @@ public class AgendaDetailsActivity extends ActionBarActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.agenda_details);
+		setContentView(R.layout.schedule_details);
 
 		getSupportActionBar().setHomeButtonEnabled(true);
 		initUIElements();
@@ -87,7 +88,7 @@ public class AgendaDetailsActivity extends ActionBarActivity implements
 
 	private void showRateDialog() {
 		DialogFragment newFragment = RateDialog.newInstance();
-		newFragment.show(getSupportFragmentManager(), "rate_dialog");
+		newFragment.show(getSupportFragmentManager(), RATE_DIALOG_TAG);
 	}
 
 	@Override
@@ -126,14 +127,14 @@ public class AgendaDetailsActivity extends ActionBarActivity implements
 
 	private void setAnimation(View view, int animation, int duration) {
 		Animation anim = AnimationUtils.loadAnimation(
-				AgendaDetailsActivity.this, animation);
+				ScheduleDetailsActivity.this, animation);
 		anim.setDuration(duration);
 		view.setAnimation(anim);
 	}
 
 	private void rotateTo0(View view, int duration) {
 		Animation anim = AnimationUtils.loadAnimation(
-				AgendaDetailsActivity.this, R.anim.rotate_to_0);
+				ScheduleDetailsActivity.this, R.anim.rotate_to_0);
 		anim.setDuration(duration);
 		anim.setFillAfter(true);
 		view.startAnimation(anim);
@@ -141,7 +142,7 @@ public class AgendaDetailsActivity extends ActionBarActivity implements
 
 	private void rotateTo180(View view, int duration) {
 		Animation anim = AnimationUtils.loadAnimation(
-				AgendaDetailsActivity.this, R.anim.rotate_to_180);
+				ScheduleDetailsActivity.this, R.anim.rotate_to_180);
 		anim.setDuration(duration);
 		anim.setFillAfter(true);
 		view.startAnimation(anim);

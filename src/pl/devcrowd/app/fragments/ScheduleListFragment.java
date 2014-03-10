@@ -1,11 +1,10 @@
 package pl.devcrowd.app.fragments;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.activities.ScheduleDetailsActivity;
-import pl.devcrowd.app.adapters.FavoItemsAdapter;
+import pl.devcrowd.app.adapters.ScheduleItemsAdapter;
 import pl.devcrowd.app.models.ScheduleItem;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +12,7 @@ import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 
-public class FavouritesListFragment extends ListFragment {
+public class ScheduleListFragment extends ListFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -27,27 +26,27 @@ public class FavouritesListFragment extends ListFragment {
 		super.onActivityCreated(savedInstanceState);
 		getListView().setDivider(null);
 
-		List<ScheduleItem> array = new ArrayList<ScheduleItem>();
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
+		ArrayList<ScheduleItem> array = new ArrayList<ScheduleItem>();
+		array.add(new ScheduleItem("10.15\n11.15", "Przyk³adowy temat",
 				"Jan Kowalski"));
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
+		array.add(new ScheduleItem("10.15\n11.15", "Przyk³adowy temat",
 				"Jan Kowalski"));
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
+		array.add(new ScheduleItem("10.15\n11.15", "Przyk³adowy temat",
 				"Jan Kowalski"));
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
+		array.add(new ScheduleItem("10.15\n11.15", "Przyk³adowy temat",
 				"Jan Kowalski"));
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
+		array.add(new ScheduleItem("10.15\n11.15", "Przyk³adowy temat",
 				"Jan Kowalski"));
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
+		array.add(new ScheduleItem("10.15\n11.15", "Przyk³adowy temat",
 				"Jan Kowalski"));
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
+		array.add(new ScheduleItem("10.15\n11.15", "Przyk³adowy temat",
 				"Jan Kowalski"));
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
+		array.add(new ScheduleItem("10.15\n11.15", "Przyk³adowy temat",
 				"Jan Kowalski"));
 
 		if (isAdded()) {
-			FavoItemsAdapter adapter = new FavoItemsAdapter(getActivity(),
-					R.layout.favo_item, array);
+			ScheduleItemsAdapter adapter = new ScheduleItemsAdapter(
+					getActivity(), R.layout.schedule_item, array);
 			setListAdapter(adapter);
 		}
 	}
@@ -55,8 +54,8 @@ public class FavouritesListFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		if (isAdded()) {
-			startActivity(new Intent(getActivity(),
-					ScheduleDetailsActivity.class));
+			startActivity(new Intent(getActivity(), ScheduleDetailsActivity.class));
 		}
 	}
+
 }
