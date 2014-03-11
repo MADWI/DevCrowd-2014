@@ -37,6 +37,9 @@ public final class ContentProviderHelper {
 		values.put(DevcrowdTables.PRESENTATION_END, presentation.getHourEnd());
 		values.put(DevcrowdTables.PRESENTATION_SPEAKER,
 				presentation.getSpeaker());
+		values.put(DevcrowdTables.PRESENTATION_TOPIC_GRADE, presentation.getGradeTopic());
+		values.put(DevcrowdTables.PRESENTATION_OVERALL_GRADE, presentation.getGradeOverall());
+		values.put(DevcrowdTables.PRESENTATION_FAVOURITE, presentation.getFavourite());
 
 		return resolver.insert(
 				DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, values);
@@ -53,7 +56,10 @@ public final class ContentProviderHelper {
 				DevcrowdTables.PRESENTATION_ROOM,
 				DevcrowdTables.PRESENTATION_START,
 				DevcrowdTables.PRESENTATION_END,
-				DevcrowdTables.PRESENTATION_DESCRIPTION };
+				DevcrowdTables.PRESENTATION_DESCRIPTION,
+				DevcrowdTables.PRESENTATION_TOPIC_GRADE,
+				DevcrowdTables.PRESENTATION_OVERALL_GRADE,
+				DevcrowdTables.PRESENTATION_FAVOURITE};
 		Cursor cursor = resolver.query(uri, projection, null, null,
 				DevcrowdTables.PRESENTATION_ID + DEFAULT_SORT);
 
@@ -74,7 +80,10 @@ public final class ContentProviderHelper {
 				DevcrowdTables.PRESENTATION_ROOM,
 				DevcrowdTables.PRESENTATION_START,
 				DevcrowdTables.PRESENTATION_END,
-				DevcrowdTables.PRESENTATION_DESCRIPTION };
+				DevcrowdTables.PRESENTATION_DESCRIPTION,
+				DevcrowdTables.PRESENTATION_TOPIC_GRADE,
+				DevcrowdTables.PRESENTATION_OVERALL_GRADE,
+				DevcrowdTables.PRESENTATION_FAVOURITE};
 		Cursor cursor = resolver.query(uri, projection,
 				DevcrowdTables.PRESENTATION_TITLE + "=?",
 				new String[] { presentationTitle },
