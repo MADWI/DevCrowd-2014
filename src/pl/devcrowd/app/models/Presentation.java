@@ -8,13 +8,17 @@ public class Presentation {
 	private String description;
 	private String title;
 	private String speaker;
+	private String gradeTopic;
+	private String gradeOverall;
+	private String favourite;
 
 	public Presentation() {
-		this("", "", "", "", "", "");
+		this("", "", "", "", "", "", "", "", "");
 	}
 
 	public Presentation(String hourStart, String hourEnd, String room,
-			String description, String title, String speaker) {
+			String description, String title, String speaker, String gradeTopic,
+			String gradeOverall, String favourite) {
 		super();
 		this.hourStart = hourStart;
 		this.hourEnd = hourEnd;
@@ -22,6 +26,9 @@ public class Presentation {
 		this.description = description;
 		this.title = title;
 		this.speaker = speaker;
+		this.gradeTopic = gradeTopic;
+		this.gradeOverall = gradeOverall;
+		this.favourite = favourite;
 	}
 
 	public String getHourStart() {
@@ -71,12 +78,37 @@ public class Presentation {
 	public void setSpeaker(String speaker) {
 		this.speaker = speaker;
 	}
+	
+	public String getGradeTopic() {
+		return gradeTopic;
+	}
+
+	public void setGradeTopic(String gradeTopic) {
+		this.gradeTopic = gradeTopic;
+	}
+	
+	public String getGradeOverall() {
+		return gradeOverall;
+	}
+
+	public void setSGradeOverall(String gradeOverall) {
+		this.gradeOverall = gradeOverall;
+	}
+
+	public String getFavourite() {
+		return favourite;
+	}
+
+	public void setFavourite(String favourite) {
+		this.favourite = favourite;
+	}
 
 	@Override
 	public String toString() {
 		return "Presentation [hourStart=" + hourStart + ", hourEnd=" + hourEnd
 				+ ", room=" + room + ", description=" + description
-				+ ", title=" + title + ", speaker=" + speaker + "]";
+				+ ", title=" + title + ", speaker=" + speaker + ", gradeTopic=" + gradeTopic 
+				+ ", gradeOverall=" + gradeOverall + "]";
 	}
 	
 	
