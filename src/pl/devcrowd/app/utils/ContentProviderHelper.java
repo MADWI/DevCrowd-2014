@@ -7,6 +7,7 @@ import pl.devcrowd.app.db.DevcrowdContentProvider;
 import pl.devcrowd.app.db.DevcrowdTables;
 import pl.devcrowd.app.models.Presentation;
 import pl.devcrowd.app.models.Speaker;
+import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -92,6 +93,27 @@ public final class ContentProviderHelper {
 		return getPresentation(cursor);
 
 	}
+	
+	public static void updatePresentation(final ContentResolver resolver, 
+			final Presentation presentation) {
+		AsyncQueryHandler asyncHandler = new AsyncQueryHandler(resolver) {};
+		String titleOld = presentation.getTitle();
+		ContentValues values = new ContentValues();
+		values.put(DevcrowdTables.PRESENTATION_TITLE, presentation.getTitle());
+		values.put(DevcrowdTables.PRESENTATION_DESCRIPTION,
+				presentation.getDescription());
+		values.put(DevcrowdTables.PRESENTATION_ROOM, presentation.getRoom());
+		values.put(DevcrowdTables.PRESENTATION_START, presentation.getHourEnd());
+		values.put(DevcrowdTables.PRESENTATION_END, presentation.getHourEnd());
+		values.put(DevcrowdTables.PRESENTATION_SPEAKER,
+				presentation.getSpeaker());
+		values.put(DevcrowdTables.PRESENTATION_TOPIC_GRADE, presentation.getGradeTopic());
+		values.put(DevcrowdTables.PRESENTATION_OVERALL_GRADE, presentation.getGradeOverall());
+		values.put(DevcrowdTables.PRESENTATION_FAVOURITE, presentation.getFavourite());
+		
+		asyncHandler.startUpdate(-1, null, DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, 
+				values, null, new String[]{titleOld});
+	}
 
 	public static Uri addSpeaker(final ContentResolver resolver,
 			final Speaker speaker) {
@@ -172,6 +194,20 @@ public final class ContentProviderHelper {
 			cursor.close();
 		}
 		return resultList;
+	}
+	
+	public static void updateSpeaker(final ContentResolver resolver, 
+			final Speaker speaker) {
+		AsyncQueryHandler asyncHandler = new AsyncQueryHandler(resolver) {};
+		String nameOld = speaker.getName();
+		ContentValues values = new ContentValues();
+		values.put(DevcrowdTables.SPEAKER_COLUMN_NAME, speaker.getName());
+		values.put(DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION,
+				speaker.getDescription());
+		values.put(DevcrowdTables.SPEAKER_COLUMN_FOTO, speaker.getPhotoUrl());
+		
+		asyncHandler.startUpdate(-1, null, DevcrowdContentProvider.CONTENT_URI_SPEAKERS, 
+				values, null, new String[]{nameOld});
 	}
 
 	private static String getColumnValue(final Cursor cursor,

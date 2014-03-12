@@ -162,16 +162,18 @@ public class DevcrowdContentProvider extends ContentProvider {
 		SQLiteDatabase sqlDB = database.getWritableDatabase();
 		int rowsUpdated = 0;
 		switch (uriType) {
-		case PRESENTATION_ID:
-			String id = uri.getLastPathSegment();
+		case PRESENTATIONS:
 			if (TextUtils.isEmpty(selection)) {
 				rowsUpdated = sqlDB
 						.update(DevcrowdTables.TABLE_PRESENTATIONS, values,
-								DevcrowdTables.PRESENTATION_ID + "=" + id, null);
-			} else {
-				rowsUpdated = sqlDB.update(DevcrowdTables.TABLE_PRESENTATIONS,
-						values, DevcrowdTables.PRESENTATION_ID + "=" + id
-								+ " and " + selection, selectionArgs);
+								DevcrowdTables.PRESENTATION_TITLE + "=" + selectionArgs[0], null);
+			}
+			break;
+		case SPEAKERS:
+			if (TextUtils.isEmpty(selection)) {
+				rowsUpdated = sqlDB
+						.update(DevcrowdTables.TABLE_SPEAKERS, values,
+								DevcrowdTables.SPEAKER_COLUMN_NAME + "=" + selectionArgs[0], null);
 			}
 			break;
 		default:
