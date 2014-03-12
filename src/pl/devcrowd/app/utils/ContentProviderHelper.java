@@ -95,9 +95,8 @@ public final class ContentProviderHelper {
 	}
 	
 	public static void updatePresentation(final ContentResolver resolver, 
-			final Presentation presentation) {
+			final String titleOld, final Presentation presentation) {
 		AsyncQueryHandler asyncHandler = new AsyncQueryHandler(resolver) {};
-		String titleOld = presentation.getTitle();
 		ContentValues values = new ContentValues();
 		values.put(DevcrowdTables.PRESENTATION_TITLE, presentation.getTitle());
 		values.put(DevcrowdTables.PRESENTATION_DESCRIPTION,
@@ -197,9 +196,8 @@ public final class ContentProviderHelper {
 	}
 	
 	public static void updateSpeaker(final ContentResolver resolver, 
-			final Speaker speaker) {
+			final String nameOld, final Speaker speaker) {
 		AsyncQueryHandler asyncHandler = new AsyncQueryHandler(resolver) {};
-		String nameOld = speaker.getName();
 		ContentValues values = new ContentValues();
 		values.put(DevcrowdTables.SPEAKER_COLUMN_NAME, speaker.getName());
 		values.put(DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION,
