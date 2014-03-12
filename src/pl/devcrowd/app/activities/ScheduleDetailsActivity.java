@@ -152,6 +152,10 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 	@Override
 	public void userGrades(int topic_grade, int overall_grade) {
 		ratingBar.setRating(topic_grade);
+		// TODO
+		// pass Presentation object to update
+		// probably usage method: updatePresentation(getContentRsolver(),
+		// presentation.getTitle(), presentation);
 	}
 
 }
