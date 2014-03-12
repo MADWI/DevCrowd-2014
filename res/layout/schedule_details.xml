@@ -175,10 +175,11 @@
                 android:id="@+id/ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
                 android:layout_below="@+id/textView6"
-                android:padding="@dimen/cardMargin" />
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:layout_centerInParent="true"
+                 />
             
         </RelativeLayout>
         

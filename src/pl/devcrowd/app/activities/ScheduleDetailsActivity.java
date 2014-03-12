@@ -2,6 +2,7 @@ package pl.devcrowd.app.activities;
 
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.dialogs.RateDialog;
+import pl.devcrowd.app.interfaces.RatingCallback;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -18,7 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ScheduleDetailsActivity extends ActionBarActivity implements
-		OnClickListener, View.OnTouchListener {
+		OnClickListener, View.OnTouchListener, RatingCallback {
 
 	private static final int TEXT_DURATION_TIME_MS = 500;
 	private static final int ARROW_DURATION_TIME_MS = 400;
@@ -146,6 +147,11 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		anim.setDuration(duration);
 		anim.setFillAfter(true);
 		view.startAnimation(anim);
+	}
+
+	@Override
+	public void userGrades(int topic_grade, int overall_grade) {
+		ratingBar.setRating(topic_grade);
 	}
 
 }
