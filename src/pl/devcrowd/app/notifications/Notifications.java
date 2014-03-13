@@ -12,17 +12,17 @@ public class Notifications {
 	private Context mContext;
 
 	public Notifications(Context mContext) {
-		super();
 		this.mContext = mContext;
 	}
 
-	public void setNotification(String title, String message) {
+	public void setNotification(String title, String message, String tickerText) {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 				mContext);
 		mBuilder.setSmallIcon(R.drawable.ic_launcher)
 				.setContentTitle(title)
 				.setContentText(message)
 				.setDefaults(Notification.DEFAULT_VIBRATE)
+				.setTicker(tickerText)
 				.setSound(
 						RingtoneManager
 								.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
