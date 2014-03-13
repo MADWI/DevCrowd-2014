@@ -71,6 +71,12 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 		ratingBar.setOnTouchListener(this);
 	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		overridePendingTransition(R.anim.slide_right_enter, R.anim.slide_right_exit);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

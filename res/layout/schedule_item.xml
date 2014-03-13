@@ -23,12 +23,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
                 android:gravity="center"
                 android:paddingBottom="@dimen/cardMargin"
                 android:paddingTop="@dimen/cardMargin"
                 android:text="10.15\n11.15"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="italic" />
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -39,8 +41,8 @@
             <RelativeLayout
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/bgGray" >
             </RelativeLayout>
 
@@ -59,8 +61,10 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="@dimen/cardMargin"
+                    android:layout_toLeftOf="@+id/toggleFavo"
                     android:text="Przykładowy temat"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:singleLine="true" />
 
                 <TextView
                     android:id="@+id/textItemSpeaker"
@@ -71,7 +75,8 @@
                     android:layout_below="@+id/textItemTopic"
                     android:layout_marginLeft="@dimen/cardMargin"
                     android:text="Jan Kowalski"
-                    android:textAppearance="?android:attr/textAppearance" />
+                    android:textAppearance="?android:attr/textAppearance"
+                    android:singleLine="true" />
 
                 <ToggleButton
                     android:id="@+id/toggleFavo"

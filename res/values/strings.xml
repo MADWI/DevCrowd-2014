@@ -36,5 +36,10 @@
         <item>@drawable/drawer_founders</item>
         <item>@drawable/drawer_about</item>
     </array>
+    
+    <string name="topicGrade">Ocena tematyki</string>
+    <string name="overallGrade">Ocena ogólna</string>
+    
+    <string name="crash_toast_text">Uuuupss, coś poszło nie tak:/</string>
 
 </resources>

@@ -55,6 +55,7 @@ public class ScheduleListFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		if (isAdded()) {
 			startActivity(new Intent(getActivity(), ScheduleDetailsActivity.class));
+			getActivity().overridePendingTransition(R.anim.slide_left_enter, R.anim.slide_left_exit);
 		}
 	}
 

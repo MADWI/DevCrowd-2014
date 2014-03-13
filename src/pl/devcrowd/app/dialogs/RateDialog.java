@@ -8,6 +8,9 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.RatingBar;
 
 public class RateDialog extends DialogFragment {
 
@@ -20,13 +23,21 @@ public class RateDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+		LayoutInflater inflater = LayoutInflater.from(getActivity());
+		View ratingView = inflater.inflate(R.layout.rating_dialog_layout, null);
+		
+		final RatingBar topicRate = (RatingBar) ratingView.findViewById(R.id.topicRate);
+		final RatingBar overallRate = (RatingBar) ratingView.findViewById(R.id.overallRate);
+		
 		return new AlertDialog.Builder(getActivity())
+				.setView(ratingView)
 				.setTitle(R.string.ratePresentation)
 				.setPositiveButton(R.string.send,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								mRatingCallback.userGrades(3, 4);
+								mRatingCallback.userGrades((int) topicRate.getRating(), 
+										(int) overallRate.getRating());
 								dismiss();
 							}
 						})
