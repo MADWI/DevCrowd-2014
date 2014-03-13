@@ -6,21 +6,21 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-public class Alarms {
+public final class Alarms {
 
-	private Context ctx;
 	private AlarmManager alarmManager;
+	private static final String lessonIDTAG = "lessonID";
 
-	public Alarms(Context context) {
-		this.ctx = context;
+	private Alarms() {
+		
 	}
 
-	public void setAlarm(int lessonID, long time) {
+	public void setAlarm(final int lessonID, final long time, Context ctx) {
 		try {
 			alarmManager = (AlarmManager) ctx
 					.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent("AlarmReceiver");
-			intent.putExtra("lessonID", lessonID);
+			intent.putExtra(lessonIDTAG, lessonID);
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(ctx,
 					lessonID, intent, PendingIntent.FLAG_ONE_SHOT);
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, 0,
@@ -31,7 +31,7 @@ public class Alarms {
 		}
 	}
 
-	public void cancelAlarm(int lessonID) {
+	public void cancelAlarm(final int lessonID, Context ctx) {
 		try {
 			Intent intent = new Intent("AlarmReceiver");
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(ctx,

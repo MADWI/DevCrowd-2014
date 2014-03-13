@@ -4,19 +4,16 @@ import pl.devcrowd.app.R;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.media.RingtoneManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 
-public class Notifications {
+public final class Notifications {
 
-	private Context mContext;
-
-	public Notifications(Context mContext) {
-		this.mContext = mContext;
+	private Notifications(){
+		
 	}
 
-	public void setNotification(String title, String message, String tickerText) {
+	public static void setNotification(final String title, final String message, final String tickerText, final int lessonID, Context mContext) {
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 				mContext);
 		mBuilder.setSmallIcon(R.drawable.ic_launcher)
@@ -28,7 +25,7 @@ public class Notifications {
 
 		NotificationManager mNotificationManager = (NotificationManager) mContext
 				.getSystemService(Context.NOTIFICATION_SERVICE);
-		mNotificationManager.notify(1, mBuilder.build());
+		mNotificationManager.notify(lessonID, mBuilder.build());
 	}
 
 }
