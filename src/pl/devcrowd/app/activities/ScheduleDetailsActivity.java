@@ -1,10 +1,15 @@
 package pl.devcrowd.app.activities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pl.devcrowd.app.R;
+import pl.devcrowd.app.adapters.SpeakersAdapter;
 import pl.devcrowd.app.dialogs.RateDialog;
 import pl.devcrowd.app.http.HttpPostData;
 import pl.devcrowd.app.interfaces.RatingCallback;
 import pl.devcrowd.app.models.Presentation;
+import pl.devcrowd.app.models.Speaker;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -16,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,17 +35,13 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 	private static final String RATE_DIALOG_TAG = "rate_dialog";
 
 	private RelativeLayout topicCard;
-	private RelativeLayout speakerCard;
+	private ListView speakerList;
 	private RelativeLayout rateCard;
 
 	private TextView textTopic;
 	private TextView textHour;
 	private TextView textTopicDetails;
 	private ImageView moreTopic;
-
-	private TextView textSpeaker;
-	private TextView textSpeakerDetails;
-	private ImageView moreSpeaker;
 
 	private RatingBar ratingBar;
 
@@ -51,13 +53,18 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		getSupportActionBar().setHomeButtonEnabled(true);
 		initUIElements();
 
+		List<Speaker> speakers = new ArrayList<Speaker>();
+		speakers.add(new Speaker("Jan\nKowalski", "Opis pelegenta...", "http://..."));
+		speakers.add(new Speaker("Jan\nKowalski", "Opis pelegenta...", "http://..."));
+		speakers.add(new Speaker("Jan\nKowalski", "Opis pelegenta...", "http://..."));
+		SpeakersAdapter adapter = new SpeakersAdapter(this, R.layout.speaker_item, speakers);
+		speakerList.setAdapter(adapter);
 	}
 
 	private void initUIElements() {
 		topicCard = (RelativeLayout) findViewById(R.id.topicCard);
 		topicCard.setOnClickListener(this);
-		speakerCard = (RelativeLayout) findViewById(R.id.speakerCard);
-		speakerCard.setOnClickListener(this);
+		speakerList = (ListView) findViewById(R.id.speakersList);
 		rateCard = (RelativeLayout) findViewById(R.id.rateCard);
 
 		textTopic = (TextView) findViewById(R.id.textTopic);
@@ -65,10 +72,6 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		textTopicDetails = (TextView) findViewById(R.id.textTopicDetails);
 		moreTopic = (ImageView) findViewById(R.id.imageMoreTopic);
 		rotateTo0(moreTopic, ZERO_DURATION_TIME_MS);
-
-		textSpeaker = (TextView) findViewById(R.id.textSpeaker);
-		textSpeakerDetails = (TextView) findViewById(R.id.textSpeakerDetails);
-		moreSpeaker = (ImageView) findViewById(R.id.imageMoreSpeaker);
 
 		ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 		ratingBar.setOnTouchListener(this);
@@ -106,9 +109,6 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		switch (v.getId()) {
 		case R.id.topicCard:
 			toggleDetailsVisibility(textTopicDetails, moreTopic);
-			break;
-		case R.id.speakerCard:
-			toggleDetailsVisibility(textSpeakerDetails, moreSpeaker);
 			break;
 		default:
 			break;

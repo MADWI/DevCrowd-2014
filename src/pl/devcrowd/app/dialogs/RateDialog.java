@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RatingBar;
 
 public class RateDialog extends DialogFragment {
@@ -26,6 +27,8 @@ public class RateDialog extends DialogFragment {
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		View ratingView = inflater.inflate(R.layout.rating_dialog_layout, null);
 
+		final EditText email = (EditText) ratingView
+				.findViewById(R.id.emailAdress);
 		final RatingBar topicRate = (RatingBar) ratingView
 				.findViewById(R.id.topicRate);
 		final RatingBar overallRate = (RatingBar) ratingView
