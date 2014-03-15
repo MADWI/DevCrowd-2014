@@ -2,7 +2,9 @@ package pl.devcrowd.app.activities;
 
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.dialogs.RateDialog;
+import pl.devcrowd.app.http.HttpPostData;
 import pl.devcrowd.app.interfaces.RatingCallback;
+import pl.devcrowd.app.models.Presentation;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -71,11 +73,12 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 		ratingBar.setOnTouchListener(this);
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
-		overridePendingTransition(R.anim.slide_right_enter, R.anim.slide_right_exit);
+		overridePendingTransition(R.anim.slide_right_enter,
+				R.anim.slide_right_exit);
 	}
 
 	@Override
@@ -156,12 +159,17 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 	}
 
 	@Override
-	public void userGrades(int topic_grade, int overall_grade) {
-		ratingBar.setRating(topic_grade);
+	public void userGrades(float topic_grade, float overall_grade) {
+		ratingBar.setRating((topic_grade + overall_grade) / 2);
 		// TODO
 		// pass Presentation object to update
 		// probably usage method: updatePresentation(getContentRsolver(),
 		// presentation.getTitle(), presentation);
-	}
 
+		//test object
+		Presentation presentation = new Presentation("10:00", "10:30", "126", "", "testowanie", "Test", String.valueOf(topic_grade), String.valueOf(overall_grade), "0");
+		// sending grades to API
+		new HttpPostData(this,"add_grades", topic_grade, overall_grade, presentation,
+				"dawidglinski@testmad.pl").execute();
+	}
 }

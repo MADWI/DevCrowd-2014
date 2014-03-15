@@ -177,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView6"
                 android:numStars="5"
-                android:stepSize="1.0"
+                android:stepSize="0.5"
                 android:layout_centerInParent="true"
                  />
             

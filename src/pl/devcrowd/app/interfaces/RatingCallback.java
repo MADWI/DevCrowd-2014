@@ -1,5 +1,5 @@
 package pl.devcrowd.app.interfaces;
 
 public interface RatingCallback {
-	public void userGrades(int topic_grade, int overall_grade);
+	public void userGrades(float topic_grade, float overall_grade);
 }

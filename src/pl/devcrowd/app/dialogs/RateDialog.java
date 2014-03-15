@@ -15,7 +15,7 @@ import android.widget.RatingBar;
 public class RateDialog extends DialogFragment {
 
 	private RatingCallback mRatingCallback;
-	
+
 	public static RateDialog newInstance() {
 		return new RateDialog();
 	}
@@ -25,10 +25,12 @@ public class RateDialog extends DialogFragment {
 
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		View ratingView = inflater.inflate(R.layout.rating_dialog_layout, null);
-		
-		final RatingBar topicRate = (RatingBar) ratingView.findViewById(R.id.topicRate);
-		final RatingBar overallRate = (RatingBar) ratingView.findViewById(R.id.overallRate);
-		
+
+		final RatingBar topicRate = (RatingBar) ratingView
+				.findViewById(R.id.topicRate);
+		final RatingBar overallRate = (RatingBar) ratingView
+				.findViewById(R.id.overallRate);
+
 		return new AlertDialog.Builder(getActivity())
 				.setView(ratingView)
 				.setTitle(R.string.ratePresentation)
@@ -36,8 +38,9 @@ public class RateDialog extends DialogFragment {
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								mRatingCallback.userGrades((int) topicRate.getRating(), 
-										(int) overallRate.getRating());
+								mRatingCallback.userGrades(
+										topicRate.getRating(),
+										overallRate.getRating());
 								dismiss();
 							}
 						})
@@ -49,17 +52,18 @@ public class RateDialog extends DialogFragment {
 							}
 						}).create();
 	}
-	 @Override
-	    public void onAttach(Activity activity) {
-	        super.onAttach(activity);
-	        
-	        // This makes sure that the container activity has implemented
-	        // the callback interface. If not, it throws an exception
-	        try {
-	            mRatingCallback = (RatingCallback) activity;
-	        } catch (ClassCastException e) {
-	            throw new ClassCastException(activity.toString()
-	                    + " must implement RatingCallback");
-	        }
-	    }
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		// This makes sure that the container activity has implemented
+		// the callback interface. If not, it throws an exception
+		try {
+			mRatingCallback = (RatingCallback) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement RatingCallback");
+		}
+	}
 }
