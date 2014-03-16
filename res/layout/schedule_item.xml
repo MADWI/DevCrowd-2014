@@ -29,7 +29,7 @@
                 android:paddingTop="@dimen/cardMargin"
                 android:text="10.15\n11.15"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textStyle="italic" />
+            />
 
         </RelativeLayout>
 
@@ -43,7 +43,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/bgGray" >
+                android:background="@color/list_background_pressed" >
             </RelativeLayout>
 
             <RelativeLayout

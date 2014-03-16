@@ -6,10 +6,10 @@ import java.util.List;
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.adapters.SpeakersAdapter;
 import pl.devcrowd.app.dialogs.RateDialog;
-import pl.devcrowd.app.http.HttpPostData;
-import pl.devcrowd.app.interfaces.RatingCallback;
-import pl.devcrowd.app.models.Presentation;
+import pl.devcrowd.app.dialogs.RateDialog.OnRatingListener;
 import pl.devcrowd.app.models.Speaker;
+import pl.devcrowd.app.services.ApiService;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
@@ -27,7 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ScheduleDetailsActivity extends ActionBarActivity implements
-		OnClickListener, View.OnTouchListener, RatingCallback {
+		OnClickListener, View.OnTouchListener, OnRatingListener {
 
 	private static final int TEXT_DURATION_TIME_MS = 500;
 	private static final int ARROW_DURATION_TIME_MS = 400;
@@ -52,12 +52,15 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 
 		getSupportActionBar().setHomeButtonEnabled(true);
 		initUIElements();
-
 		List<Speaker> speakers = new ArrayList<Speaker>();
-		speakers.add(new Speaker("Jan\nKowalski", "Opis pelegenta...", "http://..."));
-		speakers.add(new Speaker("Jan\nKowalski", "Opis pelegenta...", "http://..."));
-		speakers.add(new Speaker("Jan\nKowalski", "Opis pelegenta...", "http://..."));
-		SpeakersAdapter adapter = new SpeakersAdapter(this, R.layout.speaker_item, speakers);
+		speakers.add(new Speaker("Jan\nKowalski", "Opis pelegenta...",
+				"http://..."));
+		speakers.add(new Speaker("Jan\nKowalski", "Opis pelegenta...",
+				"http://..."));
+		speakers.add(new Speaker("Jan\nKowalski", "Opis pelegenta...",
+				"http://..."));
+		SpeakersAdapter adapter = new SpeakersAdapter(this,
+				R.layout.speaker_item, speakers);
 		speakerList.setAdapter(adapter);
 	}
 
@@ -159,17 +162,25 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 	}
 
 	@Override
-	public void userGrades(float topic_grade, float overall_grade) {
-		ratingBar.setRating((topic_grade + overall_grade) / 2);
-		// TODO
-		// pass Presentation object to update
-		// probably usage method: updatePresentation(getContentRsolver(),
-		// presentation.getTitle(), presentation);
-
-		//test object
-		Presentation presentation = new Presentation("10:00", "10:30", "126", "", "testowanie", "Test", String.valueOf(topic_grade), String.valueOf(overall_grade), "0");
-		// sending grades to API
-		new HttpPostData(this,"add_grades", topic_grade, overall_grade, presentation,
-				"dawidglinski@testmad.pl").execute();
+	public void onSendRatingButtonClick(float topicGrade, float overallGrade,
+			String email) {
+		ratingBar.setRating((topicGrade + overallGrade) / 2);
+		
+		// TEST PRESENTATION RATE
+		String presentationTitle = "Some title"; //title of current presentation
+		asyncRatePresentation(presentationTitle, topicGrade, overallGrade,email);
+		//-----------------------		
 	}
+	
+	private void asyncRatePresentation(String presentationTitle, float topicGrade,
+			float speakerGrade, String email) {
+		Intent intent = new Intent(this, ApiService.class);
+		intent.setAction(ApiService.ACTION_RATE_PRESENTATION);
+		intent.putExtra(ApiService.RATE_PRESENTATION_EXTRA_TITLE, presentationTitle);
+		intent.putExtra(ApiService.RATE_PRESENTATION_EXTRA_TOPIC_GRADE,topicGrade);
+		intent.putExtra(ApiService.RATE_PRESENTATION_EXTRA_SPEAKER_GRADE,speakerGrade);
+		intent.putExtra(ApiService.RATE_PRESENTATION_EXTRA_EMAIL,email);
+		startService(intent);
+	}
+	
 }

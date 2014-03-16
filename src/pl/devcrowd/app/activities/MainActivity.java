@@ -47,6 +47,7 @@ public class MainActivity extends ActionBarActivity {
 	private NavigationDrawerListAdapter adapter;
 	private String[] navigationMenuTitles;
 	private TypedArray navigationMenuIcons;
+	private int lastPosition;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -153,14 +154,13 @@ public class MainActivity extends ActionBarActivity {
 			fragment = new FavouritesListFragment();
 			break;
 		case DRAWER_SPONSORS_NUM:
-
-			break;
+			setSelection(lastPosition);
+			return;
 		case DRAWER_ABOUT_NUM:
 			DialogFragment newFragment = AboutDialog.newInstance();
 			newFragment.show(getSupportFragmentManager(), ABOUT_DIALOG_TAG);
-
+			setSelection(lastPosition);
 			return;
-
 		default:
 			break;
 		}
@@ -183,6 +183,7 @@ public class MainActivity extends ActionBarActivity {
 		mDrawerList.setSelection(position);
 		setTitle(navigationMenuTitles[position]);
 		mDrawerLayout.closeDrawer(mDrawerList);
+		lastPosition = position;
 
 	}
 

@@ -14,7 +14,7 @@ public final class DevcrowdTables {
 	public static final String PRESENTATION_SPEAKER = "speakerName";
 	public static final String PRESENTATION_DESCRIPTION = "description";
 	public static final String PRESENTATION_TOPIC_GRADE = "presentationTopicGrade";
-	public static final String PRESENTATION_OVERALL_GRADE = "presentationOverallGrade";
+	public static final String PRESENTATION_SPEAKER_GRADE = "presentationSpeakerGrade";
 	public static final String PRESENTATION_FAVOURITE = "presentationFavourite";
 
 	public static final String TABLE_SPEAKERS = "speakersTable";
@@ -35,7 +35,7 @@ public final class DevcrowdTables {
 			+ PRESENTATION_SPEAKER + TYPE_TEXT_NOT_NULL_COLUMN + ","
 			+ PRESENTATION_DESCRIPTION + TYPE_TEXT_NOT_NULL_COLUMN + ","
 			+ PRESENTATION_TOPIC_GRADE + TYPE_TEXT_NOT_NULL_COLUMN + ","
-			+ PRESENTATION_OVERALL_GRADE + TYPE_TEXT_NOT_NULL_COLUMN + ","
+			+ PRESENTATION_SPEAKER_GRADE + TYPE_TEXT_NOT_NULL_COLUMN + ","
 			+ PRESENTATION_FAVOURITE + TYPE_TEXT_NOT_NULL_COLUMN + ");";
 
 	private static final String DATABASE_PRELEGENCI_CREATE = "create table "

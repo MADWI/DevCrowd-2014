@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DevcrowdDatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "devcrowd.db";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 
 	public DevcrowdDatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);

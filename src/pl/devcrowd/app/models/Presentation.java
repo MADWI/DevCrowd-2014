@@ -9,7 +9,7 @@ public class Presentation {
 	private String title;
 	private String speaker;
 	private String gradeTopic;
-	private String gradeOverall;
+	private String gradeSpeaker;
 	private String favourite;
 
 	public Presentation() {
@@ -18,7 +18,7 @@ public class Presentation {
 
 	public Presentation(String hourStart, String hourEnd, String room,
 			String description, String title, String speaker, String gradeTopic,
-			String gradeOverall, String favourite) {
+			String gradeSpeaker, String favourite) {
 		super();
 		this.hourStart = hourStart;
 		this.hourEnd = hourEnd;
@@ -27,7 +27,7 @@ public class Presentation {
 		this.title = title;
 		this.speaker = speaker;
 		this.gradeTopic = gradeTopic;
-		this.gradeOverall = gradeOverall;
+		this.gradeSpeaker = gradeSpeaker;
 		this.favourite = favourite;
 	}
 
@@ -87,12 +87,12 @@ public class Presentation {
 		this.gradeTopic = gradeTopic;
 	}
 	
-	public String getGradeOverall() {
-		return gradeOverall;
+	public String getGradeSpeaker() {
+		return gradeSpeaker;
 	}
 
-	public void setSGradeOverall(String gradeOverall) {
-		this.gradeOverall = gradeOverall;
+	public void setSGradeSpeaker(String gradeSpeaker) {
+		this.gradeSpeaker = gradeSpeaker;
 	}
 
 	public String getFavourite() {
@@ -108,7 +108,7 @@ public class Presentation {
 		return "Presentation [hourStart=" + hourStart + ", hourEnd=" + hourEnd
 				+ ", room=" + room + ", description=" + description
 				+ ", title=" + title + ", speaker=" + speaker + ", gradeTopic=" + gradeTopic 
-				+ ", gradeOverall=" + gradeOverall + "]";
+				+ ", gradeSpeaker=" + gradeSpeaker + "]";
 	}
 	
 	

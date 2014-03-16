@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import pl.devcrowd.app.services.ApiService;
-
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -45,6 +44,8 @@ public class DevcrowdContentProvider extends ContentProvider {
 			+ "/speakers";
 	public static final String CONTENT_ITEM_TYPE_SPEKAERS = ContentResolver.CURSOR_ITEM_BASE_TYPE
 			+ "/speaker";
+
+	public static final String EMAIL_RATE_VALUES_KEY = "rateEmail";
 
 	private static final UriMatcher sURIMatcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
@@ -107,20 +108,6 @@ public class DevcrowdContentProvider extends ContentProvider {
 		return cursor;
 	}
 
-	private void asyncLoadDataFromServer(int uriType) {
-
-		if (uriType == PRESENTATIONS || uriType == PRESENTATION_ID) {
-			Intent intent = new Intent(getContext(), ApiService.class);
-			intent.setAction(ApiService.ACTION_GET_PRESENTATIONS);
-			getContext().startService(intent);
-		} else if (uriType == SPEAKERS || uriType == SPEAKER_ID) {
-			Intent intent = new Intent(getContext(), ApiService.class);
-			intent.setAction(ApiService.ACTION_GET_SPEAKERS);
-			getContext().startService(intent);
-		}
-
-	}
-
 	@Override
 	public String getType(Uri uri) {
 		return null;
@@ -164,16 +151,14 @@ public class DevcrowdContentProvider extends ContentProvider {
 		switch (uriType) {
 		case PRESENTATIONS:
 			if (TextUtils.isEmpty(selection)) {
-				rowsUpdated = sqlDB
-						.update(DevcrowdTables.TABLE_PRESENTATIONS, values,
-								DevcrowdTables.PRESENTATION_TITLE + "=" + selectionArgs[0], null);
+				rowsUpdated = sqlDB.update(DevcrowdTables.TABLE_PRESENTATIONS,
+						values, selection, selectionArgs);
 			}
 			break;
 		case SPEAKERS:
 			if (TextUtils.isEmpty(selection)) {
-				rowsUpdated = sqlDB
-						.update(DevcrowdTables.TABLE_SPEAKERS, values,
-								DevcrowdTables.SPEAKER_COLUMN_NAME + "=" + selectionArgs[0], null);
+				rowsUpdated = sqlDB.update(DevcrowdTables.TABLE_SPEAKERS,
+						values, selection, selectionArgs);
 			}
 			break;
 		default:
@@ -192,7 +177,7 @@ public class DevcrowdContentProvider extends ContentProvider {
 				DevcrowdTables.PRESENTATION_SPEAKER,
 				DevcrowdTables.PRESENTATION_DESCRIPTION,
 				DevcrowdTables.PRESENTATION_TOPIC_GRADE,
-				DevcrowdTables.PRESENTATION_OVERALL_GRADE,
+				DevcrowdTables.PRESENTATION_SPEAKER_GRADE,
 				DevcrowdTables.PRESENTATION_FAVOURITE,
 				DevcrowdTables.SPEAKER_COLUMN_ID,
 				DevcrowdTables.SPEAKER_COLUMN_NAME,
@@ -209,5 +194,19 @@ public class DevcrowdContentProvider extends ContentProvider {
 						"Unknown columns in projection");
 			}
 		}
+	}
+
+	private void asyncLoadDataFromServer(int uriType) {
+
+		if (uriType == PRESENTATIONS || uriType == PRESENTATION_ID) {
+			Intent intent = new Intent(getContext(), ApiService.class);
+			intent.setAction(ApiService.ACTION_GET_PRESENTATIONS);
+			getContext().startService(intent);
+		} else if (uriType == SPEAKERS || uriType == SPEAKER_ID) {
+			Intent intent = new Intent(getContext(), ApiService.class);
+			intent.setAction(ApiService.ACTION_GET_SPEAKERS);
+			getContext().startService(intent);
+		}
+
 	}
 }

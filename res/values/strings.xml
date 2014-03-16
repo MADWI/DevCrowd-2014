@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+
     <string name="app_name">DevCrowd \'14</string>
     <string name="simplyText">Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum. Integer aliquam purus. Quisque lorem tortor fringilla sed, vestibulum id, eleifend justo vel bibendum sapien massa ac turpis faucibus orci luctus non, consectetuer lobortis quis, varius in, purus. Integer ultrices posuere cubilia Curae, Nulla ipsum dolor lacus, suscipit adipiscing. Cum sociis natoque penatibus et ultrices volutpat. Nullam wisi ultricies a, gravida vitae, dapibus risus ante sodales lectus blandit eu, tempor diam pede cursus vitae, ultricies eu, faucibus quis, porttitor eros cursus lectus, </string>
     <string name="ratePresentation">Oceń prezentację</string>
@@ -7,11 +8,11 @@
     <string name="send">Wyślij</string>
     <string name="about">O aplikacji</string>
     <string name="about_msg">
-&amp;lt;body&amp;gt;&amp;lt;h1&amp;gt;&amp;lt;b&amp;gt;DevCrowd App&amp;lt;/b&amp;gt;&amp;lt;/h1&amp;gt;v 0.0.1&amp;lt;br/&amp;gt;www.devcrowd.pl&amp;lt;br/&amp;gt;&amp;lt;br/&amp;gt;
-        Autorzy:&amp;lt;br/&amp;gt;
-        &amp;lt;b&amp;gt;SKN Mobile Applications Developers WI ZUT&amp;lt;/b&amp;gt;&amp;lt;br/&amp;gt;
-        www.mad.zut.edu.pl&amp;lt;br/&amp;gt;&amp;lt;/body&amp;gt;
-        
+<![CDATA[<body><h1><b>DevCrowd App</b></h1>v 0.0.1<br/>www.devcrowd.pl<br/><br/>
+         Autorzy:<br/>
+         <b>SKN Mobile Applications Developers WI ZUT</b><br/>
+         www.mad.zut.edu.pl<br/></body>
+         ]]>
     </string>
     <string name="devcrowd_info_title">DevCrowd\'14</string>
     <string name="devcrowd_info_body">Dziel się wiedzą, dziel się pasją</string>
@@ -26,6 +27,7 @@
         <item>Sponsorzy</item>
         <item>O aplikacji</item>
     </string-array>
+
     <array name="navigation_drawer_icons">
         <item>@drawable/ic_launcher</item>
         <item>@drawable/drawer_agenda</item>
@@ -33,8 +35,12 @@
         <item>@drawable/drawer_founders</item>
         <item>@drawable/drawer_about</item>
     </array>
+
     <string name="topicGrade">Ocena tematyki</string>
-    <string name="overallGrade">Ocena ogólna</string>
+    <string name="speakerRate">Ocena prelegenta/prelegentów</string>
     <string name="crash_toast_text">Uuuupss, coś poszło nie tak:/</string>
     <string name="success_voting_toast_text">Dziękujemy za oddanie głosu</string>
+    <string name="error_voting_toast_text">Błąd przesłania oceny na serwer, spróbuj ponownie</string>
+    <string name="email_hint">Adres e-mail</string>
+
 </resources>

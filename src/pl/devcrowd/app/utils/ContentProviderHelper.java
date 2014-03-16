@@ -17,8 +17,8 @@ import android.util.Log;
 public final class ContentProviderHelper {
 	private static final String TAG = ContentProviderHelper.class
 			.getSimpleName();
-	private static final String DEFAULT_SORT = " DESC";
-
+	private static final String DEFAULT_SORT = " DESC";	
+	
 	private ContentProviderHelper() {
 	};
 
@@ -39,7 +39,7 @@ public final class ContentProviderHelper {
 		values.put(DevcrowdTables.PRESENTATION_SPEAKER,
 				presentation.getSpeaker());
 		values.put(DevcrowdTables.PRESENTATION_TOPIC_GRADE, presentation.getGradeTopic());
-		values.put(DevcrowdTables.PRESENTATION_OVERALL_GRADE, presentation.getGradeOverall());
+		values.put(DevcrowdTables.PRESENTATION_SPEAKER_GRADE, presentation.getGradeSpeaker());
 		values.put(DevcrowdTables.PRESENTATION_FAVOURITE, presentation.getFavourite());
 
 		return resolver.insert(
@@ -59,7 +59,7 @@ public final class ContentProviderHelper {
 				DevcrowdTables.PRESENTATION_END,
 				DevcrowdTables.PRESENTATION_DESCRIPTION,
 				DevcrowdTables.PRESENTATION_TOPIC_GRADE,
-				DevcrowdTables.PRESENTATION_OVERALL_GRADE,
+				DevcrowdTables.PRESENTATION_SPEAKER_GRADE,
 				DevcrowdTables.PRESENTATION_FAVOURITE};
 		Cursor cursor = resolver.query(uri, projection, null, null,
 				DevcrowdTables.PRESENTATION_ID + DEFAULT_SORT);
@@ -83,7 +83,7 @@ public final class ContentProviderHelper {
 				DevcrowdTables.PRESENTATION_END,
 				DevcrowdTables.PRESENTATION_DESCRIPTION,
 				DevcrowdTables.PRESENTATION_TOPIC_GRADE,
-				DevcrowdTables.PRESENTATION_OVERALL_GRADE,
+				DevcrowdTables.PRESENTATION_SPEAKER_GRADE,
 				DevcrowdTables.PRESENTATION_FAVOURITE};
 		Cursor cursor = resolver.query(uri, projection,
 				DevcrowdTables.PRESENTATION_TITLE + "=?",
@@ -107,11 +107,22 @@ public final class ContentProviderHelper {
 		values.put(DevcrowdTables.PRESENTATION_SPEAKER,
 				presentation.getSpeaker());
 		values.put(DevcrowdTables.PRESENTATION_TOPIC_GRADE, presentation.getGradeTopic());
-		values.put(DevcrowdTables.PRESENTATION_OVERALL_GRADE, presentation.getGradeOverall());
+		values.put(DevcrowdTables.PRESENTATION_SPEAKER_GRADE, presentation.getGradeSpeaker());
 		values.put(DevcrowdTables.PRESENTATION_FAVOURITE, presentation.getFavourite());
 		
 		asyncHandler.startUpdate(-1, null, DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, 
-				values, null, new String[]{titleOld});
+				values, DevcrowdTables.PRESENTATION_TITLE + "=?", new String[]{titleOld});
+	}
+	
+	
+	public static void updateRating(final ContentResolver resolver, 
+			final String presentationTitle, float topiGrade, float speakerGrade) {
+		AsyncQueryHandler asyncHandler = new AsyncQueryHandler(resolver) {};
+		ContentValues values = new ContentValues();
+		values.put(DevcrowdTables.PRESENTATION_TOPIC_GRADE, topiGrade);
+		values.put(DevcrowdTables.PRESENTATION_SPEAKER_GRADE, speakerGrade);
+		asyncHandler.startUpdate(-1, null, DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, 
+				values, DevcrowdTables.PRESENTATION_TITLE + "=?", new String[]{presentationTitle});
 	}
 
 	public static Uri addSpeaker(final ContentResolver resolver,
@@ -205,7 +216,7 @@ public final class ContentProviderHelper {
 		values.put(DevcrowdTables.SPEAKER_COLUMN_FOTO, speaker.getPhotoUrl());
 		
 		asyncHandler.startUpdate(-1, null, DevcrowdContentProvider.CONTENT_URI_SPEAKERS, 
-				values, null, new String[]{nameOld});
+				values, DevcrowdTables.SPEAKER_COLUMN_NAME + "=?", new String[]{nameOld});
 	}
 
 	private static String getColumnValue(final Cursor cursor,

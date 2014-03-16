@@ -8,11 +8,13 @@ import java.util.Locale;
 
 public class CalendarUtils {
 
-	public static Calendar getTimeAfterInSecs(int secs, String dateTime) {
-		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss",
-				Locale.GERMANY);
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat(
+			"MM/dd/yyyy hh:mm:ss", Locale.GERMANY);
+
+	public static Calendar getDateDifferBySeconds(int secs, String dateTime) {
+
 		try {
-			Date date = df.parse(dateTime);
+			Date date = dateFormat.parse(dateTime);
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(date);
 			cal.add(Calendar.SECOND, secs);
@@ -22,13 +24,7 @@ public class CalendarUtils {
 		}
 		return null;
 	}
-
-	public static Calendar getTimeAfterInSecs(int secs) {
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.SECOND, secs);
-		return cal;
-	}
-
+	
 	public static Calendar getCurrentTime() {
 		Calendar cal = Calendar.getInstance();
 		return cal;
@@ -48,10 +44,8 @@ public class CalendarUtils {
 	}
 
 	public static String getDateTimeString(Calendar cal) {
-		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss",
-				Locale.GERMANY);
-		df.setLenient(false);
-		String s = df.format(cal.getTime());
+		dateFormat.setLenient(false);
+		String s = dateFormat.format(cal.getTime());
 		return s;
 	}
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EmailAutoCompleteTextView">
+        <attr name="setClearButtonEnabled" format="boolean" />
+        <attr name="clearButtonDrawable" format="reference" />
+    </declare-styleable>
+</resources>
