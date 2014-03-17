@@ -1,5 +1,8 @@
 <resources>
 
     <dimen name="cardMargin">8dp</dimen>
+    <dimen name="listItemMarginTopBottom">4dp</dimen>
+    <dimen name="listItemMarginRightleft">8dp</dimen>
+    <dimen name="listItemDividerMargin">10dp</dimen>
 
 </resources>

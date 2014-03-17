@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/topicCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/normal_card_shape"
+    android:layout_marginLeft="@dimen/cardMargin"
+    android:layout_marginRight="@dimen/cardMargin"
+    android:layout_marginTop="@dimen/cardMargin" >
+
+    <TextView
+        android:id="@+id/textTopic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/cardMargin"
+        android:layout_marginRight="@dimen/cardMargin"
+        android:layout_marginTop="@dimen/cardMargin"
+        android:gravity="left"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textTopicDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textHour"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="@dimen/cardMargin"
+        android:paddingRight="@dimen/cardMargin"
+        android:paddingTop="@dimen/cardMargin" />
+
+    <TextView
+        android:id="@+id/textHour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textTopic"
+        android:layout_below="@+id/textTopic"
+        android:textColor="@color/gray" />
+
+    <ImageView
+        android:id="@+id/imageMoreTopic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textTopicDetails"
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="3dp"
+        android:src="@drawable/arrow" />
+
+</RelativeLayout>

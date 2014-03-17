@@ -1,18 +1,17 @@
 package pl.devcrowd.app.activities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import pl.devcrowd.app.R;
-import pl.devcrowd.app.adapters.SpeakersAdapter;
 import pl.devcrowd.app.dialogs.RateDialog;
 import pl.devcrowd.app.dialogs.RateDialog.OnRatingListener;
-import pl.devcrowd.app.models.Speaker;
+import pl.devcrowd.app.overviews.RoundImageView;
 import pl.devcrowd.app.services.ApiService;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -21,29 +20,19 @@ import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class ScheduleDetailsActivity extends ActionBarActivity implements
-		OnClickListener, View.OnTouchListener, OnRatingListener {
+public class ScheduleDetailsActivity extends ActionBarActivity implements OnRatingListener {
 
 	private static final int TEXT_DURATION_TIME_MS = 500;
 	private static final int ARROW_DURATION_TIME_MS = 400;
 	private static final int ZERO_DURATION_TIME_MS = 0;
 	private static final String RATE_DIALOG_TAG = "rate_dialog";
-
-	private RelativeLayout topicCard;
-	private ListView speakerList;
-	private RelativeLayout rateCard;
-
-	private TextView textTopic;
-	private TextView textHour;
-	private TextView textTopicDetails;
-	private ImageView moreTopic;
-
-	private RatingBar ratingBar;
+	
+	private int viewId = 0;
+	private LayoutInflater inflater;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,33 +40,106 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		setContentView(R.layout.schedule_details);
 
 		getSupportActionBar().setHomeButtonEnabled(true);
-		initUIElements();
-		List<Speaker> speakers = new ArrayList<Speaker>();
-		speakers.add(new Speaker("Jan\nKowalski", "Opis pelegenta...",
-				"http://..."));
-		speakers.add(new Speaker("Jan\nKowalski", "Opis pelegenta...",
-				"http://..."));
-		speakers.add(new Speaker("Jan\nKowalski", "Opis pelegenta...",
-				"http://..."));
-		SpeakersAdapter adapter = new SpeakersAdapter(this,
-				R.layout.speaker_item, speakers);
-		speakerList.setAdapter(adapter);
+		RelativeLayout root = (RelativeLayout) findViewById(R.id.rootView);
+		
+		inflater = LayoutInflater.from(this);
+		root.addView(createTopicCardView("Przyk³adowy temat", 
+				"Godzina: 10.15 - 11.15", 
+				"Lorem ipsum..."));
+		root.addView(createSperakerCardView(R.drawable.head_simple, 
+				"Mobile\nDeveloper", "MAD..."));
+		root.addView(createSperakerCardView(R.drawable.head_simple, 
+				"Jan\nKowalski", "Opis..."));
+		root.addView(createSperakerCardView(R.drawable.head_simple, 
+				"Karol\nNowak", "Opis..."));
+		root.addView(createRatingCardView());
+		
 	}
+	
+	private View createTopicCardView(String topic, String hour, String content) {
+		final View topicCard = inflater.inflate(R.layout.topic_card_item, null);
+		
+		TextView textTopic = (TextView) topicCard.findViewById(R.id.textTopic);
+		TextView textHour = (TextView) topicCard.findViewById(R.id.textHour);
+		final TextView textTopicDetails = (TextView) topicCard.findViewById(R.id.textTopicDetails);
+		final ImageView imageTopic = (ImageView) topicCard.findViewById(R.id.imageMoreTopic);
+		rotateTo0(imageTopic, ZERO_DURATION_TIME_MS);
+		
+		textTopic.setText(topic);
+		textHour.setText(hour);
+		textTopicDetails.setText(content);
+		
+		topicCard.setLayoutParams(createLayoutParams(viewId));
+		viewId++;
+		topicCard.setId(viewId);
+		topicCard.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				toggleDetailsVisibility(textTopicDetails, imageTopic);
+			}
+		});
+		return topicCard;
+	}
+	
+	private View createSperakerCardView(int image, String name, String content) {
+		final View speakerCard = inflater.inflate(R.layout.speaker_card_item, null);
 
-	private void initUIElements() {
-		topicCard = (RelativeLayout) findViewById(R.id.topicCard);
-		topicCard.setOnClickListener(this);
-		speakerList = (ListView) findViewById(R.id.speakersList);
-		rateCard = (RelativeLayout) findViewById(R.id.rateCard);
-
-		textTopic = (TextView) findViewById(R.id.textTopic);
-		textHour = (TextView) findViewById(R.id.textHour);
-		textTopicDetails = (TextView) findViewById(R.id.textTopicDetails);
-		moreTopic = (ImageView) findViewById(R.id.imageMoreTopic);
-		rotateTo0(moreTopic, ZERO_DURATION_TIME_MS);
-
-		ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-		ratingBar.setOnTouchListener(this);
+		RoundImageView imageSpeaker = (RoundImageView) speakerCard.findViewById(R.id.imgLogoDevCrowd);
+		TextView textSpeakerName = (TextView) speakerCard.findViewById(R.id.textSpeaker);
+		final TextView textSpeakerDetails = (TextView) speakerCard.findViewById(R.id.textSpeakerDetails);
+		
+		imageSpeaker.setImageResource(image);
+		textSpeakerName.setText(name);
+		textSpeakerDetails.setText(content);
+		
+		speakerCard.setLayoutParams(createLayoutParams(viewId));
+		viewId++;
+		speakerCard.setId(viewId);
+		speakerCard.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				ImageView imageSpeaker = (ImageView) speakerCard.findViewById(R.id.imageMoreSpeaker);
+				toggleDetailsVisibility(textSpeakerDetails, imageSpeaker);
+			}
+			
+		});
+		return speakerCard;
+	}
+	
+	private View createRatingCardView() {
+		View ratingCard = inflater.inflate(R.layout.rating_card_item, null);
+		ratingCard.setLayoutParams(createLayoutParams(viewId));
+		viewId++;
+		ratingCard.setId(viewId);
+		
+		RatingBar ratingBar = (RatingBar) ratingCard.findViewById(R.id.ratingBar);
+		ratingBar.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if (event.getAction() == MotionEvent.ACTION_UP) {
+					showRateDialog();
+				}
+				return true;
+			}
+		});
+		return ratingCard;
+	}
+	
+	private RelativeLayout.LayoutParams createLayoutParams(int below) {
+		int MARGIN_INI_PX_TOP_BOTTOM = dpToPx(4);
+		int MARGIN_INI_PX_RIGHT_LEFT = dpToPx(8);
+		
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+		        RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+		params.setMargins(MARGIN_INI_PX_RIGHT_LEFT, MARGIN_INI_PX_TOP_BOTTOM, 
+						  MARGIN_INI_PX_RIGHT_LEFT, MARGIN_INI_PX_TOP_BOTTOM);
+		if (below > 0)
+			params.addRule(RelativeLayout.BELOW, below);
+		return params;
 	}
 
 	@Override
@@ -105,25 +167,6 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 	private void showRateDialog() {
 		DialogFragment newFragment = RateDialog.newInstance();
 		newFragment.show(getSupportFragmentManager(), RATE_DIALOG_TAG);
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.topicCard:
-			toggleDetailsVisibility(textTopicDetails, moreTopic);
-			break;
-		default:
-			break;
-		}
-	}
-
-	@Override
-	public boolean onTouch(View view, MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_UP) {
-			showRateDialog();
-		}
-		return true;
 	}
 
 	private void toggleDetailsVisibility(View textDetails, View moreArrow) {
@@ -164,7 +207,7 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 	@Override
 	public void onSendRatingButtonClick(float topicGrade, float overallGrade,
 			String email) {
-		ratingBar.setRating((topicGrade + overallGrade) / 2);
+		//ratingBar.setRating((topicGrade + overallGrade) / 2);
 		
 		// TEST PRESENTATION RATE
 		String presentationTitle = "Some title"; //title of current presentation
@@ -181,6 +224,13 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		intent.putExtra(ApiService.RATE_PRESENTATION_EXTRA_SPEAKER_GRADE,speakerGrade);
 		intent.putExtra(ApiService.RATE_PRESENTATION_EXTRA_EMAIL,email);
 		startService(intent);
+	}
+	
+	private int dpToPx(int dp){
+	    Resources resources = this.getResources();
+	    DisplayMetrics metrics = resources.getDisplayMetrics();
+	    float px = dp * (metrics.densityDpi / 160f);
+	    return Math.round(px);
 	}
 	
 }

@@ -9,7 +9,10 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_margin="@dimen/cardMargin"
+        android:layout_marginBottom="@dimen/listItemMarginTopBottom"
+        android:layout_marginLeft="@dimen/listItemMarginRightleft"
+        android:layout_marginRight="@dimen/listItemMarginRightleft"
+        android:layout_marginTop="@dimen/listItemMarginTopBottom"
         android:background="@drawable/list_item_selector"
         android:baselineAligned="false" >
 
@@ -39,8 +42,8 @@
             <RelativeLayout
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="4dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginBottom="@dimen/listItemDividerMargin"
+                android:layout_marginTop="@dimen/listItemDividerMargin"
                 android:background="@color/list_background_pressed" >
             </RelativeLayout>
 
