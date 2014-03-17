@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -32,7 +31,6 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements OnRati
 	private static final String RATE_DIALOG_TAG = "rate_dialog";
 	
 	private int viewId = 0;
-	private LayoutInflater inflater;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +40,6 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements OnRati
 		getSupportActionBar().setHomeButtonEnabled(true);
 		RelativeLayout root = (RelativeLayout) findViewById(R.id.rootView);
 		
-		inflater = LayoutInflater.from(this);
 		root.addView(createTopicCardView("Przyk³adowy temat", 
 				"Godzina: 10.15 - 11.15", 
 				"Lorem ipsum..."));
@@ -57,7 +54,7 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements OnRati
 	}
 	
 	private View createTopicCardView(String topic, String hour, String content) {
-		final View topicCard = inflater.inflate(R.layout.topic_card_item, null);
+		final View topicCard = getLayoutInflater().inflate(R.layout.topic_card_item, null);
 		
 		TextView textTopic = (TextView) topicCard.findViewById(R.id.textTopic);
 		TextView textHour = (TextView) topicCard.findViewById(R.id.textHour);
@@ -70,13 +67,11 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements OnRati
 		textTopicDetails.setText(content);
 		
 		topicCard.setLayoutParams(createLayoutParams(viewId));
-		viewId++;
-		topicCard.setId(viewId);
+		topicCard.setId(++viewId);
 		topicCard.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				
 				toggleDetailsVisibility(textTopicDetails, imageTopic);
 			}
 		});
@@ -84,7 +79,7 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements OnRati
 	}
 	
 	private View createSperakerCardView(int image, String name, String content) {
-		final View speakerCard = inflater.inflate(R.layout.speaker_card_item, null);
+		final View speakerCard = getLayoutInflater().inflate(R.layout.speaker_card_item, null);
 
 		RoundImageView imageSpeaker = (RoundImageView) speakerCard.findViewById(R.id.imgLogoDevCrowd);
 		TextView textSpeakerName = (TextView) speakerCard.findViewById(R.id.textSpeaker);
@@ -95,8 +90,7 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements OnRati
 		textSpeakerDetails.setText(content);
 		
 		speakerCard.setLayoutParams(createLayoutParams(viewId));
-		viewId++;
-		speakerCard.setId(viewId);
+		speakerCard.setId(++viewId);
 		speakerCard.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -110,10 +104,9 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements OnRati
 	}
 	
 	private View createRatingCardView() {
-		View ratingCard = inflater.inflate(R.layout.rating_card_item, null);
+		View ratingCard = getLayoutInflater().inflate(R.layout.rating_card_item, null);
 		ratingCard.setLayoutParams(createLayoutParams(viewId));
-		viewId++;
-		ratingCard.setId(viewId);
+		ratingCard.setId(++viewId);
 		
 		RatingBar ratingBar = (RatingBar) ratingCard.findViewById(R.id.ratingBar);
 		ratingBar.setOnTouchListener(new View.OnTouchListener() {
