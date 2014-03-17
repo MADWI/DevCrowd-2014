@@ -8,6 +8,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -30,6 +32,8 @@ public class RateDialog extends DialogFragment implements
 	private RatingBar speakerRate;
 	private boolean speakerRateChanged = false;
 	private float speakerRateValue;
+	private EditText email;
+	private boolean correctEmail = false;
 
 	public static RateDialog newInstance() {
 		return new RateDialog();
@@ -41,8 +45,35 @@ public class RateDialog extends DialogFragment implements
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		View ratingView = inflater.inflate(R.layout.rating_dialog_layout, null);
 
-		final EditText email = (EditText) ratingView
-				.findViewById(R.id.emailAddress);
+		email = (EditText) ratingView.findViewById(R.id.emailAddress);
+		email.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// correctEmail = emailValidation();
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (emailValidation()) {
+					correctEmail = true;
+					if (allFiledsFilled()) {
+						alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+								.setEnabled(true);
+					}
+				}else{
+					correctEmail = false;
+					alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+					.setEnabled(false);
+				}
+			}
+		});
 
 		alertDialog = new AlertDialog.Builder(getActivity())
 				.setView(ratingView)
@@ -64,15 +95,13 @@ public class RateDialog extends DialogFragment implements
 
 							}
 						}).create();
-		
+
 		topicRate = (RatingBar) ratingView.findViewById(R.id.topicRate);
 		topicRate.setOnRatingBarChangeListener(this);
 		speakerRate = (RatingBar) ratingView.findViewById(R.id.speakerRate);
 		speakerRate.setOnRatingBarChangeListener(this);
 		return alertDialog;
 	}
-	
-	
 
 	@Override
 	public void onStart() {
@@ -93,6 +122,12 @@ public class RateDialog extends DialogFragment implements
 		}
 	}
 
+	private boolean emailValidation() {
+		boolean validationCorrect = android.util.Patterns.EMAIL_ADDRESS
+				.matcher(email.getText().toString()).matches();
+		return validationCorrect;
+	}
+
 	@Override
 	public void onRatingChanged(RatingBar ratingBar, float rating,
 			boolean fromUser) {
@@ -110,9 +145,8 @@ public class RateDialog extends DialogFragment implements
 
 		}
 	}
-	
-	private boolean allFiledsFilled() {
-		return topicRateChanged && speakerRateChanged;
-	}
 
+	private boolean allFiledsFilled() {
+		return topicRateChanged && speakerRateChanged && correctEmail;
+	}
 }
