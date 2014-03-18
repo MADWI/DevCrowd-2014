@@ -30,8 +30,7 @@ public final class JSONParser {
 	private static final String PRESENTATION_ROOM = "room";
 	private static final String PRESENTATION_START = "starts";
 	private static final String PRESENTATION_END = "ends";
-	// TODO change API to "speaker"
-	private static final String PRESENTATION_SPEAKER = "prelegent";
+	private static final String PRESENTATION_SPEAKERS = "speakers";
 
 	private static final String SPEAKER_NAME = "name";
 	private static final String SPEAKER_PHOTOURL = "photoUrl";
@@ -111,10 +110,15 @@ public final class JSONParser {
 			presentation.setRoom(getStringFromArray(arrayElement,
 					PRESENTATION_ROOM));
 
-			JSONObject speakerArray = getArrayFromArray(arrayElement,
-					PRESENTATION_SPEAKER);
-			presentation.setSpeaker(getStringFromArray(speakerArray,
-					SPEAKER_NAME));
+			JSONArray speakersArray = new JSONArray(PRESENTATION_SPEAKERS);
+			for (int i = 0; i < speakersArray.length(); i++) {
+				JSONObject speakersArrayElements = speakersArray
+						.getJSONObject(i);
+				JSONObject speakerArray = getArrayFromArray(
+						speakersArrayElements, PRESENTATION_SPEAKERS);
+				presentation.setSpeaker(getStringFromArray(speakerArray,
+						SPEAKER_NAME));
+			}
 
 		} catch (JSONException e) {
 			if (BuildConfig.DEBUG) {
@@ -137,15 +141,18 @@ public final class JSONParser {
 			int index) {
 		final Speaker speaker = new Speaker();
 		try {
-			final JSONObject arrayElement = responseArray.getJSONObject(index);
-
-			JSONObject speakerElement = arrayElement
-					.getJSONObject(PRESENTATION_SPEAKER);
-			speaker.setName(getStringFromArray(speakerElement, SPEAKER_NAME));
-			speaker.setPhotoUrl(getStringFromArray(speakerElement,
-					SPEAKER_PHOTOURL));
-			speaker.setDescription(getStringFromArray(speakerElement,
-					SPEAKER_DESCRIPTION));
+			final JSONObject arrayElement = responseArray
+					.getJSONObject(index);
+			JSONArray speakersArray = new JSONArray(PRESENTATION_SPEAKERS);
+			for (int i = 0; i < speakersArray.length(); i++) {
+				JSONObject speakerElement = arrayElement
+						.getJSONObject(PRESENTATION_SPEAKERS);
+				speaker.setName(getStringFromArray(speakerElement, SPEAKER_NAME));
+				speaker.setPhotoUrl(getStringFromArray(speakerElement,
+						SPEAKER_PHOTOURL));
+				speaker.setDescription(getStringFromArray(speakerElement,
+						SPEAKER_DESCRIPTION));
+			}
 		} catch (JSONException e) {
 			if (BuildConfig.DEBUG) {
 				Log.e(TAG, "JSONException during parse speaker object");

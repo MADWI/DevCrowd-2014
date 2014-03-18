@@ -50,7 +50,7 @@ public class ApiService extends IntentService {
 
 	private static final String RATING_URL = "http://2014.devcrowd.pl/mad-api/oceny.php";
 	// TODO Test server url
-	private static final String API_URL = "http://effectiveheating.co.uk/api/?json";
+	private static final String API_URL = "http://2014.devcrowd.pl/mad-api";
 	private Handler toastHandler;
 
 	public ApiService() {
