@@ -46,34 +46,7 @@ public class RateDialog extends DialogFragment implements
 		View ratingView = inflater.inflate(R.layout.rating_dialog_layout, null);
 
 		email = (EditText) ratingView.findViewById(R.id.emailAddress);
-		email.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
-				// correctEmail = emailValidation();
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				if (emailValidation()) {
-					correctEmail = true;
-					if (allFiledsFilled()) {
-						alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-								.setEnabled(true);
-					}
-				}else{
-					correctEmail = false;
-					alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-					.setEnabled(false);
-				}
-			}
-		});
+		email.addTextChangedListener(mTextWatcher);
 
 		alertDialog = new AlertDialog.Builder(getActivity())
 				.setView(ratingView)
@@ -142,11 +115,40 @@ public class RateDialog extends DialogFragment implements
 
 		if (allFiledsFilled()) {
 			alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-
 		}
 	}
 
 	private boolean allFiledsFilled() {
 		return topicRateChanged && speakerRateChanged && correctEmail;
 	}
+	
+	private final TextWatcher mTextWatcher = new TextWatcher() {
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			if (emailValidation()) {
+				correctEmail = true;
+			} else {
+				correctEmail = false;
+			}
+
+			if (allFiledsFilled()) {
+				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+						.setEnabled(true);
+			} else {
+				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+						.setEnabled(false);
+			}
+		}
+	};
 }
