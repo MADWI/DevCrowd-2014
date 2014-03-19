@@ -110,13 +110,11 @@ public final class JSONParser {
 			presentation.setRoom(getStringFromArray(arrayElement,
 					PRESENTATION_ROOM));
 
-			JSONArray speakersArray = new JSONArray(PRESENTATION_SPEAKERS);
+			JSONArray speakersArray = arrayElement.getJSONArray(PRESENTATION_SPEAKERS);
 			for (int i = 0; i < speakersArray.length(); i++) {
 				JSONObject speakersArrayElements = speakersArray
 						.getJSONObject(i);
-				JSONObject speakerArray = getArrayFromArray(
-						speakersArrayElements, PRESENTATION_SPEAKERS);
-				presentation.setSpeaker(getStringFromArray(speakerArray,
+				presentation.setSpeaker(getStringFromArray(speakersArrayElements,
 						SPEAKER_NAME));
 			}
 
@@ -139,14 +137,15 @@ public final class JSONParser {
 	 * */
 	private static Speaker parseSpeakerObject(final JSONArray responseArray,
 			int index) {
-		final Speaker speaker = new Speaker();
+		Speaker speaker = null;
 		try {
 			final JSONObject arrayElement = responseArray
 					.getJSONObject(index);
-			JSONArray speakersArray = new JSONArray(PRESENTATION_SPEAKERS);
+			JSONArray speakersArray = arrayElement.getJSONArray(PRESENTATION_SPEAKERS);
 			for (int i = 0; i < speakersArray.length(); i++) {
-				JSONObject speakerElement = arrayElement
-						.getJSONObject(PRESENTATION_SPEAKERS);
+				speaker = new Speaker();
+				JSONObject speakerElement = speakersArray
+						.getJSONObject(i);
 				speaker.setName(getStringFromArray(speakerElement, SPEAKER_NAME));
 				speaker.setPhotoUrl(getStringFromArray(speakerElement,
 						SPEAKER_PHOTOURL));
