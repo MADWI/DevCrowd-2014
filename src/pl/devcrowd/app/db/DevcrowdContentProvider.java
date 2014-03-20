@@ -3,11 +3,10 @@ package pl.devcrowd.app.db;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import pl.devcrowd.app.services.ApiService;
+import pl.devcrowd.app.utils.DebugLog;
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,7 +15,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 public class DevcrowdContentProvider extends ContentProvider {
-
+	
 	// database
 	private DevcrowdDatabaseHelper database;
 
@@ -102,9 +101,7 @@ public class DevcrowdContentProvider extends ContentProvider {
 				selectionArgs, null, null, sortOrder);
 		// Make sure that potential listeners are getting notified
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
-
-		asyncLoadDataFromServer(uriType);
-
+		DebugLog.d("query rows:" + cursor.getCount());
 		return cursor;
 	}
 
@@ -194,19 +191,5 @@ public class DevcrowdContentProvider extends ContentProvider {
 						"Unknown columns in projection");
 			}
 		}
-	}
-
-	private void asyncLoadDataFromServer(int uriType) {
-
-		if (uriType == PRESENTATIONS || uriType == PRESENTATION_ID) {
-			Intent intent = new Intent(getContext(), ApiService.class);
-			intent.setAction(ApiService.ACTION_GET_PRESENTATIONS);
-			getContext().startService(intent);
-		} else if (uriType == SPEAKERS || uriType == SPEAKER_ID) {
-			Intent intent = new Intent(getContext(), ApiService.class);
-			intent.setAction(ApiService.ACTION_GET_SPEAKERS);
-			getContext().startService(intent);
-		}
-
 	}
 }

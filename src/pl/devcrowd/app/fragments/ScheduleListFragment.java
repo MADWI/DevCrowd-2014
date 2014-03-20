@@ -4,6 +4,8 @@ import pl.devcrowd.app.R;
 import pl.devcrowd.app.activities.ScheduleDetailsActivity;
 import pl.devcrowd.app.db.DevcrowdContentProvider;
 import pl.devcrowd.app.db.DevcrowdTables;
+import pl.devcrowd.app.services.ApiService;
+import pl.devcrowd.app.utils.DebugLog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -17,24 +19,35 @@ import android.widget.ListView;
 
 public class ScheduleListFragment extends ListFragment implements
 		LoaderCallbacks<Cursor> {
-	
+
+	private static final int LOADER_ID = 1;
+	private static final int NO_FLAGS = 0;
 	private SimpleCursorAdapter adapter;
-	private ListView lista;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+		asyncLoadPresentationsAndSpeakers();
+		fillData();
+		
 
+	}
+	
+	private void asyncLoadPresentationsAndSpeakers()
+	{
+		Intent intent = new Intent(getActivity(), ApiService.class);
+		intent.setAction(ApiService.ACTION_GET_PRESENTATIONS);
+		getActivity().startService(intent);
+		intent = new Intent(getActivity(), ApiService.class);
+		intent.setAction(ApiService.ACTION_GET_SPEAKERS);
+		getActivity().startService(intent);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		getListView().setDivider(null);
-		
-		lista = getListView();
-		fillData();
 	}
 
 	@Override
@@ -56,31 +69,35 @@ public class ScheduleListFragment extends ListFragment implements
 		// Fields on the UI to which we map
 		int[] to = new int[] { R.id.textItemTopic, R.id.textItemHour };
 
-		 getLoaderManager().initLoader(0, null, this);
+		getLoaderManager().initLoader(LOADER_ID, null, this);
 
-		 adapter = new SimpleCursorAdapter(getActivity(), R.layout.schedule_item, null, from, to, 0);
-		
-		 lista.setAdapter(adapter);
+		adapter = new SimpleCursorAdapter(getActivity(),
+				R.layout.schedule_item, null, from, to, NO_FLAGS );
+
+		setListAdapter(adapter);
+
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String[] projection = { DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.PRESENTATION_ID,
-				DevcrowdTables.PRESENTATION_START};
+				DevcrowdTables.PRESENTATION_START };
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
-				DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, projection, null, null,
-				DevcrowdTables.PRESENTATION_ID + " DESC");
+				DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, projection,
+				null, null, DevcrowdTables.PRESENTATION_ID + " DESC");
 		return cursorLoader;
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		DebugLog.d("onLoadFinished rows:" + data.getCount());
 		adapter.swapCursor(data);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
+		DebugLog.d("onLoaderReset");
 		// data is not available anymore, delete reference
 		adapter.swapCursor(null);
 	}

@@ -16,7 +16,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import pl.devcrowd.app.R;
-import pl.devcrowd.app.db.DevcrowdContentProvider;
 import pl.devcrowd.app.http.HttpHelper;
 import pl.devcrowd.app.models.Presentation;
 import pl.devcrowd.app.models.Speaker;
@@ -104,23 +103,33 @@ public class ApiService extends IntentService {
 				.getPresentationsFromString(response);
 
 		for (Presentation presentation : presentations) {
-			ContentProviderHelper.addPresenatiton(getContentResolver(),
-					presentation);
-		}
 
-		ContentProviderHelper.notifyChange(getContentResolver(),
-				DevcrowdContentProvider.CONTENT_URI_PRESENATIONS);
+			if (ContentProviderHelper.presentationExist(getContentResolver(),
+					presentation.getTitle())) {
+				ContentProviderHelper.updatePresentation(getContentResolver(),
+						presentation.getTitle(), presentation);
+			} else {
+				ContentProviderHelper.addPresenatiton(getContentResolver(),
+						presentation);
+			}
+
+		}
 	}
 
 	private void getSpeakersIntoDatabase(String response) {
 		List<Speaker> speakers = JSONParser.getSpeakersFromString(response);
 
 		for (Speaker speaker : speakers) {
-			ContentProviderHelper.addSpeaker(getContentResolver(), speaker);
-		}
 
-		ContentProviderHelper.notifyChange(getContentResolver(),
-				DevcrowdContentProvider.CONTENT_URI_SPEAKERS);
+			if (ContentProviderHelper.speakerExist(getContentResolver(),
+					speaker.getName())) {
+				ContentProviderHelper.updateSpeaker(getContentResolver(),
+						speaker.getName(), speaker);
+			} else {
+				ContentProviderHelper.addSpeaker(getContentResolver(), speaker);
+			}
+
+		}
 	}
 
 	private void sendRatesOnServer(String presentationTitle, float topicGrade,
@@ -154,10 +163,12 @@ public class ApiService extends IntentService {
 
 				ContentProviderHelper.updateRating(getContentResolver(),
 						presentationTitle, topicGrade, speakerGrade);
-				toastHandler.post(new DisplayToast(this, getString(R.string.success_voting_toast_text)));
+				toastHandler.post(new DisplayToast(this,
+						getString(R.string.success_voting_toast_text)));
 			} else {
 				DebugLog.e("Error sendig rates: " + result);
-				toastHandler.post(new DisplayToast(this, getString(R.string.error_voting_toast_text)));
+				toastHandler.post(new DisplayToast(this,
+						getString(R.string.error_voting_toast_text)));
 			}
 
 		} catch (ClientProtocolException e) {
