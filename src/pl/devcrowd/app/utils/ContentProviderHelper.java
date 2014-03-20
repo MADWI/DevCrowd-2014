@@ -221,7 +221,7 @@ public final class ContentProviderHelper {
 		Cursor cursor = resolver.query(
 				DevcrowdContentProvider.CONTENT_URI_SPEAKERS,
 				new String[] { DevcrowdTables.SPEAKER_COLUMN_NAME },
-				DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_NAME + "=?",
+				DevcrowdTables.SPEAKER_COLUMN_NAME + "=?",
 				new String[] { name }, DevcrowdTables.SPEAKER_COLUMN_ID
 						+ DEFAULT_SORT);
 
