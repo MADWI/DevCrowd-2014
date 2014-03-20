@@ -1,5 +1,7 @@
 package pl.devcrowd.app.models;
 
+import java.util.ArrayList;
+
 public class Presentation {
 
 	private String hourStart;
@@ -7,17 +9,17 @@ public class Presentation {
 	private String room;
 	private String description;
 	private String title;
-	private String speaker;
+	private ArrayList<String> speakers;
 	private String gradeTopic;
 	private String gradeSpeaker;
 	private String favourite;
 
 	public Presentation() {
-		this("", "", "", "", "", "", "", "", "");
+		this("", "", "", "", "", null, "", "", "");
 	}
 
 	public Presentation(String hourStart, String hourEnd, String room,
-			String description, String title, String speaker, String gradeTopic,
+			String description, String title, ArrayList<String> speakers, String gradeTopic,
 			String gradeSpeaker, String favourite) {
 		super();
 		this.hourStart = hourStart;
@@ -25,7 +27,7 @@ public class Presentation {
 		this.room = room;
 		this.description = description;
 		this.title = title;
-		this.speaker = speaker;
+		this.speakers = speakers;
 		this.gradeTopic = gradeTopic;
 		this.gradeSpeaker = gradeSpeaker;
 		this.favourite = favourite;
@@ -71,12 +73,12 @@ public class Presentation {
 		this.title = title;
 	}
 
-	public String getSpeaker() {
-		return speaker;
+	public ArrayList<String> getSpeakers() {
+		return speakers;
 	}
 
-	public void setSpeaker(String speaker) {
-		this.speaker = speaker;
+	public void setSpeakers(ArrayList<String> speakers) {
+		this.speakers = speakers;
 	}
 	
 	public String getGradeTopic() {
@@ -107,7 +109,7 @@ public class Presentation {
 	public String toString() {
 		return "Presentation [hourStart=" + hourStart + ", hourEnd=" + hourEnd
 				+ ", room=" + room + ", description=" + description
-				+ ", title=" + title + ", speaker=" + speaker + ", gradeTopic=" + gradeTopic 
+				+ ", title=" + title + ", speaker=" + speakers.get(0) + ", gradeTopic=" + gradeTopic 
 				+ ", gradeSpeaker=" + gradeSpeaker + "]";
 	}
 	

@@ -5,15 +5,17 @@ public class Speaker {
 	private String name;
 	private String photoUrl;
 	private String description;
+	private String presenationName;
 
 	public Speaker() {
-		this("", "", "");
+		this("", "", "", "");
 	}
 
-	public Speaker(String name, String photoUrl, String description) {
+	public Speaker(String name, String photoUrl, String description, String presentationName) {
 		this.setName(name);
 		this.setPhotoUrl(photoUrl);
 		this.setDescription(description);
+		this.setPresenationName(presentationName);
 	}
 
 	/**
@@ -59,6 +61,20 @@ public class Speaker {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * @return the presenationName
+	 */
+	public String getPresenationName() {
+		return presenationName;
+	}
+
+	/**
+	 * @param presenationName the presenationName to set
+	 */
+	public void setPresenationName(String presenationName) {
+		this.presenationName = presenationName;
 	}
 
 	@Override

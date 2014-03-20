@@ -111,12 +111,14 @@ public final class JSONParser {
 					PRESENTATION_ROOM));
 
 			JSONArray speakersArray = arrayElement.getJSONArray(PRESENTATION_SPEAKERS);
+			ArrayList<String> speakersInput = new ArrayList<String>();
 			for (int i = 0; i < speakersArray.length(); i++) {
 				JSONObject speakersArrayElements = speakersArray
 						.getJSONObject(i);
-				presentation.setSpeaker(getStringFromArray(speakersArrayElements,
+				speakersInput.add(getStringFromArray(speakersArrayElements,
 						SPEAKER_NAME));
 			}
+			presentation.setSpeakers(speakersInput);
 
 		} catch (JSONException e) {
 			if (BuildConfig.DEBUG) {

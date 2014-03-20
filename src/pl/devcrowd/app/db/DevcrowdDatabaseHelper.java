@@ -16,7 +16,8 @@ public class DevcrowdDatabaseHelper extends SQLiteOpenHelper {
 	// Method is called during creation of the database
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-		DevcrowdTables.onCreate(database);
+		database.execSQL(DevcrowdTables.DATABASE_PRESENTATIONS_CREATE);
+		database.execSQL(DevcrowdTables.DATABASE_SPEAKERS_CREATE);
 	}
 
 	// Method is called during an upgrade of the database,
@@ -24,6 +25,8 @@ public class DevcrowdDatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase database, int oldVersion,
 			int newVersion) {
-		DevcrowdTables.onUpgrade(database, oldVersion, newVersion);
+		database.execSQL("DROP TABLE IF EXISTS " + DevcrowdTables.TABLE_PRESENTATIONS);
+		database.execSQL("DROP TABLE IF EXISTS " + DevcrowdTables.TABLE_SPEAKERS);
+		onCreate(database);
 	}
 }

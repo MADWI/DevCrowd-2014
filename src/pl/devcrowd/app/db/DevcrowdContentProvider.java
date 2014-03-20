@@ -174,12 +174,12 @@ public class DevcrowdContentProvider extends ContentProvider {
 				DevcrowdTables.PRESENTATION_ROOM,
 				DevcrowdTables.PRESENTATION_START,
 				DevcrowdTables.PRESENTATION_END,
-				DevcrowdTables.PRESENTATION_SPEAKER,
 				DevcrowdTables.PRESENTATION_DESCRIPTION,
 				DevcrowdTables.PRESENTATION_TOPIC_GRADE,
 				DevcrowdTables.PRESENTATION_SPEAKER_GRADE,
 				DevcrowdTables.PRESENTATION_FAVOURITE,
 				DevcrowdTables.SPEAKER_COLUMN_ID,
+				DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_NAME,
 				DevcrowdTables.SPEAKER_COLUMN_NAME,
 				DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION,
 				DevcrowdTables.SPEAKER_COLUMN_FOTO };

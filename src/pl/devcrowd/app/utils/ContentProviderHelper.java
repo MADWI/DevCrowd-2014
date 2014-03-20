@@ -36,8 +36,8 @@ public final class ContentProviderHelper {
 		values.put(DevcrowdTables.PRESENTATION_ROOM, presentation.getRoom());
 		values.put(DevcrowdTables.PRESENTATION_START, presentation.getHourEnd());
 		values.put(DevcrowdTables.PRESENTATION_END, presentation.getHourEnd());
-		values.put(DevcrowdTables.PRESENTATION_SPEAKER,
-				presentation.getSpeaker());
+//		values.put(DevcrowdTables.PRESENTATION_SPEAKER,
+//				presentation.getSpeaker());
 		values.put(DevcrowdTables.PRESENTATION_TOPIC_GRADE, presentation.getGradeTopic());
 		values.put(DevcrowdTables.PRESENTATION_SPEAKER_GRADE, presentation.getGradeSpeaker());
 		values.put(DevcrowdTables.PRESENTATION_FAVOURITE, presentation.getFavourite());
@@ -52,7 +52,8 @@ public final class ContentProviderHelper {
 		List<Presentation> resultList = new ArrayList<Presentation>();
 
 		Uri uri = DevcrowdContentProvider.CONTENT_URI_PRESENATIONS;
-		String[] projection = { DevcrowdTables.PRESENTATION_SPEAKER,
+		String[] projection = { 
+//				DevcrowdTables.PRESENTATION_SPEAKER,
 				DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.PRESENTATION_ROOM,
 				DevcrowdTables.PRESENTATION_START,
@@ -76,7 +77,8 @@ public final class ContentProviderHelper {
 	public static Presentation getPresentation(final ContentResolver resolver,
 			final String presentationTitle) {
 		Uri uri = DevcrowdContentProvider.CONTENT_URI_PRESENATIONS;
-		String[] projection = { DevcrowdTables.PRESENTATION_SPEAKER,
+		String[] projection = { 
+//				DevcrowdTables.PRESENTATION_SPEAKER,
 				DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.PRESENTATION_ROOM,
 				DevcrowdTables.PRESENTATION_START,
@@ -104,8 +106,8 @@ public final class ContentProviderHelper {
 		values.put(DevcrowdTables.PRESENTATION_ROOM, presentation.getRoom());
 		values.put(DevcrowdTables.PRESENTATION_START, presentation.getHourEnd());
 		values.put(DevcrowdTables.PRESENTATION_END, presentation.getHourEnd());
-		values.put(DevcrowdTables.PRESENTATION_SPEAKER,
-				presentation.getSpeaker());
+//		values.put(DevcrowdTables.PRESENTATION_SPEAKER,
+//				presentation.getSpeaker());
 		values.put(DevcrowdTables.PRESENTATION_TOPIC_GRADE, presentation.getGradeTopic());
 		values.put(DevcrowdTables.PRESENTATION_SPEAKER_GRADE, presentation.getGradeSpeaker());
 		values.put(DevcrowdTables.PRESENTATION_FAVOURITE, presentation.getFavourite());
@@ -151,8 +153,8 @@ public final class ContentProviderHelper {
 					DevcrowdTables.PRESENTATION_START));
 			presentation.setHourEnd(getColumnValue(cursor,
 					DevcrowdTables.PRESENTATION_END));
-			presentation.setSpeaker(getColumnValue(cursor,
-					DevcrowdTables.PRESENTATION_SPEAKER));
+//			presentation.setSpeaker(getColumnValue(cursor,
+//					DevcrowdTables.PRESENTATION_SPEAKER));
 			cursor.close();
 
 		}
