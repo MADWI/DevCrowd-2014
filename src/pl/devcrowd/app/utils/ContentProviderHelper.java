@@ -39,6 +39,8 @@ public final class ContentProviderHelper {
 		values.put(DevcrowdTables.PRESENTATION_TOPIC_GRADE, presentation.getGradeTopic());
 		values.put(DevcrowdTables.PRESENTATION_SPEAKER_GRADE, presentation.getGradeSpeaker());
 		values.put(DevcrowdTables.PRESENTATION_FAVOURITE, presentation.getFavourite());
+		
+		Log.d("TAG",presentation.toString());
 
 		return resolver.insert(
 				DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, values);
@@ -64,7 +66,7 @@ public final class ContentProviderHelper {
 
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
-				resultList.add(getPresentation(cursor));
+				resultList.add(getPresentation(cursor,resolver));
 			}
 			cursor.close();
 		}
@@ -88,7 +90,7 @@ public final class ContentProviderHelper {
 				new String[] { presentationTitle },
 				DevcrowdTables.PRESENTATION_ID + DEFAULT_SORT);
 
-		return getPresentation(cursor);
+		return getPresentation(cursor,resolver);
 
 	}
 	
@@ -134,7 +136,7 @@ public final class ContentProviderHelper {
 				values);
 	}
 
-	private static Presentation getPresentation(final Cursor cursor) {
+	private static Presentation getPresentation(final Cursor cursor, final ContentResolver resolver) {
 		Presentation presentation = new Presentation();
 		if (cursor != null) {
 			cursor.moveToFirst();
@@ -148,6 +150,9 @@ public final class ContentProviderHelper {
 					DevcrowdTables.PRESENTATION_START));
 			presentation.setHourEnd(getColumnValue(cursor,
 					DevcrowdTables.PRESENTATION_END));
+			ArrayList<String> speaker = new ArrayList<String>();
+			speaker = getSpeakers(resolver,presentation.getTitle());
+			presentation.setSpeakers(speaker);
 			cursor.close();
 
 		}
@@ -159,7 +164,8 @@ public final class ContentProviderHelper {
 		Uri uri = DevcrowdContentProvider.CONTENT_URI_SPEAKERS;
 		String[] projection = { DevcrowdTables.SPEAKER_COLUMN_NAME,
 				DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION,
-				DevcrowdTables.SPEAKER_COLUMN_FOTO };
+				DevcrowdTables.SPEAKER_COLUMN_FOTO,
+				DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_NAME };
 		Cursor cursor = resolver.query(uri, projection,
 				DevcrowdTables.SPEAKER_COLUMN_NAME + "=?",
 				new String[] { name }, DevcrowdTables.SPEAKER_COLUMN_ID
@@ -184,7 +190,7 @@ public final class ContentProviderHelper {
 		return speaker;
 	}
 
-	public List<Speaker> getSpeakerS(final ContentResolver resolver) {
+	public List<Speaker> getSpeakers(final ContentResolver resolver) {
 
 		List<Speaker> resultList = new ArrayList<Speaker>();
 
@@ -198,6 +204,28 @@ public final class ContentProviderHelper {
 		if (cursor != null) {
 			while (cursor.moveToNext()) {
 				resultList.add(getSpeaker(cursor));
+			}
+			cursor.close();
+		}
+		return resultList;
+	}
+	
+	public static ArrayList<String> getSpeakers(final ContentResolver resolver,
+			String presentationTitle) {
+
+		ArrayList<String> resultList = new ArrayList<String>();
+
+		Uri uri = DevcrowdContentProvider.CONTENT_URI_SPEAKERS;
+		String[] projection = { DevcrowdTables.SPEAKER_COLUMN_NAME,
+				DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_NAME };
+		Cursor cursor = resolver.query(uri, projection,
+				DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_NAME + "=?",
+				new String[] { presentationTitle },
+				DevcrowdTables.SPEAKER_COLUMN_ID + DEFAULT_SORT);
+		if (cursor != null) {
+			while (cursor.moveToNext()) {
+				resultList.add(getColumnValue(cursor,
+						DevcrowdTables.SPEAKER_COLUMN_NAME));
 			}
 			cursor.close();
 		}
