@@ -13,5 +13,9 @@
     <color name="Light_blue">#0099ff</color>
     <color name="buttercup">#e68b16</color>
     <color name="onahau">#b4e3f4</color>
+    
+    <color name="sponsorsTextView">#034f8c</color>
+    <color name="sponsorsFrameBackground">#ebf7fc</color>
+    <color name="sponsorsFrameBorder">#96ccff</color>
 
 </resources>

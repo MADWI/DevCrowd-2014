@@ -10,6 +10,7 @@ import pl.devcrowd.app.drawer.NavigationDrawerListAdapter;
 import pl.devcrowd.app.fragments.FavouritesListFragment;
 import pl.devcrowd.app.fragments.HomeFragment;
 import pl.devcrowd.app.fragments.ScheduleHostFragment;
+import pl.devcrowd.app.fragments.SponsorFragment;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -154,8 +155,8 @@ public class MainActivity extends ActionBarActivity {
 			fragment = new FavouritesListFragment();
 			break;
 		case DRAWER_SPONSORS_NUM:
-			setSelection(lastPosition);
-			return;
+			fragment = new SponsorFragment();
+			break;
 		case DRAWER_ABOUT_NUM:
 			DialogFragment newFragment = AboutDialog.newInstance();
 			newFragment.show(getSupportFragmentManager(), ABOUT_DIALOG_TAG);

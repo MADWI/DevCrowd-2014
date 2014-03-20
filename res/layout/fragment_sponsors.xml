@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
+    tools:ignore="contentDescription" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/listItemMarginTopBottom"
+        android:layout_marginLeft="@dimen/listItemMarginRightleft"
+        android:layout_marginRight="@dimen/listItemMarginRightleft"
+        android:layout_marginTop="@dimen/listItemMarginTopBottom" >
+
+        <RelativeLayout
+            android:id="@+id/platiniumSponsors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/platiniumSponsors"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_corners_border"
+            android:padding="2dp" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corners"
+                android:padding="8dp" >
+
+                <TextView
+                    android:id="@+id/tvPlatiniumSponsors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/platiniumSponsors"
+                    android:textColor="@color/sponsorsTextView"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/firstPlatiniumSponsor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvPlatiniumSponsors"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/consileon_it_180" />
+
+                <ImageView
+                    android:id="@+id/secondPlatiniumSponsor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/firstPlatiniumSponsor"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bls_logo" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/sponsors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/platiniumSponsors"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_corners_border"
+            android:padding="2dp" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corners"
+                android:padding="8dp" >
+
+                <TextView
+                    android:id="@+id/tvSponsors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/sponsors"
+                    android:textColor="@color/sponsorsTextView"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/firstSponsor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvSponsors"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/cognifide_corporate_logo" />
+
+                <ImageView
+                    android:id="@+id/secondSponsor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/firstSponsor"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/sml_mainlogo_rgb" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/patronage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sponsors"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_corners_border"
+            android:padding="2dp" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corners"
+                android:padding="8dp" >
+
+                <TextView
+                    android:id="@+id/tvPatronage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/patronage"
+                    android:textColor="@color/sponsorsTextView"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/patronateOSWorld"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvPatronage"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/osworld" />
+
+                <ImageView
+                    android:id="@+id/patronateInfoludek"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/patronateOSWorld"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/infoludek" />
+
+                <ImageView
+                    android:id="@+id/patronateNetCamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/patronateInfoludek"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/netcamp_logo" />
+
+                <ImageView
+                    android:id="@+id/patronateCrossWeb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/patronateNetCamp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/crossweb" />
+
+                <ImageView
+                    android:id="@+id/patronateKlasterIT"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/patronateCrossWeb"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/klaster_it" />
+
+                <ImageView
+                    android:id="@+id/patronateTechnoPark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/patronateKlasterIT"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/tp_full" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/partners"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/patronage"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_corners_border"
+            android:padding="2dp" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corners"
+                android:padding="8dp" >
+
+                <TextView
+                    android:id="@+id/tvPartners"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/partners"
+                    android:textColor="@color/sponsorsTextView"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/partnerWI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvPartners"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/wi" />
+
+                <ImageView
+                    android:id="@+id/partnerJUGSzczecin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/partnerWI"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/logojug_b_x50" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/partners"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/transparent"
+            android:padding="2dp" >
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

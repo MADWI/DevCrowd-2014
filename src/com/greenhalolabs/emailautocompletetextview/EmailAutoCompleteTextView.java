@@ -37,8 +37,8 @@ import com.greenhalolabs.emailautocompletetextview.util.AccountUtil;
  * An editable text view that provides auto completion for the user's e-mail.
  * The list of suggestions is displayed in a drop down menu from which the user
  * can choose an e-mail to replace the content of the edit box with.
- * </p>
- * <p>
+ * </p>0
+ * <p>0
  * An "X" button will also be present to the right of the text view if edit box
  * is not empty so that the view can easily be cleared.
  * </p>

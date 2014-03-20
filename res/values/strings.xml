@@ -42,5 +42,10 @@
     <string name="success_voting_toast_text">Dziękujemy za oddanie głosu</string>
     <string name="error_voting_toast_text">Błąd przesłania oceny na serwer, spróbuj ponownie</string>
     <string name="email_hint">Adres e-mail</string>
+    
+    <string name="platiniumSponsors">Sponsorzy platynowi</string>
+    <string name="sponsors">Sponsorzy</string>
+    <string name="patronage">Patronat</string>
+    <string name="partners">Partnerzy</string>
 
 </resources>
