@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bgGray" >
+    android:background="@android:color/transparent" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:layout_marginLeft="@dimen/listItemMarginRightleft"
         android:layout_marginRight="@dimen/listItemMarginRightleft"
         android:layout_marginTop="@dimen/listItemMarginTopBottom"
-        android:background="@drawable/list_item_selector"
+        android:background="@color/sponsorsFrameBackground"
         android:baselineAligned="false" >
 
         <RelativeLayout
@@ -32,8 +32,7 @@
                 android:paddingTop="@dimen/cardMargin"
                 android:text="10.15\n11.15"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-            />
-
+                android:textColor="@color/sponsorsTextView" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -65,9 +64,10 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="@dimen/cardMargin"
                     android:layout_toLeftOf="@+id/toggleFavo"
+                    android:singleLine="true"
                     android:text="Przykładowy temat"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:singleLine="true" />
+                    android:textColor="@color/sponsorsTextView" />
 
                 <TextView
                     android:id="@+id/textItemSpeaker"
@@ -77,9 +77,10 @@
                     android:layout_alignRight="@+id/textItemTopic"
                     android:layout_below="@+id/textItemTopic"
                     android:layout_marginLeft="@dimen/cardMargin"
+                    android:singleLine="true"
                     android:text="Jan Kowalski"
                     android:textAppearance="?android:attr/textAppearance"
-                    android:singleLine="true" />
+                    android:textColor="@color/sponsorsTextView" />
 
                 <ToggleButton
                     android:id="@+id/toggleFavo"
@@ -91,9 +92,7 @@
                     android:focusable="false"
                     android:textOff=""
                     android:textOn="" />
-
             </RelativeLayout>
-
         </RelativeLayout>
     </LinearLayout>
 
