@@ -36,8 +36,6 @@ public final class ContentProviderHelper {
 		values.put(DevcrowdTables.PRESENTATION_ROOM, presentation.getRoom());
 		values.put(DevcrowdTables.PRESENTATION_START, presentation.getHourEnd());
 		values.put(DevcrowdTables.PRESENTATION_END, presentation.getHourEnd());
-//		values.put(DevcrowdTables.PRESENTATION_SPEAKER,
-//				presentation.getSpeaker());
 		values.put(DevcrowdTables.PRESENTATION_TOPIC_GRADE, presentation.getGradeTopic());
 		values.put(DevcrowdTables.PRESENTATION_SPEAKER_GRADE, presentation.getGradeSpeaker());
 		values.put(DevcrowdTables.PRESENTATION_FAVOURITE, presentation.getFavourite());
@@ -53,7 +51,6 @@ public final class ContentProviderHelper {
 
 		Uri uri = DevcrowdContentProvider.CONTENT_URI_PRESENATIONS;
 		String[] projection = { 
-//				DevcrowdTables.PRESENTATION_SPEAKER,
 				DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.PRESENTATION_ROOM,
 				DevcrowdTables.PRESENTATION_START,
@@ -78,7 +75,6 @@ public final class ContentProviderHelper {
 			final String presentationTitle) {
 		Uri uri = DevcrowdContentProvider.CONTENT_URI_PRESENATIONS;
 		String[] projection = { 
-//				DevcrowdTables.PRESENTATION_SPEAKER,
 				DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.PRESENTATION_ROOM,
 				DevcrowdTables.PRESENTATION_START,
@@ -106,8 +102,6 @@ public final class ContentProviderHelper {
 		values.put(DevcrowdTables.PRESENTATION_ROOM, presentation.getRoom());
 		values.put(DevcrowdTables.PRESENTATION_START, presentation.getHourEnd());
 		values.put(DevcrowdTables.PRESENTATION_END, presentation.getHourEnd());
-//		values.put(DevcrowdTables.PRESENTATION_SPEAKER,
-//				presentation.getSpeaker());
 		values.put(DevcrowdTables.PRESENTATION_TOPIC_GRADE, presentation.getGradeTopic());
 		values.put(DevcrowdTables.PRESENTATION_SPEAKER_GRADE, presentation.getGradeSpeaker());
 		values.put(DevcrowdTables.PRESENTATION_FAVOURITE, presentation.getFavourite());
@@ -134,6 +128,7 @@ public final class ContentProviderHelper {
 		values.put(DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION,
 				speaker.getDescription());
 		values.put(DevcrowdTables.SPEAKER_COLUMN_FOTO, speaker.getPhotoUrl());
+		values.put(DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_NAME, speaker.getPresenationName());
 
 		return resolver.insert(DevcrowdContentProvider.CONTENT_URI_SPEAKERS,
 				values);
@@ -153,8 +148,6 @@ public final class ContentProviderHelper {
 					DevcrowdTables.PRESENTATION_START));
 			presentation.setHourEnd(getColumnValue(cursor,
 					DevcrowdTables.PRESENTATION_END));
-//			presentation.setSpeaker(getColumnValue(cursor,
-//					DevcrowdTables.PRESENTATION_SPEAKER));
 			cursor.close();
 
 		}
@@ -184,6 +177,8 @@ public final class ContentProviderHelper {
 					DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION));
 			speaker.setPhotoUrl(getColumnValue(cursor,
 					DevcrowdTables.SPEAKER_COLUMN_FOTO));
+			speaker.setPresenationName(getColumnValue(cursor,
+					DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_NAME));
 			cursor.close();
 		}
 		return speaker;
@@ -196,7 +191,8 @@ public final class ContentProviderHelper {
 		Uri uri = DevcrowdContentProvider.CONTENT_URI_SPEAKERS;
 		String[] projection = { DevcrowdTables.SPEAKER_COLUMN_NAME,
 				DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION,
-				DevcrowdTables.SPEAKER_COLUMN_FOTO };
+				DevcrowdTables.SPEAKER_COLUMN_FOTO,
+				DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_NAME };
 		Cursor cursor = resolver.query(uri, projection, null, null,
 				DevcrowdTables.SPEAKER_COLUMN_ID + DEFAULT_SORT);
 		if (cursor != null) {
@@ -216,6 +212,7 @@ public final class ContentProviderHelper {
 		values.put(DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION,
 				speaker.getDescription());
 		values.put(DevcrowdTables.SPEAKER_COLUMN_FOTO, speaker.getPhotoUrl());
+		values.put(DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_NAME, speaker.getPresenationName());
 		
 		asyncHandler.startUpdate(-1, null, DevcrowdContentProvider.CONTENT_URI_SPEAKERS, 
 				values, DevcrowdTables.SPEAKER_COLUMN_NAME + "=?", new String[]{nameOld});
@@ -227,7 +224,7 @@ public final class ContentProviderHelper {
 			int index = cursor.getColumnIndexOrThrow(columnName);
 			return cursor.getString(index);
 		} catch (IllegalArgumentException e) {
-			Log.e(TAG, "IllegalArgumentException unknown kolumn");
+			Log.e(TAG, "IllegalArgumentException unknown column");
 			return "";
 		}
 

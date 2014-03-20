@@ -35,6 +35,8 @@ public final class JSONParser {
 	private static final String SPEAKER_NAME = "name";
 	private static final String SPEAKER_PHOTOURL = "photoUrl";
 	private static final String SPEAKER_DESCRIPTION = "description";
+	
+	private static String presentationTitle;
 
 	/**
 	 * parse JSON to get List of Presentation objects
@@ -125,6 +127,7 @@ public final class JSONParser {
 				Log.e(TAG, "JSONException during parse presentation array");
 			}
 		}
+		presentationTitle = presentation.getTitle();
 		return presentation;
 	}
 
@@ -153,6 +156,7 @@ public final class JSONParser {
 						SPEAKER_PHOTOURL));
 				speaker.setDescription(getStringFromArray(speakerElement,
 						SPEAKER_DESCRIPTION));
+				speaker.setPresenationName(presentationTitle);
 			}
 		} catch (JSONException e) {
 			if (BuildConfig.DEBUG) {
