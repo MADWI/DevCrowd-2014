@@ -41,7 +41,7 @@
                     android:textSize="20sp" />
 
                 <ImageView
-                    android:id="@+id/firstPlatiniumSponsor"
+                    android:id="@+id/platiniumSponsorConsileon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvPlatiniumSponsors"
@@ -50,10 +50,10 @@
                     android:background="@drawable/consileon_it_180" />
 
                 <ImageView
-                    android:id="@+id/secondPlatiniumSponsor"
+                    android:id="@+id/platiniumSponsorBLStream"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/firstPlatiniumSponsor"
+                    android:layout_below="@id/platiniumSponsorConsileon"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bls_logo" />
@@ -87,7 +87,7 @@
                     android:textSize="20sp" />
 
                 <ImageView
-                    android:id="@+id/firstSponsor"
+                    android:id="@+id/sponsorCognifide"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvSponsors"
@@ -96,10 +96,10 @@
                     android:background="@drawable/cognifide_corporate_logo" />
 
                 <ImageView
-                    android:id="@+id/secondSponsor"
+                    android:id="@+id/sponsorSoftwareMill"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/firstSponsor"
+                    android:layout_below="@id/sponsorCognifide"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/sml_mainlogo_rgb" />
