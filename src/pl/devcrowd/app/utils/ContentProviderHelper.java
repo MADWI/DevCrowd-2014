@@ -15,8 +15,6 @@ import android.net.Uri;
 import android.util.Log;
 
 public final class ContentProviderHelper {
-	private static final String TAG = ContentProviderHelper.class
-			.getSimpleName();
 	private static final String DEFAULT_SORT = " DESC";
 
 	private ContentProviderHelper() {
@@ -43,7 +41,7 @@ public final class ContentProviderHelper {
 		values.put(DevcrowdTables.PRESENTATION_FAVOURITE,
 				presentation.getFavourite());
 
-		Log.d("TAG", presentation.toString());
+		DebugLog.d(presentation.toString());
 
 		return resolver.insert(
 				DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, values);
@@ -294,7 +292,7 @@ public final class ContentProviderHelper {
 			int index = cursor.getColumnIndexOrThrow(columnName);
 			return cursor.getString(index);
 		} catch (IllegalArgumentException e) {
-			Log.e(TAG, "IllegalArgumentException unknown column");
+			DebugLog.e("IllegalArgumentException unknown column");
 			return "";
 		}
 

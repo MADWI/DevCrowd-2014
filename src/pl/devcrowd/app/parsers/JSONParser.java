@@ -7,11 +7,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
-import pl.devcrowd.app.BuildConfig;
-import pl.devcrowd.app.models.Speaker;
 import pl.devcrowd.app.models.Presentation;
+import pl.devcrowd.app.models.Speaker;
+import pl.devcrowd.app.utils.DebugLog;
 
 /**
  * JSON Parser class to get useful objects
@@ -20,11 +18,6 @@ import pl.devcrowd.app.models.Presentation;
  * */
 public final class JSONParser {
 
-	private JSONParser() {
-
-	}
-
-	private static final String TAG = JSONParser.class.getSimpleName();
 	private static final String PRESENTATION_TITLE = "title";
 	private static final String PRESENTATION_DESCRIPTION = "description";
 	private static final String PRESENTATION_ROOM = "room";
@@ -35,8 +28,11 @@ public final class JSONParser {
 	private static final String SPEAKER_NAME = "name";
 	private static final String SPEAKER_PHOTOURL = "photoUrl";
 	private static final String SPEAKER_DESCRIPTION = "description";
-	
+
 	private static String presentationTitle;
+
+	private JSONParser() {
+	}
 
 	/**
 	 * parse JSON to get List of Presentation objects
@@ -56,9 +52,7 @@ public final class JSONParser {
 						.add(parsePresentationArray(responseArray, i));
 			}
 		} catch (JSONException e) {
-			if (BuildConfig.DEBUG) {
-				Log.e(TAG, "JSONException during parse presenations");
-			}
+			DebugLog.e("JSONException during parse presenations");
 		}
 		return listOfPresentations;
 	}
@@ -79,9 +73,8 @@ public final class JSONParser {
 				listOfSpeakers.add(parseSpeakerObject(responseArray, i));
 			}
 		} catch (JSONException e) {
-			if (BuildConfig.DEBUG) {
-				Log.e(TAG, "JSONException during get speakers");
-			}
+			DebugLog.e("JSONException during get speakers");
+
 		}
 		return listOfSpeakers;
 	}
@@ -112,7 +105,8 @@ public final class JSONParser {
 			presentation.setRoom(getStringFromArray(arrayElement,
 					PRESENTATION_ROOM));
 
-			JSONArray speakersArray = arrayElement.getJSONArray(PRESENTATION_SPEAKERS);
+			JSONArray speakersArray = arrayElement
+					.getJSONArray(PRESENTATION_SPEAKERS);
 			ArrayList<String> speakersInput = new ArrayList<String>();
 			for (int i = 0; i < speakersArray.length(); i++) {
 				JSONObject speakersArrayElements = speakersArray
@@ -123,9 +117,8 @@ public final class JSONParser {
 			presentation.setSpeakers(speakersInput);
 
 		} catch (JSONException e) {
-			if (BuildConfig.DEBUG) {
-				Log.e(TAG, "JSONException during parse presentation array");
-			}
+			DebugLog.e("JSONException during parse presentation array");
+
 		}
 		presentationTitle = presentation.getTitle();
 		return presentation;
@@ -144,13 +137,12 @@ public final class JSONParser {
 			int index) {
 		Speaker speaker = null;
 		try {
-			final JSONObject arrayElement = responseArray
-					.getJSONObject(index);
-			JSONArray speakersArray = arrayElement.getJSONArray(PRESENTATION_SPEAKERS);
+			final JSONObject arrayElement = responseArray.getJSONObject(index);
+			JSONArray speakersArray = arrayElement
+					.getJSONArray(PRESENTATION_SPEAKERS);
 			for (int i = 0; i < speakersArray.length(); i++) {
 				speaker = new Speaker();
-				JSONObject speakerElement = speakersArray
-						.getJSONObject(i);
+				JSONObject speakerElement = speakersArray.getJSONObject(i);
 				speaker.setName(getStringFromArray(speakerElement, SPEAKER_NAME));
 				speaker.setPhotoUrl(getStringFromArray(speakerElement,
 						SPEAKER_PHOTOURL));
@@ -159,10 +151,7 @@ public final class JSONParser {
 				speaker.setPresenationName(presentationTitle);
 			}
 		} catch (JSONException e) {
-			if (BuildConfig.DEBUG) {
-				Log.e(TAG, "JSONException during parse speaker object");
-			}
-
+			DebugLog.e("JSONException during parse speaker object");
 		}
 		return speaker;
 	}

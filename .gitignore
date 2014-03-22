@@ -31,3 +31,6 @@ proguard-project.txt
 *.ipr
 *.iws
 .idea/
+
+#  Dependant on appcompat project library
+libs/android-support-v4.jar

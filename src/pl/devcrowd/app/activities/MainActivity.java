@@ -11,6 +11,7 @@ import pl.devcrowd.app.fragments.FavouritesListFragment;
 import pl.devcrowd.app.fragments.HomeFragment;
 import pl.devcrowd.app.fragments.ScheduleHostFragment;
 import pl.devcrowd.app.fragments.SponsorFragment;
+import pl.devcrowd.app.utils.DebugLog;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -29,7 +30,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class MainActivity extends ActionBarActivity {
-	private static final String TAG = MainActivity.class.getSimpleName();
 	private static final int DRAWER_HOME_NUM = 0;
 	private static final int DRAWER_SCHEDULE_NUM = 1;
 	private static final int DRAWER_FAVOURITES_NUM = 2;
@@ -175,7 +175,7 @@ public class MainActivity extends ActionBarActivity {
 			setSelection(position);
 
 		} else {
-			Log.e(TAG, "Error in creating fragment");
+			DebugLog.e("Error in creating fragment");
 		}
 	}
 
