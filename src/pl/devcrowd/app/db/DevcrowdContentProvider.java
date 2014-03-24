@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class DevcrowdContentProvider extends ContentProvider {
 	
@@ -24,16 +25,21 @@ public class DevcrowdContentProvider extends ContentProvider {
 	private static final int PRESENTATION_ID = 20;
 	private static final int SPEAKERS = 30;
 	private static final int SPEAKER_ID = 40;
+	private static final int JOIN = 50;
+	
 
 	private static final String AUTHORITY = "pl.devcrowd.app.db";
 
 	private static final String PRESENTATIONS_PATH = "presentations";
 	private static final String SPEAKERS_PATH = "speakers";
+	private static final String JOIN_PATH = "join";
 
 	public static final Uri CONTENT_URI_PRESENATIONS = Uri.parse("content://"
 			+ AUTHORITY + "/" + PRESENTATIONS_PATH);
 	public static final Uri CONTENT_URI_SPEAKERS = Uri.parse("content://"
 			+ AUTHORITY + "/" + SPEAKERS_PATH);
+	public static final Uri CONTENT_URI_JOIN = Uri.parse("content://"
+			+ AUTHORITY + "/" + JOIN_PATH);
 
 	public static final String CONTENT_TYPE_PRESENTATIONS = ContentResolver.CURSOR_DIR_BASE_TYPE
 			+ "/presentations";
@@ -54,6 +60,7 @@ public class DevcrowdContentProvider extends ContentProvider {
 				PRESENTATION_ID);
 		sURIMatcher.addURI(AUTHORITY, SPEAKERS_PATH, SPEAKERS);
 		sURIMatcher.addURI(AUTHORITY, SPEAKERS_PATH + "/#", SPEAKER_ID);
+		sURIMatcher.addURI(AUTHORITY, JOIN_PATH, JOIN);
 	}
 
 	@Override
@@ -91,6 +98,12 @@ public class DevcrowdContentProvider extends ContentProvider {
 			// Adding the ID to the original query
 			queryBuilder.appendWhere(DevcrowdTables.SPEAKER_COLUMN_ID + "="
 					+ uri.getLastPathSegment());
+			break;
+		case JOIN:
+			queryBuilder.setTables(DevcrowdTables.TABLE_PRESENTATIONS
+					+ " LEFT OUTER JOIN " + DevcrowdTables.TABLE_SPEAKERS
+					+ " ON (" + DevcrowdTables.PRESENTATION_TITLE + " = "
+					+ DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_NAME + ")");
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -167,6 +180,7 @@ public class DevcrowdContentProvider extends ContentProvider {
 
 	private void checkColumns(String[] projection) {
 		String[] available = { DevcrowdTables.PRESENTATION_ID,
+				DevcrowdTables.TABLE_PRESENTATIONS + "." + DevcrowdTables.PRESENTATION_ID,
 				DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.PRESENTATION_ROOM,
 				DevcrowdTables.PRESENTATION_START,

@@ -69,9 +69,10 @@ public class ScheduleListFragment extends ListFragment implements
 		// Must include the _id column for the adapter to work
 		String[] from = new String[] { DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.PRESENTATION_START,
-				DevcrowdTables.PRESENTATION_ID };
+				DevcrowdTables.SPEAKER_COLUMN_NAME,
+				DevcrowdTables.TABLE_PRESENTATIONS + "." + DevcrowdTables.PRESENTATION_ID };
 		// Fields on the UI to which we map
-		int[] to = new int[] { R.id.textItemTopic, R.id.textItemHour };
+		int[] to = new int[] { R.id.textItemTopic, R.id.textItemHour, R.id.textItemSpeaker };
 
 		getLoaderManager().initLoader(LOADER_ID, null, this);
 
@@ -85,11 +86,12 @@ public class ScheduleListFragment extends ListFragment implements
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String[] projection = { DevcrowdTables.PRESENTATION_TITLE,
-				DevcrowdTables.PRESENTATION_ID,
-				DevcrowdTables.PRESENTATION_START };
+				DevcrowdTables.TABLE_PRESENTATIONS + "." + DevcrowdTables.PRESENTATION_ID,
+				DevcrowdTables.PRESENTATION_START,
+				DevcrowdTables.SPEAKER_COLUMN_NAME};
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
-				DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, projection,
-				null, null, DevcrowdTables.PRESENTATION_ID + " DESC");
+				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,
+				null, null, DevcrowdTables.TABLE_PRESENTATIONS + "." + DevcrowdTables.PRESENTATION_ID + " DESC");
 		return cursorLoader;
 	}
 
