@@ -36,6 +36,7 @@ public class FavouritesListFragment extends ListFragment
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		getListView().setDivider(null);
+		getListView().setBackgroundResource(R.drawable.background_gradient);
 
 		List<ScheduleItem> array = new ArrayList<ScheduleItem>();
 		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",

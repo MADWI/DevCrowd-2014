@@ -53,9 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:paddingTop="@dimen/cardMargin"
-                android:paddingBottom="@dimen/cardMargin" >
+                android:layout_centerVertical="true" >
 
                 <TextView
                     android:id="@+id/textItemTopic"

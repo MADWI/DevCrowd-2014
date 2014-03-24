@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,6 @@ public class ScheduleHostFragment extends Fragment implements
 
 	private void resetTabsView() {
 		for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
-			Log.d("asda", "asddass");
 			mTabHost.getTabWidget()
 					.getChildAt(i)
 					.setBackgroundColor(
