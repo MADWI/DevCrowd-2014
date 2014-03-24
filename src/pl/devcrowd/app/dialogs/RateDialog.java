@@ -5,6 +5,7 @@ import pl.devcrowd.app.utils.DebugLog;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -12,6 +13,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
@@ -108,9 +110,11 @@ public class RateDialog extends DialogFragment implements
 		if (ratingBar == topicRate) {
 			topicRateChanged = true;
 			topicRateValue = rating;
+			hideKeyboardIfNecessary();
 		} else if (ratingBar == speakerRate) {
 			speakerRateChanged = true;
 			speakerRateValue = rating;
+			hideKeyboardIfNecessary();
 		}
 
 		if (allFiledsFilled()) {
@@ -151,4 +155,10 @@ public class RateDialog extends DialogFragment implements
 			}
 		}
 	};
+	
+	private void hideKeyboardIfNecessary() {
+		InputMethodManager imm = (InputMethodManager) getActivity()
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(email.getWindowToken(), 0);
+	}
 }

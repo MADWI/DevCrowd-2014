@@ -43,7 +43,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:scaleType="center"
+                android:scaleType="centerCrop"
                 android:src="@drawable/head_simple" />
 
         </RelativeLayout>

@@ -4,5 +4,6 @@
     <dimen name="listItemMarginTopBottom">4dp</dimen>
     <dimen name="listItemMarginRightleft">8dp</dimen>
     <dimen name="listItemDividerMargin">10dp</dimen>
+    <dimen name="sponsorMargin">1dp</dimen>
 
 </resources>

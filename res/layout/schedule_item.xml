@@ -13,7 +13,7 @@
         android:layout_marginLeft="@dimen/listItemMarginRightleft"
         android:layout_marginRight="@dimen/listItemMarginRightleft"
         android:layout_marginTop="@dimen/listItemMarginTopBottom"
-        android:background="@color/sponsorsFrameBackground"
+        android:background="@drawable/list_item_selector"
         android:baselineAligned="false" >
 
         <RelativeLayout
@@ -30,7 +30,6 @@
                 android:gravity="center"
                 android:paddingBottom="@dimen/cardMargin"
                 android:paddingTop="@dimen/cardMargin"
-                android:text="10.15\n11.15"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/sponsorsTextView" />
         </RelativeLayout>
@@ -54,7 +53,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" >
+                android:layout_centerVertical="true"
+                android:paddingTop="@dimen/cardMargin"
+                android:paddingBottom="@dimen/cardMargin" >
 
                 <TextView
                     android:id="@+id/textItemTopic"
@@ -65,7 +66,6 @@
                     android:layout_marginLeft="@dimen/cardMargin"
                     android:layout_toLeftOf="@+id/toggleFavo"
                     android:singleLine="true"
-                    android:text="Przykładowy temat"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/sponsorsTextView" />
 
@@ -78,7 +78,7 @@
                     android:layout_below="@+id/textItemTopic"
                     android:layout_marginLeft="@dimen/cardMargin"
                     android:singleLine="true"
-                    android:text="Jan Kowalski"
+                    android:text="Brak prelegenta"
                     android:textAppearance="?android:attr/textAppearance"
                     android:textColor="@color/sponsorsTextView" />
 

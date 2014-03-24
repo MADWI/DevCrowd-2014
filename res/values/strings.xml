@@ -48,5 +48,7 @@
     <string name="patronage">Patronat</string>
     <string name="partners">Partnerzy</string>
     <string name="createdBy">Autorzy aplikacji</string>
+    
+    <string name="hour">Godzina:</string>
 
 </resources>

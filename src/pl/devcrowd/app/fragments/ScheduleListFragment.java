@@ -30,12 +30,10 @@ public class ScheduleListFragment extends ListFragment implements
 		setHasOptionsMenu(true);
 		asyncLoadPresentationsAndSpeakers();
 		fillData();
-		
 
 	}
-	
-	private void asyncLoadPresentationsAndSpeakers()
-	{
+
+	private void asyncLoadPresentationsAndSpeakers() {
 		Intent intent = new Intent(getActivity(), ApiService.class);
 		intent.setAction(ApiService.ACTION_GET_PRESENTATIONS);
 		getActivity().startService(intent);
@@ -53,8 +51,14 @@ public class ScheduleListFragment extends ListFragment implements
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		if (isAdded()) {
-			startActivity(new Intent(getActivity(),
-					ScheduleDetailsActivity.class));
+			Cursor cursor = ((SimpleCursorAdapter) l.getAdapter()).getCursor();
+			cursor.moveToPosition(position);
+			Intent iDetails = new Intent(getActivity(),
+					ScheduleDetailsActivity.class);
+			iDetails.putExtra(DevcrowdTables.PRESENTATION_ID, cursor
+					.getString(cursor
+							.getColumnIndex(DevcrowdTables.PRESENTATION_ID)));
+			startActivity(iDetails);
 			getActivity().overridePendingTransition(R.anim.slide_left_enter,
 					R.anim.slide_left_exit);
 		}
@@ -72,7 +76,7 @@ public class ScheduleListFragment extends ListFragment implements
 		getLoaderManager().initLoader(LOADER_ID, null, this);
 
 		adapter = new SimpleCursorAdapter(getActivity(),
-				R.layout.schedule_item, null, from, to, NO_FLAGS );
+				R.layout.schedule_item, null, from, to, NO_FLAGS);
 
 		setListAdapter(adapter);
 

@@ -12,7 +12,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 public final class ContentProviderHelper {
 	private static final String DEFAULT_SORT = " DESC";

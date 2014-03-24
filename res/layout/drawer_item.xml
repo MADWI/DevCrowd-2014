@@ -22,6 +22,6 @@
         android:layout_toRightOf="@+id/icon"
         android:gravity="left|center_vertical"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/list_title_color" />
+        android:textColor="@color/drawer_list_title_color" />
 
 </RelativeLayout>

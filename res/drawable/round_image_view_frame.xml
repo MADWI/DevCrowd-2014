@@ -2,13 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
    <item>
       <shape android:shape="oval" >
-         <solid android:color="#303F3F3F" />
-         <padding
-            android:bottom="1dp"
-            android:left="1dp"
-            android:right="1dp"
-            android:top="1dp" />
-         <corners android:radius="5dp" />
+         <solid android:color="#AA6B6B6B" />
       </shape>
    </item>
 
