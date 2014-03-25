@@ -68,7 +68,7 @@ public final class JSONParser {
 		try {
 			JSONArray responseArray = new JSONArray(response);
 			for (int i = 0; i < responseArray.length(); i++) {
-				listOfSpeakers.add(parseSpeakerObject(responseArray, i));
+				listOfSpeakers.addAll(parseSpeakerObject(responseArray, i));
 			}
 		} catch (JSONException e) {
 			DebugLog.e("JSONException during get speakers");
@@ -130,11 +130,12 @@ public final class JSONParser {
 	 *            - index of current object
 	 * 
 	 * */
-	private static Speaker parseSpeakerObject(final JSONArray responseArray,
+	private static List<Speaker> parseSpeakerObject(final JSONArray responseArray,
 			int index) {
-		Speaker speaker = null;
+		List<Speaker> listOfSpeakers = new ArrayList<Speaker>();
 		try {
 			final JSONObject arrayElement = responseArray.getJSONObject(index);
+			Speaker speaker = null;
 			String presentationTitle = getStringFromArray(arrayElement,
 					PRESENTATION_TITLE);
 			JSONArray speakersArray = arrayElement
@@ -148,11 +149,12 @@ public final class JSONParser {
 				speaker.setDescription(getStringFromArray(speakerElement,
 						SPEAKER_DESCRIPTION));
 				speaker.setPresenationName(presentationTitle);
+				listOfSpeakers.add(speaker);
 			}
 		} catch (JSONException e) {
 			DebugLog.e("JSONException during parse speaker object");
 		}
-		return speaker;
+		return listOfSpeakers;
 	}
 
 	private static String getStringFromArray(final JSONObject arrayElement,
