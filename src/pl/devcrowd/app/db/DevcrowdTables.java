@@ -12,6 +12,7 @@ public final class DevcrowdTables {
 	public static final String PRESENTATION_TOPIC_GRADE = "presentationTopicGrade";
 	public static final String PRESENTATION_SPEAKER_GRADE = "presentationSpeakerGrade";
 	public static final String PRESENTATION_FAVOURITE = "presentationFavourite";
+	public static final String PRESENTATION_HOUR_JOIN = "presentationHourJoin";
 
 	public static final String TABLE_SPEAKERS = "speakersTable";
 	public static final String SPEAKER_COLUMN_ID = "_id";
@@ -32,6 +33,7 @@ public final class DevcrowdTables {
 			+ PRESENTATION_DESCRIPTION + TYPE_TEXT_NOT_NULL_COLUMN + ","
 			+ PRESENTATION_TOPIC_GRADE + TYPE_TEXT_NOT_NULL_COLUMN + ","
 			+ PRESENTATION_SPEAKER_GRADE + TYPE_TEXT_NOT_NULL_COLUMN + ","
+			+ PRESENTATION_HOUR_JOIN + TYPE_TEXT_NOT_NULL_COLUMN + ","
 			+ PRESENTATION_FAVOURITE + TYPE_TEXT_NOT_NULL_COLUMN + ");";
 
 	public static final String DATABASE_SPEAKERS_CREATE = "create table "

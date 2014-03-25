@@ -68,7 +68,7 @@ public class ScheduleListFragment extends ListFragment implements
 		// Fields from the database (projection)
 		// Must include the _id column for the adapter to work
 		String[] from = new String[] { DevcrowdTables.PRESENTATION_TITLE,
-				DevcrowdTables.PRESENTATION_START,
+				DevcrowdTables.PRESENTATION_HOUR_JOIN,
 				DevcrowdTables.SPEAKER_COLUMN_NAME,
 				DevcrowdTables.TABLE_PRESENTATIONS + "." + DevcrowdTables.PRESENTATION_ID };
 		// Fields on the UI to which we map
@@ -87,7 +87,7 @@ public class ScheduleListFragment extends ListFragment implements
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		String[] projection = { DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.TABLE_PRESENTATIONS + "." + DevcrowdTables.PRESENTATION_ID,
-				DevcrowdTables.PRESENTATION_START,
+				DevcrowdTables.PRESENTATION_HOUR_JOIN,
 				DevcrowdTables.SPEAKER_COLUMN_NAME};
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
 				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,

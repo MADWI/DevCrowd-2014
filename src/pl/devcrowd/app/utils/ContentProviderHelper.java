@@ -31,7 +31,7 @@ public final class ContentProviderHelper {
 		values.put(DevcrowdTables.PRESENTATION_DESCRIPTION,
 				presentation.getDescription());
 		values.put(DevcrowdTables.PRESENTATION_ROOM, presentation.getRoom());
-		values.put(DevcrowdTables.PRESENTATION_START, presentation.getHourEnd());
+		values.put(DevcrowdTables.PRESENTATION_START, presentation.getHourStart());
 		values.put(DevcrowdTables.PRESENTATION_END, presentation.getHourEnd());
 		values.put(DevcrowdTables.PRESENTATION_TOPIC_GRADE,
 				presentation.getGradeTopic());
@@ -39,6 +39,9 @@ public final class ContentProviderHelper {
 				presentation.getGradeSpeaker());
 		values.put(DevcrowdTables.PRESENTATION_FAVOURITE,
 				presentation.getFavourite());
+		values.put(DevcrowdTables.PRESENTATION_HOUR_JOIN, 
+				presentation.getHourStart() + "\n" +
+				presentation.getHourEnd());
 
 		DebugLog.d(presentation.toString());
 

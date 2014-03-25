@@ -188,6 +188,7 @@ public class DevcrowdContentProvider extends ContentProvider {
 				DevcrowdTables.PRESENTATION_DESCRIPTION,
 				DevcrowdTables.PRESENTATION_TOPIC_GRADE,
 				DevcrowdTables.PRESENTATION_SPEAKER_GRADE,
+				DevcrowdTables.PRESENTATION_HOUR_JOIN,
 				DevcrowdTables.PRESENTATION_FAVOURITE,
 				DevcrowdTables.SPEAKER_COLUMN_ID,
 				DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_NAME,
