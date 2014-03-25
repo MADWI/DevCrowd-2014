@@ -60,9 +60,9 @@ public class MainActivity extends ActionBarActivity {
 
 		ActionBar bar = getSupportActionBar();
 		bar.setBackgroundDrawable(getResources().getDrawable(R.drawable.titlebar_background_gradient));
-		int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+		/*int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
 		TextView title = (TextView)findViewById(titleId);
-		title.setTextColor(Color.WHITE);
+		title.setTextColor(Color.WHITE);*/
 		
 		mTitle = mDrawerTitle = getTitle();
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -15,6 +15,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
@@ -47,13 +48,15 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.schedule_details);
-		
+
 		ActionBar bar = getSupportActionBar();
-		bar.setBackgroundDrawable(getResources().getDrawable(R.drawable.titlebar_background_gradient));
-		int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+		bar.setBackgroundDrawable(getResources().getDrawable(
+				R.drawable.titlebar_background_gradient));
+		/*int titleId = Resources.getSystem().getIdentifier("action_bar_title",
+				"id", "android");
 		TextView title = (TextView) findViewById(titleId);
 		title.setTextColor(Color.WHITE);
-		
+*/
 		getSupportActionBar().setHomeButtonEnabled(true);
 
 		Bundle extras = getIntent().getExtras();
@@ -61,15 +64,12 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		rootView = (RelativeLayout) findViewById(R.id.rootView);
 		fillPresentationData(extras.getString(DevcrowdTables.PRESENTATION_ID));
 		fillSpeakersData(extras.getString(DevcrowdTables.PRESENTATION_ID));
-		/*
-		 * TODO Need to add function to fill speakers data
-		 */
 		rootView.addView(createRatingCardView());
 
 	}
 
 	private void fillPresentationData(String id) {
-		Cursor cursor = getCursor();
+		Cursor cursor = getCursor(DevcrowdContentProvider.CONTENT_URI_PRESENATIONS);
 		if (cursor == null) {
 			return;
 		}
@@ -78,47 +78,81 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 			if (cursor.getString(
 					cursor.getColumnIndex(DevcrowdTables.PRESENTATION_ID))
 					.equals(id)) {
+
+				rootView.addView(createTopicCardView(
+						cursor.getString(cursor
+								.getColumnIndex(DevcrowdTables.PRESENTATION_TITLE)),
+						getString(R.string.hour)
+								+ " "
+								+ cursor.getString(cursor
+										.getColumnIndex(DevcrowdTables.PRESENTATION_START))
+								+ " - "
+								+ cursor.getString(cursor
+										.getColumnIndex(DevcrowdTables.PRESENTATION_END)),
+						cursor.getString(cursor
+								.getColumnIndex(DevcrowdTables.PRESENTATION_DESCRIPTION))));
+
 				break;
 			}
 		}
 
-		rootView.addView(createTopicCardView(
-				cursor.getString(cursor
-						.getColumnIndex(DevcrowdTables.PRESENTATION_TITLE)),
-				getString(R.string.hour)
-						+ " "
-						+ cursor.getString(cursor
-								.getColumnIndex(DevcrowdTables.PRESENTATION_START))
-						+ " - "
-						+ cursor.getString(cursor
-								.getColumnIndex(DevcrowdTables.PRESENTATION_END)),
-				cursor.getString(cursor
-						.getColumnIndex(DevcrowdTables.PRESENTATION_DESCRIPTION))));
 	}
 
 	private void fillSpeakersData(String id) {
-		Cursor cursor = getCursor();
+		Cursor cursor = getCursor(DevcrowdContentProvider.CONTENT_URI_PRESENATIONS);
 		if (cursor == null) {
 			return;
 		}
 
-		rootView.addView(createSperakerCardView(
-				"http://2014.devcrowd.pl/wp-content/themes/business/images/marek_defecinski.jpg",
-				"...", "..."));
-		
-		rootView.addView(createSperakerCardView(
-				"http://2014.devcrowd.pl/wp-content/themes/business/images/marek_defecinski.jpg",
-				"...", "..."));
-		
-		rootView.addView(createSperakerCardView(
-				"http://2014.devcrowd.pl/wp-content/themes/business/images/marta_owczarczak.jpg",
-				"...", "..."));
+		String presentationName = "";
+		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+			if (cursor.getString(
+					cursor.getColumnIndex(DevcrowdTables.PRESENTATION_ID))
+					.equals(id)) {
+				presentationName = cursor.getString(cursor
+						.getColumnIndex(DevcrowdTables.PRESENTATION_TITLE));
+				break;
+			}
+		}
+
+		cursor = getCursor(DevcrowdContentProvider.CONTENT_URI_SPEAKERS);
+		if (cursor == null) {
+			return;
+		}
+
+		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+			if (cursor
+					.getString(
+							cursor.getColumnIndex(DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_NAME))
+					.equals(presentationName)) {
+				
+				rootView.addView(createSperakerCardView(
+						cursor.getString(cursor
+								.getColumnIndex(DevcrowdTables.SPEAKER_COLUMN_FOTO)),
+						parseSpeakerName(cursor.getString(cursor
+								.getColumnIndex(DevcrowdTables.SPEAKER_COLUMN_NAME))),
+						cursor.getString(cursor
+								.getColumnIndex(DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION))));
+			}
+		}
+
+	}
+	
+	private String parseSpeakerName(String speakerName) {
+		String[] split = speakerName.split("\\s+");
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < split.length; i++) {
+			if (i == (split.length - 1)) {
+				builder.append("\n");
+			}
+			builder.append(split[i]+" ");
+		}
+		return builder.toString();
 	}
 
-	private Cursor getCursor() {
-		return getContentResolver().query(
-				DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, null, null,
-				null, DevcrowdTables.PRESENTATION_ID + " DESC");
+	private Cursor getCursor(Uri uri) {
+		return getContentResolver().query(uri, null, null, null,
+				DevcrowdTables.PRESENTATION_ID + " DESC");
 	}
 
 	private View createTopicCardView(String topic, String hour, String content) {
