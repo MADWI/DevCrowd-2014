@@ -1,14 +1,11 @@
 package pl.devcrowd.app.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.activities.ScheduleDetailsActivity;
-import pl.devcrowd.app.adapters.FavoItemsAdapter;
 import pl.devcrowd.app.db.DevcrowdContentProvider;
 import pl.devcrowd.app.db.DevcrowdTables;
-import pl.devcrowd.app.models.ScheduleItem;
+import pl.devcrowd.app.services.ApiService;
+import pl.devcrowd.app.utils.DebugLog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -21,46 +18,34 @@ import android.view.View;
 import android.widget.ListView;
 
 public class FavouritesListFragment extends ListFragment 
-	/*implements LoaderManager.LoaderCallbacks<Cursor>*/{
+	implements LoaderManager.LoaderCallbacks<Cursor>{
 	
-	private FavoItemsAdapter adapter;
+	private static final int LOADER_ID = 1;
+	private static final int NO_FLAGS = 0;
+	private static final String IS_FAVOURITE = "ok";
+	private SimpleCursorAdapter adapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+		asyncLoadPresentationsAndSpeakers();
+		fillData();
+	}
 
+	private void asyncLoadPresentationsAndSpeakers() {
+		Intent intent = new Intent(getActivity(), ApiService.class);
+		intent.setAction(ApiService.ACTION_GET_PRESENTATIONS);
+		getActivity().startService(intent);
+		intent = new Intent(getActivity(), ApiService.class);
+		intent.setAction(ApiService.ACTION_GET_SPEAKERS);
+		getActivity().startService(intent);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		getListView().setDivider(null);
-		getListView().setBackgroundResource(R.drawable.background_gradient);
-
-		List<ScheduleItem> array = new ArrayList<ScheduleItem>();
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
-				"Jan Kowalski"));
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
-				"Jan Kowalski"));
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
-				"Jan Kowalski"));
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
-				"Jan Kowalski"));
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
-				"Jan Kowalski"));
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
-				"Jan Kowalski"));
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
-				"Jan Kowalski"));
-		array.add(new ScheduleItem("10.15\n11.15", "Ulubiony temat",
-				"Jan Kowalski"));
-
-		if (isAdded()) {
-			FavoItemsAdapter adapter = new FavoItemsAdapter(getActivity(),
-					R.layout.favo_item, array);
-			setListAdapter(adapter);
-		}
 	}
 
 	@Override
@@ -75,39 +60,47 @@ public class FavouritesListFragment extends ListFragment
 		// Fields from the database (projection)
 		// Must include the _id column for the adapter to work
 		String[] from = new String[] { DevcrowdTables.PRESENTATION_TITLE,
-				DevcrowdTables.PRESENTATION_ROOM,
-				DevcrowdTables.PRESENTATION_ID };
+				DevcrowdTables.PRESENTATION_START,
+				DevcrowdTables.SPEAKER_COLUMN_NAME,
+				DevcrowdTables.TABLE_PRESENTATIONS + "." + DevcrowdTables.PRESENTATION_ID };
 		// Fields on the UI to which we map
-		int[] to = new int[] { R.id.textFavoItemTopic, R.id.textFavoRoom };
+		int[] to = new int[] { R.id.textFavoItemTopic, R.id.textFavoItemHour, R.id.textFavoItemSpeaker };
 
-//		getLoaderManager().initLoader(0, null, this);
+		getLoaderManager().initLoader(LOADER_ID, null, this);
 
-//		adapter = new SimpleCursorAdapter(getActivity(),
-//				R.layout.favo_item, null, from, to, 0);
-//
-//		lista.setAdapter(adapter);
+		adapter = new SimpleCursorAdapter(getActivity(),
+				R.layout.favo_item, null, from, to, NO_FLAGS);
+
+		setListAdapter(adapter);
+
 	}
-	
-//	@Override
-//	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-//		String[] projection = { DevcrowdTables.PRESENTATION_TITLE,
-//				DevcrowdTables.PRESENTATION_ROOM,
-//				DevcrowdTables.PRESENTATION_ID,
-//				DevcrowdTables.PRESENTATION_FAVOURITE};
-//		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
-//				DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, projection, DevcrowdTables.PRESENTATION_FAVOURITE + "=?", new String[]{"ulubione"},
-//				DevcrowdTables.PRESENTATION_ID + " DESC");
-//		return cursorLoader;
-//	}
-//
-//	@Override
-//	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-//		adapter.swapCursor(data);
-//	}
-//
-//	@Override
-//	public void onLoaderReset(Loader<Cursor> loader) {
-//		// data is not available anymore, delete reference
-//		adapter.swapCursor(null);
-//	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		String[] projection = { DevcrowdTables.PRESENTATION_TITLE,
+				DevcrowdTables.TABLE_PRESENTATIONS + "." + DevcrowdTables.PRESENTATION_ID,
+				DevcrowdTables.PRESENTATION_START,
+				DevcrowdTables.SPEAKER_COLUMN_NAME,
+				DevcrowdTables.PRESENTATION_FAVOURITE};
+		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
+				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,
+				DevcrowdTables.PRESENTATION_FAVOURITE + " =? ",
+				new String[] { IS_FAVOURITE },
+				DevcrowdTables.TABLE_PRESENTATIONS + "."
+						+ DevcrowdTables.PRESENTATION_ID + " DESC");
+		return cursorLoader;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		DebugLog.d("onLoadFinished rows:" + data.getCount());
+		adapter.swapCursor(data);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+		DebugLog.d("onLoaderReset");
+		// data is not available anymore, delete reference
+		adapter.swapCursor(null);
+	}
 }
