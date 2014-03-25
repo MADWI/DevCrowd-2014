@@ -29,8 +29,6 @@ public final class JSONParser {
 	private static final String SPEAKER_PHOTOURL = "photoUrl";
 	private static final String SPEAKER_DESCRIPTION = "description";
 
-	private static String presentationTitle;
-
 	private JSONParser() {
 	}
 
@@ -120,7 +118,6 @@ public final class JSONParser {
 			DebugLog.e("JSONException during parse presentation array");
 
 		}
-		presentationTitle = presentation.getTitle();
 		return presentation;
 	}
 
@@ -138,6 +135,8 @@ public final class JSONParser {
 		Speaker speaker = null;
 		try {
 			final JSONObject arrayElement = responseArray.getJSONObject(index);
+			String presentationTitle = getStringFromArray(arrayElement,
+					PRESENTATION_TITLE);
 			JSONArray speakersArray = arrayElement
 					.getJSONArray(PRESENTATION_SPEAKERS);
 			for (int i = 0; i < speakersArray.length(); i++) {
