@@ -58,10 +58,6 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		ActionBar bar = getSupportActionBar();
-		bar.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.titlebar_background_gradient));
-
 		mTitle = mDrawerTitle = getTitle();
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);

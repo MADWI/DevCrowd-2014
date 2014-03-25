@@ -49,9 +49,6 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.schedule_details);
 
-		ActionBar bar = getSupportActionBar();
-		bar.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.titlebar_background_gradient));
 		getSupportActionBar().setHomeButtonEnabled(true);
 
 		Bundle extras = getIntent().getExtras();

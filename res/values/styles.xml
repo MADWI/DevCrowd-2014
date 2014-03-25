@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -23,9 +23,11 @@
     <style name="MyActionBar"
            parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+        <item name="android:background">@drawable/titlebar_background_gradient</item>
 
         <!-- Support library compatibility -->
         <item name="titleTextStyle">@style/MyActionBarTitleText</item>
+        <item name="background">@drawable/titlebar_background_gradient</item>
     </style>
 
     <!-- ActionBar title text -->
