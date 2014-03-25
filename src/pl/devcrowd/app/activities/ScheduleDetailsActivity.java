@@ -52,11 +52,6 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		ActionBar bar = getSupportActionBar();
 		bar.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.titlebar_background_gradient));
-		/*int titleId = Resources.getSystem().getIdentifier("action_bar_title",
-				"id", "android");
-		TextView title = (TextView) findViewById(titleId);
-		title.setTextColor(Color.WHITE);
-*/
 		getSupportActionBar().setHomeButtonEnabled(true);
 
 		Bundle extras = getIntent().getExtras();
