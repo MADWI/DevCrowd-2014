@@ -17,6 +17,8 @@ public class ScheduleHostFragment extends Fragment implements
 
 	private static final String TEMP_ROOM_NAME_1 = "Sala 126";
 	private static final String TEMP_ROOM_NAME_2 = "Sala 226";
+	
+	public static final String ROOM_NUMBER = "room";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -26,13 +28,19 @@ public class ScheduleHostFragment extends Fragment implements
 
 		mTabHost.setup(getActivity(), getChildFragmentManager(),
 				R.id.frame_container);
+		
+		Bundle bundle126 = new Bundle();
+		bundle126.putString(ROOM_NUMBER, "126");
+		Bundle bundle226 = new Bundle();
+		bundle226.putString(ROOM_NUMBER, "226");
+		
 
 		mTabHost.addTab(
 				mTabHost.newTabSpec(TEMP_ROOM_NAME_1).setIndicator(
-						TEMP_ROOM_NAME_1), ScheduleListFragment.class, null);
+						TEMP_ROOM_NAME_1), ScheduleListFragment.class, bundle126);
 		mTabHost.addTab(
 				mTabHost.newTabSpec(TEMP_ROOM_NAME_2).setIndicator(
-						TEMP_ROOM_NAME_2), ScheduleListFragment.class, null);
+						TEMP_ROOM_NAME_2), ScheduleListFragment.class, bundle226);
 		resetTabsView();
 		selectCurrentTab();
 		return mTabHost;

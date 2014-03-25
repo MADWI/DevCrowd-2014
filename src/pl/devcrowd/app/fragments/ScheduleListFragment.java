@@ -23,10 +23,15 @@ public class ScheduleListFragment extends ListFragment implements
 	private static final int LOADER_ID = 1;
 	private static final int NO_FLAGS = 0;
 	private SimpleCursorAdapter adapter;
+	private String roomNumber = "126";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if(getArguments()!=null)
+		{
+			roomNumber = getArguments().getString(ScheduleHostFragment.ROOM_NUMBER);
+		}
 		setHasOptionsMenu(true);
 		asyncLoadPresentationsAndSpeakers();
 		fillData();
@@ -91,7 +96,9 @@ public class ScheduleListFragment extends ListFragment implements
 				DevcrowdTables.SPEAKER_COLUMN_NAME};
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
 				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,
-				null, null, DevcrowdTables.TABLE_PRESENTATIONS + "." + DevcrowdTables.PRESENTATION_ID + " DESC");
+				DevcrowdTables.PRESENTATION_ROOM + " =? ",
+				new String[] { roomNumber }, DevcrowdTables.TABLE_PRESENTATIONS
+						+ "." + DevcrowdTables.PRESENTATION_ID + " DESC");
 		return cursorLoader;
 	}
 
