@@ -37,7 +37,8 @@
     </array>
 
     <string name="topicGrade">Ocena tematyki</string>
-    <string name="speakerRate">Ocena prelegenta/prelegentów</string>
+    <string name="speakerRate">Ocena prelegenta</string>
+    <string name="speakersRate">Ocena prelegentów</string>
     <string name="crash_toast_text">Uuuupss, coś poszło nie tak:/</string>
     <string name="success_voting_toast_text">Dziękujemy za oddanie głosu</string>
     <string name="error_voting_toast_text">Błąd przesłania oceny na serwer, spróbuj ponownie</string>

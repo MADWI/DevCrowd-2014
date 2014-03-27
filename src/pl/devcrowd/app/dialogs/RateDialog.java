@@ -1,6 +1,7 @@
 package pl.devcrowd.app.dialogs;
 
 import pl.devcrowd.app.R;
+import pl.devcrowd.app.activities.ScheduleDetailsActivity;
 import pl.devcrowd.app.utils.DebugLog;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 
 public class RateDialog extends DialogFragment implements
@@ -36,6 +38,7 @@ public class RateDialog extends DialogFragment implements
 	private float speakerRateValue;
 	private EditText email;
 	private boolean correctEmail = false;
+	private TextView speakerRatingText;
 
 	public static RateDialog newInstance() {
 		return new RateDialog();
@@ -75,6 +78,12 @@ public class RateDialog extends DialogFragment implements
 		topicRate.setOnRatingBarChangeListener(this);
 		speakerRate = (RatingBar) ratingView.findViewById(R.id.speakerRate);
 		speakerRate.setOnRatingBarChangeListener(this);
+		speakerRatingText = (TextView) ratingView.findViewById(R.id.textSpeakerRating);
+		
+		if (getArguments().getInt(ScheduleDetailsActivity.SPEAKERS_COUNT) > 1) {
+			speakerRatingText.setText(getString(R.string.speakersRate));
+		}
+		
 		return alertDialog;
 	}
 
