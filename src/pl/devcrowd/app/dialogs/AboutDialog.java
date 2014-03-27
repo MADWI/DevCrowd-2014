@@ -6,21 +6,25 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.text.Html;
+import android.view.LayoutInflater;
+import android.view.View;
 
 public class AboutDialog extends DialogFragment {
 
+	private AlertDialog alertDialog;
+	
 	public static AboutDialog newInstance() {
 		return new AboutDialog();
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		LayoutInflater inflater = LayoutInflater.from(getActivity());
+		View aboutView = inflater.inflate(R.layout.about_dialog_layout, null);
 
-		return new AlertDialog.Builder(getActivity())
-				.setTitle(R.string.about)
-				.setMessage(
-						Html.fromHtml(getText(R.string.about_msg).toString()))
+		alertDialog = new AlertDialog.Builder(getActivity())
+		.setView(aboutView)
+				.setTitle(R.string.about_dialog_title)
 				.setNegativeButton(R.string.cancel,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
@@ -28,6 +32,7 @@ public class AboutDialog extends DialogFragment {
 								dismiss();
 							}
 						}).create();
+		return alertDialog;
 	}
 
 }

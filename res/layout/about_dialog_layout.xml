@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/authorsTitleTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/authorsLogo"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/authorsLogo"
+        android:text="@string/about_dialog_authors_title" />
+
+    <TextView
+        android:id="@+id/authorsNameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/authorsTitleTV"
+        android:layout_below="@+id/authorsTitleTV"
+        android:layout_marginTop="8dp"
+        android:text="@string/about_dialog_authors_name"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/authorsWWWTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/authorsNameTV"
+        android:layout_below="@+id/authorsNameTV"
+        android:layout_marginTop="8dp"
+        android:text="@string/about_dialog_authors_www" />
+
+    <ImageView
+        android:id="@+id/devCrowdLogo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/duger_big" />
+
+    <ImageView
+        android:id="@+id/authorsLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/devCrowdLogo"
+        android:layout_below="@+id/devCrowdLogo"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="46dp"
+        android:src="@drawable/mad_logo" />
+
+    <TextView
+        android:id="@+id/appTitleTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/devCrowdLogo"
+        android:layout_toRightOf="@+id/devCrowdLogo"
+        android:text="@string/about_dialog_subtitle" 
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:layout_marginLeft="8dp"/>
+
+    <TextView
+        android:id="@+id/appVersionTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/appTitleTV"
+        android:layout_below="@+id/devCrowdWWW"
+        android:text="@string/about_dialog_app_version" 
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/devCrowdWWW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/appTitleTV"
+        android:layout_below="@+id/appTitleTV"
+        android:text="@string/about_dialog_devcrowd_www" 
+        android:layout_marginTop="8dp"/>
+
+</RelativeLayout>
