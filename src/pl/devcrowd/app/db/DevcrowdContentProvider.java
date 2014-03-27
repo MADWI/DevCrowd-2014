@@ -13,7 +13,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 public class DevcrowdContentProvider extends ContentProvider {
 	
@@ -103,7 +102,7 @@ public class DevcrowdContentProvider extends ContentProvider {
 			queryBuilder.setTables(DevcrowdTables.TABLE_PRESENTATIONS
 					+ " LEFT OUTER JOIN " + DevcrowdTables.TABLE_SPEAKERS
 					+ " ON (" + DevcrowdTables.PRESENTATION_TITLE + " = "
-					+ DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_NAME + ")");
+					+ DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_TITLE + ")");
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -191,7 +190,7 @@ public class DevcrowdContentProvider extends ContentProvider {
 				DevcrowdTables.PRESENTATION_HOUR_JOIN,
 				DevcrowdTables.PRESENTATION_FAVOURITE,
 				DevcrowdTables.SPEAKER_COLUMN_ID,
-				DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_NAME,
+				DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_TITLE,
 				DevcrowdTables.SPEAKER_COLUMN_NAME,
 				DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION,
 				DevcrowdTables.SPEAKER_COLUMN_FOTO };

@@ -116,7 +116,7 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
 			if (cursor
 					.getString(
-							cursor.getColumnIndex(DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_NAME))
+							cursor.getColumnIndex(DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_TITLE))
 					.equals(presentationName)) {
 				
 				speakersCount++;

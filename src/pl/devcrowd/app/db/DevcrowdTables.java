@@ -16,7 +16,7 @@ public final class DevcrowdTables {
 
 	public static final String TABLE_SPEAKERS = "speakersTable";
 	public static final String SPEAKER_COLUMN_ID = "_id";
-	public static final String SPEAKER_COLUMN_PRESENTATION_NAME = "speakerPresentationName";
+	public static final String SPEAKER_COLUMN_PRESENTATION_TITLE = "speakerPresentationTitle";
 	public static final String SPEAKER_COLUMN_NAME = "speakerName";
 	public static final String SPEAKER_COLUMN_DESCRIPTION = "speakerDescription";
 	public static final String SPEAKER_COLUMN_FOTO = "speakerFoto";
@@ -38,7 +38,7 @@ public final class DevcrowdTables {
 
 	public static final String DATABASE_SPEAKERS_CREATE = "create table "
 			+ TABLE_SPEAKERS + "(" + SPEAKER_COLUMN_ID + TYPE_ID + ","
-			+ SPEAKER_COLUMN_PRESENTATION_NAME + TYPE_TEXT_NOT_NULL_COLUMN + ","
+			+ SPEAKER_COLUMN_PRESENTATION_TITLE + TYPE_TEXT_NOT_NULL_COLUMN + ","
 			+ SPEAKER_COLUMN_NAME + TYPE_TEXT_NOT_NULL_COLUMN + ","
 			+ SPEAKER_COLUMN_DESCRIPTION + TYPE_TEXT_NOT_NULL_COLUMN + ","
 			+ SPEAKER_COLUMN_FOTO + TYPE_TEXT_NOT_NULL_COLUMN + ");";

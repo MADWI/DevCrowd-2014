@@ -29,18 +29,18 @@ public class ScheduleHostFragment extends Fragment implements
 		mTabHost.setup(getActivity(), getChildFragmentManager(),
 				R.id.frame_container);
 		
-		Bundle bundle126 = new Bundle();
-		bundle126.putString(ROOM_NUMBER, "126");
-		Bundle bundle226 = new Bundle();
-		bundle226.putString(ROOM_NUMBER, "226");
+		Bundle room1 = new Bundle();
+		room1.putString(ROOM_NUMBER, "126");
+		Bundle room2 = new Bundle();
+		room2.putString(ROOM_NUMBER, "226");
 		
 
 		mTabHost.addTab(
 				mTabHost.newTabSpec(TEMP_ROOM_NAME_1).setIndicator(
-						TEMP_ROOM_NAME_1), ScheduleListFragment.class, bundle126);
+						TEMP_ROOM_NAME_1), ScheduleListFragment.class, room1);
 		mTabHost.addTab(
 				mTabHost.newTabSpec(TEMP_ROOM_NAME_2).setIndicator(
-						TEMP_ROOM_NAME_2), ScheduleListFragment.class, bundle226);
+						TEMP_ROOM_NAME_2), ScheduleListFragment.class, room2);
 		resetTabsView();
 		selectCurrentTab();
 		return mTabHost;
