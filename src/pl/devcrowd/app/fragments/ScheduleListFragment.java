@@ -2,10 +2,13 @@ package pl.devcrowd.app.fragments;
 
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.activities.ScheduleDetailsActivity;
+import pl.devcrowd.app.alarms.Alarms;
 import pl.devcrowd.app.db.DevcrowdContentProvider;
 import pl.devcrowd.app.db.DevcrowdTables;
 import pl.devcrowd.app.services.ApiService;
 import pl.devcrowd.app.utils.DebugLog;
+import android.app.AlarmManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,18 +19,26 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 public class ScheduleListFragment extends ListFragment implements
 		LoaderCallbacks<Cursor> {
+	
+	private ToggleButton tglFavo;
 
 	private static final int LOADER_ID = 1;
 	private static final int NO_FLAGS = 0;
 	private SimpleCursorAdapter adapter;
 	private String roomNumber = "126";
-
+	
+	private AlarmManager am;
+	private int lessonID;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		am = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 		if(getArguments()!=null)
 		{
 			roomNumber = getArguments().getString(ScheduleHostFragment.ROOM_NUMBER);
@@ -54,7 +65,38 @@ public class ScheduleListFragment extends ListFragment implements
 	}
 
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
+	public void onListItemClick(final ListView l, View v, final int position, long id) {
+		
+		tglFavo = (ToggleButton) v.findViewById(R.id.toggleFavo);
+		tglFavo.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				switch(v.getId()){
+					case R.id.toggleFavo:
+						Toast.makeText(getActivity(), "State: " + tglFavo.isChecked(), Toast.LENGTH_SHORT).show();
+						if(tglFavo.isChecked()){
+							Cursor cursor = ((SimpleCursorAdapter) l.getAdapter()).getCursor();
+							cursor.moveToPosition(position);
+							lessonID = Integer.parseInt(cursor
+									.getString(cursor
+											.getColumnIndex(DevcrowdTables.PRESENTATION_ID)));
+							Alarms.setAlarm(lessonID, System.currentTimeMillis()+15000, getActivity(), am);
+							break;
+						} else {
+							Cursor cursor = ((SimpleCursorAdapter) l.getAdapter()).getCursor();
+							cursor.moveToPosition(position);
+							lessonID = Integer.parseInt(cursor
+									.getString(cursor
+											.getColumnIndex(DevcrowdTables.PRESENTATION_ID)));
+							Alarms.cancelAlarm(lessonID, getActivity(), am);
+							break;
+						}
+				}
+			}
+		});
+		
 		if (isAdded()) {
 			Cursor cursor = ((SimpleCursorAdapter) l.getAdapter()).getCursor();
 			cursor.moveToPosition(position);

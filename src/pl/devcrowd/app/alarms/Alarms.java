@@ -21,19 +21,18 @@ public final class Alarms {
 			intent.putExtra(lessonIDTAG, lessonID);
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(ctx,
 					lessonID, intent, PendingIntent.FLAG_ONE_SHOT);
-			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time, 0,
-					pendingIntent);
-			DebugLog.d("Alarm for ID: " + lessonID + "is set on now!");
+			alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+			DebugLog.d("Alarm for ID: " + lessonID + " is set on now!");
 	}
 
 	public static void cancelAlarm(final int lessonID, Context ctx, AlarmManager alarmManager) {
 			Intent intent = new Intent("AlarmReceiver");
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(ctx,
-					lessonID, intent, 0);
+					lessonID, intent, PendingIntent.FLAG_ONE_SHOT);
 			alarmManager = (AlarmManager) ctx
 					.getSystemService(Context.ALARM_SERVICE);
 			alarmManager.cancel(pendingIntent);
-			DebugLog.d("Alarm for ID: " + lessonID + "was canceled!");
+			DebugLog.d("Alarm for ID: " + lessonID + " was canceled!");
 	}
 
 }

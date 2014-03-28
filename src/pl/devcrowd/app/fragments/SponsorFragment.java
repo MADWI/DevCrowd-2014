@@ -31,19 +31,19 @@ public class SponsorFragment extends Fragment implements OnClickListener{
 	
 	private ImageView mad;
 	
-	private static final String consileonWebsite = "http://www.consileon.pl/pl/";
-	private static final String BLStreamWebsite = "http://blstream.com/";
-	private static final String cognifideWebsite = "http://www.cognifide.com/";
-	private static final String softwareMillWebsite = "http://softwaremill.com/";
-	private static final String osWorldWebsite = "http://osworld.pl/";
-	private static final String infoludekWebsite = "http://www.infoludek.pl/";
-	private static final String netcampWebsite = "http://www.netcamp.pl/";
-	private static final String crossWebWebsite = "http://crossweb.pl/";
-	private static final String klasterITWebsite = "http://www.klaster.it/pl/";
-	private static final String technoParkWebsite = "http://www.technopark-pomerania.pl/pl/";
-	private static final String wiZUTWebsite = "http://wi.zut.edu.pl/";
-	private static final String szczecinJUGWebsite = "http://szjug.pl/";
-	private static final String madWebsite = "http://www.mad.zut.edu.pl/";
+	private static final String CONSILEON_WEBSITE = "http://www.consileon.pl/pl/";
+	private static final String BLSTREAM_WEBSITE = "http://blstream.com/";
+	private static final String COGNIFIDE_WEBSITE = "http://www.cognifide.com/";
+	private static final String SOFTWAREMILL_WEBSITE = "http://softwaremill.com/";
+	private static final String OSWORLD_WEBSITE = "http://osworld.pl/";
+	private static final String INFOLUDEK_WEBSITE = "http://www.infoludek.pl/";
+	private static final String NETCAMP_WEBSITE = "http://www.netcamp.pl/";
+	private static final String CROSSWEB_WEBSITE = "http://crossweb.pl/";
+	private static final String KLASTERIT_WEBSITE = "http://www.klaster.it/pl/";
+	private static final String TECHNOPARK_WEBSITE = "http://www.technopark-pomerania.pl/pl/";
+	private static final String WIZUT_WEBSITE = "http://wi.zut.edu.pl/";
+	private static final String SZCZECINJUG_WEBSITE = "http://szjug.pl/";
+	private static final String MAD_WEBSITE = "http://www.mad.zut.edu.pl/";
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -91,55 +91,55 @@ public class SponsorFragment extends Fragment implements OnClickListener{
 	public void onClick(View view) {
 		switch(view.getId()){
 			case R.id.platiniumSponsorConsileon:
-				openURL(consileonWebsite);
+				openURL(CONSILEON_WEBSITE);
 				break;
 				
 			case R.id.platiniumSponsorBLStream:
-				openURL(BLStreamWebsite);
+				openURL(BLSTREAM_WEBSITE);
 				break;
 				
 			case R.id.sponsorCognifide:
-				openURL(cognifideWebsite);
+				openURL(COGNIFIDE_WEBSITE);
 				break;
 				
 			case R.id.sponsorSoftwareMill:
-				openURL(softwareMillWebsite);
+				openURL(SOFTWAREMILL_WEBSITE);
 				break;
 				
 			case R.id.patronateOSWorld:
-				openURL(osWorldWebsite);
+				openURL(OSWORLD_WEBSITE);
 				break;
 				
 			case R.id.patronateInfoludek:
-				openURL(infoludekWebsite);
+				openURL(INFOLUDEK_WEBSITE);
 				break;
 				
 			case R.id.patronateNetCamp:
-				openURL(netcampWebsite);
+				openURL(NETCAMP_WEBSITE);
 				break;
 				
 			case R.id.patronateCrossWeb:
-				openURL(crossWebWebsite);
+				openURL(CROSSWEB_WEBSITE);
 				break;
 				
 			case R.id.patronateKlasterIT:
-				openURL(klasterITWebsite);
+				openURL(KLASTERIT_WEBSITE);
 				break;
 			
 			case R.id.patronateTechnoPark:
-				openURL(technoParkWebsite);
+				openURL(TECHNOPARK_WEBSITE);
 				break;
 				
 			case R.id.partnerWI:
-				openURL(wiZUTWebsite);
+				openURL(WIZUT_WEBSITE);
 				break;
 				
 			case R.id.partnerJUGSzczecin:
-				openURL(szczecinJUGWebsite);
+				openURL(SZCZECINJUG_WEBSITE);
 				break;
 				
 			case R.id.createdByMAD:
-				openURL(madWebsite);
+				openURL(MAD_WEBSITE);
 				break;
 				
 				default:
