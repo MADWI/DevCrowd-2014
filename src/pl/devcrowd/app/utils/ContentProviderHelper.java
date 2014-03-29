@@ -15,7 +15,6 @@ import android.net.Uri;
 
 public final class ContentProviderHelper {
 	private static final String DEFAULT_SORT = " DESC";
-	private static final String IS_FAVOURITE = "ok";
 
 	private ContentProviderHelper() {
 	};
@@ -151,7 +150,7 @@ public final class ContentProviderHelper {
 			final String presentationTitle, boolean isFavourite) {
 		AsyncQueryHandler asyncHandler = new AsyncQueryHandler(resolver) {
 		};
-		String favourite = (isFavourite) ? IS_FAVOURITE : "";
+		String favourite = (isFavourite) ? DevcrowdTables.PRESENTATION_FAVOURITE_FLAG : "";
 		ContentValues values = new ContentValues();
 		values.put(DevcrowdTables.PRESENTATION_FAVOURITE, favourite);
 		asyncHandler.startUpdate(-1, null,

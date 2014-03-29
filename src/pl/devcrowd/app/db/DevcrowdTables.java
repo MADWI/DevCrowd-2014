@@ -20,6 +20,9 @@ public final class DevcrowdTables {
 	public static final String SPEAKER_COLUMN_NAME = "speakerName";
 	public static final String SPEAKER_COLUMN_DESCRIPTION = "speakerDescription";
 	public static final String SPEAKER_COLUMN_FOTO = "speakerFoto";
+	
+	public static final String JOIN_SPEAKERS_NAMES = "speakersNames";
+	public static final String PRESENTATION_FAVOURITE_FLAG = "ok";
 
 	private static final String TYPE_ID = " integer primary key autoincrement ";
 	private static final String TYPE_TEXT_NOT_NULL_COLUMN = " text not null ";

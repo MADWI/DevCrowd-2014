@@ -162,6 +162,7 @@ public class DevcrowdContentProvider extends ContentProvider {
 			if (TextUtils.isEmpty(selection)) {
 				rowsUpdated = sqlDB.update(DevcrowdTables.TABLE_PRESENTATIONS,
 						values, selection, selectionArgs);
+				DebugLog.d(rowsUpdated + "");
 			}
 			break;
 		case SPEAKERS:

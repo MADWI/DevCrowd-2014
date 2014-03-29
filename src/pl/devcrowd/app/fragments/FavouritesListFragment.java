@@ -22,7 +22,6 @@ public class FavouritesListFragment extends ListFragment implements
 
 	private static final int LOADER_ID = 1;
 	private static final int NO_FLAGS = 0;
-	private static final String IS_FAVOURITE = "ok";
 	private SimpleCursorAdapter adapter;
 
 	@Override
@@ -63,7 +62,7 @@ public class FavouritesListFragment extends ListFragment implements
 		String[] from = new String[] {
 				DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.PRESENTATION_HOUR_JOIN,
-				"speakersNames",
+				DevcrowdTables.JOIN_SPEAKERS_NAMES,
 				DevcrowdTables.PRESENTATION_START,
 				DevcrowdTables.TABLE_PRESENTATIONS + "."
 						+ DevcrowdTables.PRESENTATION_ID };
@@ -88,13 +87,13 @@ public class FavouritesListFragment extends ListFragment implements
 						+ DevcrowdTables.PRESENTATION_ID,
 				DevcrowdTables.PRESENTATION_HOUR_JOIN,
 				"GROUP_CONCAT(" + DevcrowdTables.SPEAKER_COLUMN_NAME
-						+ ",', ') AS speakersNames",
+						+ ",', ') AS " + DevcrowdTables.JOIN_SPEAKERS_NAMES,
 				DevcrowdTables.PRESENTATION_FAVOURITE,
 				DevcrowdTables.PRESENTATION_START };
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
 				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,
 				DevcrowdTables.PRESENTATION_FAVOURITE + " =? ",
-				new String[] { IS_FAVOURITE },
+				new String[] { DevcrowdTables.PRESENTATION_FAVOURITE_FLAG },
 				DevcrowdTables.TABLE_PRESENTATIONS + "."
 						+ DevcrowdTables.PRESENTATION_ID + " DESC");
 		return cursorLoader;

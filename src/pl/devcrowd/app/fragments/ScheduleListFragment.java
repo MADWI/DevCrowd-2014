@@ -4,12 +4,15 @@ import java.util.Calendar;
 
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.activities.ScheduleDetailsActivity;
+import pl.devcrowd.app.adapters.ScheduleItemsCursorAdapter;
+import pl.devcrowd.app.adapters.ScheduleItemsCursorAdapter.AdapterInterface;
 import pl.devcrowd.app.alarms.Alarms;
 import pl.devcrowd.app.broadcasts.AlarmReceiver;
 import pl.devcrowd.app.db.DevcrowdContentProvider;
 import pl.devcrowd.app.db.DevcrowdTables;
 import pl.devcrowd.app.services.ApiService;
 import pl.devcrowd.app.utils.CalendarUtils;
+import pl.devcrowd.app.utils.ContentProviderHelper;
 import pl.devcrowd.app.utils.DebugLog;
 import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
@@ -29,14 +32,14 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class ScheduleListFragment extends ListFragment implements
-		LoaderCallbacks<Cursor> {
+		LoaderCallbacks<Cursor>, AdapterInterface {
 
 	private ToggleButton tglFavo;
 
 	private static final int LOADER_ID = 1;
 	private static final int NO_FLAGS = 0;
 	private static final String PRESENTATION_DATE = "04/12/2014 ";
-	private SimpleCursorAdapter adapter;
+	private ScheduleItemsCursorAdapter adapter;
 	private String roomNumber = "126";
 
 	private AlarmManager am;
@@ -138,7 +141,7 @@ public class ScheduleListFragment extends ListFragment implements
 		String[] from = new String[] {
 				DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.PRESENTATION_HOUR_JOIN,
-				"speakersNames",
+				DevcrowdTables.JOIN_SPEAKERS_NAMES,
 				DevcrowdTables.TABLE_PRESENTATIONS + "."
 						+ DevcrowdTables.PRESENTATION_ID };
 		// Fields on the UI to which we map
@@ -147,8 +150,8 @@ public class ScheduleListFragment extends ListFragment implements
 
 		getLoaderManager().initLoader(LOADER_ID, null, this);
 
-		adapter = new SimpleCursorAdapter(getActivity(),
-				R.layout.schedule_item, null, from, to, NO_FLAGS);
+		adapter = new ScheduleItemsCursorAdapter(getActivity(), null, NO_FLAGS,
+				this);
 
 		setListAdapter(adapter);
 
@@ -162,7 +165,9 @@ public class ScheduleListFragment extends ListFragment implements
 						+ DevcrowdTables.PRESENTATION_ID,
 				DevcrowdTables.PRESENTATION_HOUR_JOIN,
 				"GROUP_CONCAT(" + DevcrowdTables.SPEAKER_COLUMN_NAME
-						+ ",', ') AS speakersNames" };
+						+ ",', ') AS " + DevcrowdTables.JOIN_SPEAKERS_NAMES,
+				DevcrowdTables.PRESENTATION_START,
+				DevcrowdTables.PRESENTATION_FAVOURITE };
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
 				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,
 				DevcrowdTables.PRESENTATION_ROOM + " =? ",
@@ -206,5 +211,13 @@ public class ScheduleListFragment extends ListFragment implements
 	private Cursor getCursor(Uri uri, Context context) {
 		return context.getContentResolver().query(uri, null, null, null,
 				DevcrowdTables.PRESENTATION_ID + " DESC");
+	}
+
+	@Override
+	public void buttonPressed(String presentationTitle, String hourStart,
+			boolean isChecked) {
+		Toast.makeText(getActivity(), presentationTitle + ":" + hourStart,
+				Toast.LENGTH_SHORT).show();
+		ContentProviderHelper.updateFavourite(getActivity().getContentResolver(), presentationTitle, isChecked);
 	}
 }
