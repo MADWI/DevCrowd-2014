@@ -44,7 +44,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/listItemDividerMargin"
                 android:layout_marginTop="@dimen/listItemDividerMargin"
-                android:background="@color/list_background_pressed" >
+                android:background="@color/listItemDivider" >
             </RelativeLayout>
 
             <RelativeLayout
@@ -64,6 +64,7 @@
                     android:layout_marginLeft="@dimen/cardMargin"
                     android:layout_toLeftOf="@+id/toggleFavo"
                     android:singleLine="true"
+                    android:text="Przykładowy temat"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/sponsorsTextView" />
 
@@ -76,7 +77,7 @@
                     android:layout_below="@+id/textItemTopic"
                     android:layout_marginLeft="@dimen/cardMargin"
                     android:singleLine="true"
-                    android:text="Brak prelegenta"
+                    android:text="Jan Kowalski"
                     android:textAppearance="?android:attr/textAppearance"
                     android:textColor="@color/sponsorsTextView" />
 

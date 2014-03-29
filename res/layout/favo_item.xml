@@ -43,7 +43,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/listItemDividerMargin"
                 android:layout_marginTop="@dimen/listItemDividerMargin"
-                android:background="@color/list_background_pressed" >
+                android:background="@color/listItemDivider" >
             </RelativeLayout>
 
             <RelativeLayout

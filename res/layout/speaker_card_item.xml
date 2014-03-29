@@ -21,7 +21,7 @@
             android:layout_alignTop="@+id/relativeLayout1"
             android:layout_marginBottom="12dp"
             android:layout_marginLeft="60dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="1dp"
             android:layout_marginTop="12dp"
             android:background="#A0F0F0F0" >
 
@@ -54,7 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/relativeLayout1"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/sponsorsTextView" />
     </RelativeLayout>
 
     <TextView
@@ -63,11 +64,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/relativeLayout2"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:paddingLeft="@dimen/cardMargin"
         android:paddingRight="@dimen/cardMargin"
         android:paddingTop="@dimen/cardMargin"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:textSize="15sp" />
 
     <ImageView
         android:id="@+id/imageMoreSpeaker"

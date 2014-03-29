@@ -17,6 +17,8 @@
 
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/MyActionBar</item>
+        
+        <item name="sdlDialogStyle">@style/DialogStyleLight.Custom</item>
     </style>
 
     <!-- ActionBar styles -->
@@ -35,6 +37,18 @@
            parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@android:color/white</item>
     </style>
+   
+    <style name="DialogStyleLight.Custom">
+		<!-- anything can be left out: -->
+		<item name="titleTextColor">@color/dialog_title_text</item>
+		<item name="titleSeparatorColor">@color/dialog_title_separator</item>
+		<item name="messageTextColor">@color/dialog_message_text</item>
+		<item name="buttonTextColor">@color/dialog_button_text</item>
+		<item name="buttonSeparatorColor">@color/dialog_button_separator</item>
+		<item name="buttonBackgroundColorNormal">@color/dialog_button_normal</item>
+		<item name="buttonBackgroundColorPressed">@color/dialog_button_pressed</item>
+		<item name="buttonBackgroundColorFocused">@color/dialog_button_focused</item>
+	</style>
     
 
 </resources>

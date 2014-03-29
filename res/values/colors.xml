@@ -18,5 +18,19 @@
     <color name="sponsorsTextView">#034E8A</color>
     <color name="sponsorsFrameBackground">#ebf7fc</color>
     <color name="sponsorsFrameBorder">#96ccff</color>
+    
+    <color name="tabhostBg">#F7F7F7</color>
+    <color name="listItemDivider">#E69529</color>
+    
+    <!-- custom light theme: -->
+	<color name="dialog_message_text">#333333</color>
+	<color name="dialog_title_text">#0099CC</color>
+	<color name="dialog_title_separator">#0099CC</color>
+	<color name="dialog_button_text">#333333</color>
+	<color name="dialog_button_normal">@android:color/transparent</color>
+	<color name="dialog_button_pressed">#990099CC</color> <!-- 60 % opacity -->
+	<color name="dialog_button_focused">#4C0099CC</color> <!-- 30 % opacity -->
+	<color name="dialog_button_separator">#25000000</color> <!-- 7% opacity -->
+	<color name="background">#FFA500</color>
 
 </resources>

@@ -19,7 +19,8 @@
         android:layout_marginRight="@dimen/cardMargin"
         android:layout_marginTop="@dimen/cardMargin"
         android:gravity="left"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/sponsorsTextView" />
 
     <TextView
         android:id="@+id/textTopicDetails"
@@ -27,10 +28,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textHour"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:paddingLeft="@dimen/cardMargin"
         android:paddingRight="@dimen/cardMargin"
-        android:paddingTop="@dimen/cardMargin" />
+        android:paddingTop="@dimen/cardMargin"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/textHour"

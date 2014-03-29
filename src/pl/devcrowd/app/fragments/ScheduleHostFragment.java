@@ -17,7 +17,7 @@ public class ScheduleHostFragment extends Fragment implements
 
 	private static final String TEMP_ROOM_NAME_1 = "Sala 126";
 	private static final String TEMP_ROOM_NAME_2 = "Sala 226";
-	
+
 	public static final String ROOM_NUMBER = "room";
 
 	@Override
@@ -28,13 +28,13 @@ public class ScheduleHostFragment extends Fragment implements
 
 		mTabHost.setup(getActivity(), getChildFragmentManager(),
 				R.id.frame_container);
-		
+
 		Bundle room1 = new Bundle();
 		room1.putString(ROOM_NUMBER, "126");
 		Bundle room2 = new Bundle();
 		room2.putString(ROOM_NUMBER, "226");
 		
-
+		mTabHost.getTabWidget().setBackgroundColor(getResources().getColor(R.color.tabhostBg));
 		mTabHost.addTab(
 				mTabHost.newTabSpec(TEMP_ROOM_NAME_1).setIndicator(
 						TEMP_ROOM_NAME_1), ScheduleListFragment.class, room1);
@@ -57,15 +57,13 @@ public class ScheduleHostFragment extends Fragment implements
 				R.drawable.tab_background);
 		TextView title = (TextView) mTabHost.getCurrentTabView().findViewById(
 				android.R.id.title);
-		title.setTextColor(Color.WHITE);
+		title.setTextColor(Color.BLACK);
 	}
 
 	private void resetTabsView() {
 		for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
-			mTabHost.getTabWidget()
-					.getChildAt(i)
-					.setBackgroundColor(
-							getResources().getColor(R.color.buttercup));
+			mTabHost.getTabWidget().getChildAt(i)
+					.setBackgroundResource(R.drawable.tab_background_unselected);
 			TextView title = (TextView) mTabHost.getTabWidget().getChildAt(i)
 					.findViewById(android.R.id.title);
 			title.setTextColor(Color.BLACK);

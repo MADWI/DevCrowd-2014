@@ -1,15 +1,14 @@
 package pl.devcrowd.app.dialogs;
 
+import eu.inmite.android.lib.dialogs.BaseDialogFragment;
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.activities.ScheduleDetailsActivity;
 import pl.devcrowd.app.utils.DebugLog;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -20,7 +19,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 
-public class RateDialog extends DialogFragment implements
+public class RateDialog extends BaseDialogFragment implements
 		OnRatingBarChangeListener {
 
 	public interface OnRatingListener {
@@ -29,7 +28,7 @@ public class RateDialog extends DialogFragment implements
 	}
 
 	private OnRatingListener mOnRatingListener;
-	private AlertDialog alertDialog;
+	private static RateDialog dialog;
 	private RatingBar topicRate;
 	private boolean topicRateChanged = false;
 	private float topicRateValue;
@@ -40,57 +39,40 @@ public class RateDialog extends DialogFragment implements
 	private boolean correctEmail = false;
 	private TextView speakerRatingText;
 
-	public static RateDialog newInstance() {
-		return new RateDialog();
-	}
+	private LayoutInflater inflater;
+	private View ratingView;
 
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	public void onActivityCreated(Bundle arg0) {
+		super.onActivityCreated(arg0);
 
-		LayoutInflater inflater = LayoutInflater.from(getActivity());
-		View ratingView = inflater.inflate(R.layout.rating_dialog_layout, null);
+		if (inflater == null) {
+			inflater = LayoutInflater.from(getActivity());
+		}
+		if (ratingView == null) {
+			ratingView = inflater.inflate(R.layout.rating_dialog_layout, null);
+		}
 
 		email = (EditText) ratingView.findViewById(R.id.emailAddress);
 		email.addTextChangedListener(mTextWatcher);
-
-		alertDialog = new AlertDialog.Builder(getActivity())
-				.setView(ratingView)
-				.setTitle(R.string.ratePresentation)
-				.setPositiveButton(R.string.send,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								mOnRatingListener.onSendRatingButtonClick(
-										topicRateValue, speakerRateValue, email
-												.getText().toString());
-
-							}
-						})
-				.setNeutralButton(R.string.cancel,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-
-							}
-						}).create();
-
 		topicRate = (RatingBar) ratingView.findViewById(R.id.topicRate);
 		topicRate.setOnRatingBarChangeListener(this);
 		speakerRate = (RatingBar) ratingView.findViewById(R.id.speakerRate);
 		speakerRate.setOnRatingBarChangeListener(this);
-		speakerRatingText = (TextView) ratingView.findViewById(R.id.textSpeakerRating);
-		
-		if (getArguments().getInt(ScheduleDetailsActivity.SPEAKERS_COUNT) > 1) {
+		speakerRatingText = (TextView) ratingView
+				.findViewById(R.id.textSpeakerRating);
+
+		Bundle args = getArguments();
+		if (args != null
+				&& args.getInt(ScheduleDetailsActivity.SPEAKERS_COUNT) > 1) {
 			speakerRatingText.setText(getString(R.string.speakersRate));
 		}
-		
-		return alertDialog;
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+		setEnableSendButton(false);
 	}
 
 	@Override
@@ -127,14 +109,14 @@ public class RateDialog extends DialogFragment implements
 		}
 
 		if (allFiledsFilled()) {
-			alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+			setEnableSendButton(true);
 		}
 	}
 
 	private boolean allFiledsFilled() {
 		return topicRateChanged && speakerRateChanged && correctEmail;
 	}
-	
+
 	private final TextWatcher mTextWatcher = new TextWatcher() {
 
 		@Override
@@ -156,18 +138,61 @@ public class RateDialog extends DialogFragment implements
 			}
 
 			if (allFiledsFilled()) {
-				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-						.setEnabled(true);
+				setEnableSendButton(true);
 			} else {
-				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-						.setEnabled(false);
+				setEnableSendButton(false);
 			}
 		}
 	};
-	
+
 	private void hideKeyboardIfNecessary() {
 		InputMethodManager imm = (InputMethodManager) getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(email.getWindowToken(), 0);
+		imm.hideSoftInputFromWindow(email.getWindowToken(), 0);
+	}
+
+	@Override
+	protected Builder build(Builder initialBuilder) {
+		if (inflater == null) {
+			inflater = LayoutInflater.from(getActivity());
+		}
+		if (ratingView == null) {
+			ratingView = inflater.inflate(R.layout.rating_dialog_layout, null);
+		}
+
+		initialBuilder
+				.setView(ratingView)
+				.setTitle(R.string.ratePresentation)
+				.setPositiveButton(R.string.send, new View.OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						mOnRatingListener.onSendRatingButtonClick(
+								topicRateValue, speakerRateValue, email
+										.getText().toString());
+
+					}
+				})
+				.setNeutralButton(R.string.cancel, new View.OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						dismiss();
+					}
+				});
+
+		return initialBuilder;
+	}
+
+	public static void show(FragmentActivity activity, String tag, Bundle args) {
+		dialog = new RateDialog();
+		dialog.setArguments(args);
+		dialog.show(activity.getSupportFragmentManager(), tag);
+	}
+
+	private void setEnableSendButton(boolean value) {
+		dialog.getPositiveButton().setTextColor(
+				value == true ? Color.BLACK : Color.GRAY);
+		dialog.getPositiveButton().setEnabled(value);
 	}
 }

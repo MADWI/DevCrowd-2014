@@ -14,7 +14,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/cardMargin"
         android:text="@string/ratePresentation"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/sponsorsTextView" />
 
     <RatingBar
         android:id="@+id/ratingBar"

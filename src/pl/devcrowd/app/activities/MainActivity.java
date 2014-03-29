@@ -3,6 +3,7 @@ package pl.devcrowd.app.activities;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.dialogs.AboutDialog;
 import pl.devcrowd.app.drawer.NavigationDrawerItem;
@@ -13,24 +14,19 @@ import pl.devcrowd.app.fragments.ScheduleHostFragment;
 import pl.devcrowd.app.fragments.SponsorFragment;
 import pl.devcrowd.app.utils.DebugLog;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
 	private static final int DRAWER_HOME_NUM = 0;
@@ -67,7 +63,7 @@ public class MainActivity extends ActionBarActivity {
 		if (savedInstanceState == null) {
 			displayView(DRAWER_HOME_NUM);
 		}
-
+		
 	}
 
 	private void initNavigationDrawer() {
@@ -161,8 +157,7 @@ public class MainActivity extends ActionBarActivity {
 			fragment = new SponsorFragment();
 			break;
 		case DRAWER_ABOUT_NUM:
-			DialogFragment newFragment = AboutDialog.newInstance();
-			newFragment.show(getSupportFragmentManager(), ABOUT_DIALOG_TAG);
+			AboutDialog.show(this, ABOUT_DIALOG_TAG);
 			setSelection(lastPosition);
 			return;
 		default:

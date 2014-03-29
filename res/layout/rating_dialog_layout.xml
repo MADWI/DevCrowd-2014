@@ -33,7 +33,8 @@
             android:layout_alignLeft="@+id/topicRate"
             android:layout_below="@+id/textSpeakerRating"
             android:numStars="5"
-            android:stepSize="1" />
+            android:stepSize="1"
+            android:paddingBottom="10dp" />
 
         <com.greenhalolabs.emailautocompletetextview.EmailAutoCompleteTextView
             xmlns:android="http://schemas.android.com/apk/res/android"

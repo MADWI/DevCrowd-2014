@@ -1,38 +1,33 @@
 package pl.devcrowd.app.dialogs;
 
+import eu.inmite.android.lib.dialogs.BaseDialogFragment;
 import pl.devcrowd.app.R;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 
-public class AboutDialog extends DialogFragment {
+public class AboutDialog extends BaseDialogFragment {
 
-	private AlertDialog alertDialog;
-	
-	public static AboutDialog newInstance() {
-		return new AboutDialog();
+	public static void show(FragmentActivity activity, String tag) {
+		AboutDialog dialog = new AboutDialog();
+		dialog.show(activity.getSupportFragmentManager(), tag);
 	}
 
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	protected Builder build(Builder initialBuilder) {
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		View aboutView = inflater.inflate(R.layout.about_dialog_layout, null);
 
-		alertDialog = new AlertDialog.Builder(getActivity())
-		.setView(aboutView)
-				.setTitle(R.string.about_dialog_title)
-				.setNegativeButton(R.string.cancel,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								dismiss();
-							}
-						}).create();
-		return alertDialog;
+		initialBuilder.setView(aboutView).setTitle(R.string.about_dialog_title)
+				.setNegativeButton(R.string.cancel, new View.OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						dismiss();
+
+					}
+				});
+		return initialBuilder;
 	}
 
 }

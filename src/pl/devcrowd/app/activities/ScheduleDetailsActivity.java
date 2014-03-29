@@ -16,7 +16,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.view.Menu;
@@ -281,10 +280,7 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 	private void showRateDialog() {
 		Bundle speakres = new Bundle();
 		speakres.putInt(SPEAKERS_COUNT, speakersCount);
-		
-		DialogFragment newFragment = RateDialog.newInstance();
-		newFragment.setArguments(speakres);
-		newFragment.show(getSupportFragmentManager(), RATE_DIALOG_TAG);
+		RateDialog.show(this, RATE_DIALOG_TAG, speakres);
 	}
 
 	private void toggleDetailsVisibility(View textDetails, View moreArrow) {

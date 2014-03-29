@@ -46,6 +46,7 @@ public class FavouritesListFragment extends ListFragment
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		getListView().setDivider(null);
+		getListView().setSelector(android.R.color.transparent);
 	}
 
 	@Override
