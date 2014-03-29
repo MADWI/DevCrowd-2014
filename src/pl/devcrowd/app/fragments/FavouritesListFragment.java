@@ -4,8 +4,8 @@ import pl.devcrowd.app.R;
 import pl.devcrowd.app.activities.ScheduleDetailsActivity;
 import pl.devcrowd.app.db.DevcrowdContentProvider;
 import pl.devcrowd.app.db.DevcrowdTables;
-import pl.devcrowd.app.services.ApiService;
 import pl.devcrowd.app.utils.DebugLog;
+import pl.devcrowd.app.utils.ProgressUtils;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -28,17 +28,11 @@ public class FavouritesListFragment extends ListFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		asyncLoadPresentationsAndSpeakers();
+		
+		if (isAdded()) {
+			ProgressUtils.show(getActivity());
+		}
 		fillData();
-	}
-
-	private void asyncLoadPresentationsAndSpeakers() {
-		Intent intent = new Intent(getActivity(), ApiService.class);
-		intent.setAction(ApiService.ACTION_GET_PRESENTATIONS);
-		getActivity().startService(intent);
-		intent = new Intent(getActivity(), ApiService.class);
-		intent.setAction(ApiService.ACTION_GET_SPEAKERS);
-		getActivity().startService(intent);
 	}
 
 	@Override
@@ -103,6 +97,9 @@ public class FavouritesListFragment extends ListFragment implements
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		DebugLog.d("onLoadFinished rows:" + data.getCount());
 		adapter.swapCursor(data);
+		if (isAdded()) {
+			ProgressUtils.hide(getActivity());
+		}
 	}
 
 	@Override

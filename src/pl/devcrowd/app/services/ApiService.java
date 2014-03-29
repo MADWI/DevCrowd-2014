@@ -26,6 +26,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.os.ResultReceiver;
 import android.widget.Toast;
 
 public class ApiService extends IntentService {
@@ -38,6 +39,10 @@ public class ApiService extends IntentService {
 	public static final String RATE_PRESENTATION_EXTRA_SPEAKER_GRADE = "speakerGrade";
 	public static final String RATE_PRESENTATION_EXTRA_TOPIC_GRADE = "topicGrade";
 
+	public static final String RECEIVER_KEY = "resultReceiver";
+	public static final int LOADING_SUCCESS = 1;
+	public static final int LOADING_FAILED = 2;
+
 	private static final String RATE_API_ACTION = "action";
 	private static final String RATE_API_ACTION_ADD_GRADES = "add_grades";
 	private static final String RATE_API_SPEAKER_GRADE = "prelegent_grade";
@@ -48,9 +53,10 @@ public class ApiService extends IntentService {
 	private static final float DEFAULT_GRADE = 1.0f;
 
 	private static final String RATING_URL = "http://2014.devcrowd.pl/mad-api/oceny.php";
-	//private static final String API_URL = "http://2014.devcrowd.pl/mad-api";
-	//Dev API
+	// private static final String API_URL = "http://2014.devcrowd.pl/mad-api";
+	// Dev API
 	private static final String API_URL = "http://crashreports.bl.ee/android/DevCrowd_14_crash/dev_endpoint.php";
+
 	private Handler toastHandler;
 
 	public ApiService() {
@@ -68,16 +74,20 @@ public class ApiService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		DebugLog.d("onHandleIntent");
 		String intentAction = intent.getAction();
+
 		if (intentAction != null
 				&& intentAction.equals(ACTION_GET_PRESENTATIONS)) {
+			ResultReceiver receiver = intent.getParcelableExtra(RECEIVER_KEY);
 			String response = HttpHelper.getContentFromUrl(API_URL);
 			getPresentationsIntoDatabase(response);
+			receiver.send(LOADING_SUCCESS, null);
 
 		} else if (intentAction != null
 				&& intentAction.equals(ACTION_GET_SPEAKERS)) {
-
+			ResultReceiver receiver = intent.getParcelableExtra(RECEIVER_KEY);
 			String response = HttpHelper.getContentFromUrl(API_URL);
 			getSpeakersIntoDatabase(response);
+			receiver.send(LOADING_SUCCESS, null);
 
 		} else if (intentAction != null
 				&& intentAction.equals(ACTION_RATE_PRESENTATION)) {

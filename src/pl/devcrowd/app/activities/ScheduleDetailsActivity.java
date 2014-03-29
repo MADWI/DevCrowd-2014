@@ -10,6 +10,7 @@ import pl.devcrowd.app.dialogs.RateDialog;
 import pl.devcrowd.app.dialogs.RateDialog.OnRatingListener;
 import pl.devcrowd.app.overviews.RoundImageView;
 import pl.devcrowd.app.services.ApiService;
+import pl.devcrowd.app.utils.ProgressUtils;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -22,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -47,17 +49,20 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.schedule_details);
 
 		getSupportActionBar().setHomeButtonEnabled(true);
 
 		Bundle extras = getIntent().getExtras();
 
+		
+		ProgressUtils.show(this);
 		rootView = (RelativeLayout) findViewById(R.id.rootView);
 		fillPresentationData(extras.getString(DevcrowdTables.PRESENTATION_ID));
 		fillSpeakersData(extras.getString(DevcrowdTables.PRESENTATION_ID));
 		rootView.addView(createRatingCardView());
-
+		ProgressUtils.hide(this);
 	}
 
 	private void fillPresentationData(String id) {
@@ -187,6 +192,7 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		final TextView textSpeakerDetails = (TextView) speakerCard
 				.findViewById(R.id.textSpeakerDetails);
 
+		ProgressUtils.show(this);
 		ShutterbugManager.getSharedImageManager(this).download(url,
 				new ShutterbugManagerListener() {
 
@@ -194,12 +200,14 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 					public void onImageSuccess(ShutterbugManager sm,
 							Bitmap bmp, String arg2) {
 						imageSpeaker.setImageBitmap(bmp);
+						ProgressUtils.hide(ScheduleDetailsActivity.this);
 					}
 
 					@Override
 					public void onImageFailure(ShutterbugManager arg0,
 							String arg1) {
 						imageSpeaker.setImageResource(R.drawable.head_simple);
+						ProgressUtils.hide(ScheduleDetailsActivity.this);
 					}
 				});
 		textSpeakerName.setText(name);

@@ -13,11 +13,14 @@ import pl.devcrowd.app.services.ApiService;
 import pl.devcrowd.app.utils.CalendarUtils;
 import pl.devcrowd.app.utils.ContentProviderHelper;
 import pl.devcrowd.app.utils.DebugLog;
+import pl.devcrowd.app.utils.ProgressUtils;
 import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
@@ -26,13 +29,13 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
 public class ScheduleListFragment extends ListFragment implements
 		LoaderCallbacks<Cursor>, AdapterInterface {
 
 	private static final int LOADER_ID = 1;
 	private static final int NO_FLAGS = 0;
-	private static final String PRESENTATION_DATE = "04/12/2014 ";
+	private static final int ALARM_DELAY_MS = -600;
+	private static final String PRESENTATION_DATE = "04/12/2014 ";	
 	private ScheduleItemsCursorAdapter adapter;
 	private String roomNumber = "126";
 
@@ -48,17 +51,50 @@ public class ScheduleListFragment extends ListFragment implements
 					ScheduleHostFragment.ROOM_NUMBER);
 		}
 		setHasOptionsMenu(true);
-		asyncLoadPresentationsAndSpeakers();
 		fillData();
+		asyncLoadPresentationsAndSpeakers();
 	}
 
 	private void asyncLoadPresentationsAndSpeakers() {
+
+		if (isAdded()) {
+			ProgressUtils.show(getActivity());
+		}
+
 		Intent intent = new Intent(getActivity(), ApiService.class);
 		intent.setAction(ApiService.ACTION_GET_PRESENTATIONS);
+		intent.putExtra(ApiService.RECEIVER_KEY, new ServiceResultReceiver(
+				new Handler()));
 		getActivity().startService(intent);
 		intent = new Intent(getActivity(), ApiService.class);
 		intent.setAction(ApiService.ACTION_GET_SPEAKERS);
+		intent.putExtra(ApiService.RECEIVER_KEY, new ServiceResultReceiver(
+				new Handler()));
 		getActivity().startService(intent);
+	}
+
+	private class ServiceResultReceiver extends ResultReceiver {
+
+		public ServiceResultReceiver(Handler handler) {
+			super(handler);
+		}
+
+		@Override
+		public void onReceiveResult(int resultCode, Bundle resultData) {
+			super.onReceiveResult(resultCode, resultData);
+			if (isAdded()) {
+				ProgressUtils.hide(getActivity());
+
+				if (resultCode == ApiService.LOADING_SUCCESS) {
+					getLoaderManager().restartLoader(LOADER_ID, null,
+							ScheduleListFragment.this);
+				} else if (resultCode == ApiService.LOADING_FAILED) {
+					Toast.makeText(getActivity(),
+							getString(R.string.error_loading_presentations),
+							Toast.LENGTH_LONG).show();
+				}
+			}
+		}
 	}
 
 	@Override
@@ -136,7 +172,6 @@ public class ScheduleListFragment extends ListFragment implements
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 		DebugLog.d("onLoaderReset");
-		// data is not available anymore, delete reference
 		adapter.swapCursor(null);
 	}
 
@@ -152,12 +187,13 @@ public class ScheduleListFragment extends ListFragment implements
 			StringBuilder tmp = new StringBuilder(PRESENTATION_DATE + hourStart
 					+ ":00");
 
-			cal = CalendarUtils.getDateDifferBySeconds(-600, tmp.toString());
+			cal = CalendarUtils.getDateDifferBySeconds(ALARM_DELAY_MS, tmp.toString());
 
 			Alarms.setAlarm(Integer.parseInt(presentationID),
 					cal.getTimeInMillis(), getActivity(), am);
-			
-			Toast.makeText(getActivity(), "Date: " + tmp.toString() + "\nState: " + isChecked,
+
+			Toast.makeText(getActivity(),
+					"Date: " + tmp.toString() + "\nState: " + isChecked,
 					Toast.LENGTH_LONG).show();
 		} else {
 			Alarms.cancelAlarm(Integer.parseInt(presentationID), getActivity(),
