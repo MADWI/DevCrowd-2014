@@ -11,10 +11,15 @@ import pl.devcrowd.app.dialogs.RateDialog.OnRatingListener;
 import pl.devcrowd.app.overviews.RoundImageView;
 import pl.devcrowd.app.services.ApiService;
 import pl.devcrowd.app.utils.ProgressUtils;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -358,6 +363,38 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		DisplayMetrics metrics = resources.getDisplayMetrics();
 		float px = dp * (metrics.densityDpi / 160f);
 		return Math.round(px);
+	}
+	
+	private BroadcastReceiver reciever = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			ConnectivityManager connectivityManager = ((ConnectivityManager) context
+					.getSystemService(Context.CONNECTIVITY_SERVICE));
+			NetworkInfo currentNetworkInfo = connectivityManager
+					.getActiveNetworkInfo();
+
+			RelativeLayout infoLayout = (RelativeLayout) findViewById(R.id.infoLayout);
+
+			if (currentNetworkInfo != null && currentNetworkInfo.isConnected()) {
+				infoLayout.setVisibility(View.GONE);
+			} else {
+				infoLayout.setVisibility(View.VISIBLE);
+			}
+		}
+
+	};
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		registerReceiver(reciever, new IntentFilter(
+				"android.net.conn.CONNECTIVITY_CHANGE"));
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		unregisterReceiver(reciever);
 	}
 
 }

@@ -32,5 +32,6 @@
 	<color name="dialog_button_focused">#4C0099CC</color> <!-- 30 % opacity -->
 	<color name="dialog_button_separator">#25000000</color> <!-- 7% opacity -->
 	<color name="background">#FFA500</color>
+	<color name="waringBackgroundColor">#777777</color>
 
 </resources>

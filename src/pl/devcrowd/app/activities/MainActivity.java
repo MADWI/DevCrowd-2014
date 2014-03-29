@@ -3,7 +3,6 @@ package pl.devcrowd.app.activities;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.dialogs.AboutDialog;
 import pl.devcrowd.app.drawer.NavigationDrawerItem;
@@ -13,8 +12,14 @@ import pl.devcrowd.app.fragments.HomeFragment;
 import pl.devcrowd.app.fragments.ScheduleHostFragment;
 import pl.devcrowd.app.fragments.SponsorFragment;
 import pl.devcrowd.app.utils.DebugLog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -28,6 +33,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 public class MainActivity extends ActionBarActivity {
 	private static final int DRAWER_HOME_NUM = 0;
@@ -65,7 +71,7 @@ public class MainActivity extends ActionBarActivity {
 		if (savedInstanceState == null) {
 			displayView(DRAWER_HOME_NUM);
 		}
-		
+
 	}
 
 	private void initNavigationDrawer() {
@@ -204,6 +210,38 @@ public class MainActivity extends ActionBarActivity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	private BroadcastReceiver reciever = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			ConnectivityManager connectivityManager = ((ConnectivityManager) context
+					.getSystemService(Context.CONNECTIVITY_SERVICE));
+			NetworkInfo currentNetworkInfo = connectivityManager
+					.getActiveNetworkInfo();
+
+			RelativeLayout infoLayout = (RelativeLayout) findViewById(R.id.infoLayout);
+
+			if (currentNetworkInfo != null && currentNetworkInfo.isConnected()) {
+				infoLayout.setVisibility(View.GONE);
+			} else {
+				infoLayout.setVisibility(View.VISIBLE);
+			}
+		}
+
+	};
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		registerReceiver(reciever, new IntentFilter(
+				"android.net.conn.CONNECTIVITY_CHANGE"));
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		unregisterReceiver(reciever);
 	}
 
 }
