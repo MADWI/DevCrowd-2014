@@ -11,22 +11,26 @@ import android.database.Cursor;
 import android.net.Uri;
 
 public class AlarmReceiver extends BroadcastReceiver {
-	
-	private static final String TICKER_TEXT = "Nie spóŸnij siê na prezentacjê: ";
-	private static final String MESSAGE_TEXT = "Za 10 minut rozpoczyna siê prezentacja.";
+
+	private static final String TICKER_TEXT = "Nie spóŸnij siê na prezentacjê.";
+	private String MESSAGE_TEXT = "Godzina: ";
+
+	private int lessonID;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		// TODO Auto-generated method stub
-		DebugLog.d("ID of AlarmAction: " + intent.getIntExtra("lessonID", -1));
+		this.lessonID = intent.getIntExtra("lessonID", -1);
+
+		DebugLog.d("ID of AlarmAction: " + this.lessonID);
+
+		MESSAGE_TEXT += getPresentationStartTime(Integer.toString(this.lessonID), context)
+				+ ", sala: " + getPresentationRoom(Integer.toString(this.lessonID), context);
+
 		Notifications.setNotification(
 				getPresentationTitle(
-						Integer.toString(intent.getIntExtra("lessonID", -1)),
-						context), 
-						MESSAGE_TEXT, 
-						TICKER_TEXT, 
-						intent.getIntExtra("lessonID", -1),
-						context);
+						Integer.toString(this.lessonID),
+						context), MESSAGE_TEXT, TICKER_TEXT, this.lessonID,
+				context);
 	}
 
 	private String getPresentationTitle(String id, Context context) {
@@ -43,6 +47,44 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 				return cursor.getString(cursor
 						.getColumnIndex(DevcrowdTables.PRESENTATION_TITLE));
+			}
+		}
+		return null;
+	}
+
+	private String getPresentationStartTime(String id, Context context) {
+		Cursor cursor = getCursor(
+				DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, context);
+		if (cursor == null) {
+			return null;
+		}
+
+		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+			if (cursor.getString(
+					cursor.getColumnIndex(DevcrowdTables.PRESENTATION_ID))
+					.equals(id)) {
+
+				return cursor.getString(cursor
+						.getColumnIndex(DevcrowdTables.PRESENTATION_START));
+			}
+		}
+		return null;
+	}
+
+	private String getPresentationRoom(String id, Context context) {
+		Cursor cursor = getCursor(
+				DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, context);
+		if (cursor == null) {
+			return null;
+		}
+
+		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+			if (cursor.getString(
+					cursor.getColumnIndex(DevcrowdTables.PRESENTATION_ID))
+					.equals(id)) {
+
+				return cursor.getString(cursor
+						.getColumnIndex(DevcrowdTables.PRESENTATION_ROOM));
 			}
 		}
 		return null;

@@ -9,13 +9,13 @@ import java.util.Locale;
 public class CalendarUtils {
 
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat(
-			"MM/dd/yyyy hh:mm:ss", Locale.GERMANY);
+			"MM/dd/yyyy HH:mm:ss", new Locale("pl", "PL"));
 
 	public static Calendar getDateDifferBySeconds(int secs, String dateTime) {
 
 		try {
 			Date date = dateFormat.parse(dateTime);
-			Calendar cal = Calendar.getInstance();
+			Calendar cal = Calendar.getInstance(new Locale("pl", "PL"));
 			cal.setTime(date);
 			cal.add(Calendar.SECOND, secs);
 			return cal;

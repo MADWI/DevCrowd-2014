@@ -1,16 +1,22 @@
 package pl.devcrowd.app.fragments;
 
+import java.util.Calendar;
+
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.activities.ScheduleDetailsActivity;
 import pl.devcrowd.app.alarms.Alarms;
+import pl.devcrowd.app.broadcasts.AlarmReceiver;
 import pl.devcrowd.app.db.DevcrowdContentProvider;
 import pl.devcrowd.app.db.DevcrowdTables;
 import pl.devcrowd.app.services.ApiService;
+import pl.devcrowd.app.utils.CalendarUtils;
 import pl.devcrowd.app.utils.DebugLog;
 import android.app.AlarmManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -24,24 +30,26 @@ import android.widget.ToggleButton;
 
 public class ScheduleListFragment extends ListFragment implements
 		LoaderCallbacks<Cursor> {
-	
+
 	private ToggleButton tglFavo;
 
 	private static final int LOADER_ID = 1;
 	private static final int NO_FLAGS = 0;
+	private static final String PRESENTATION_DATE = "04/12/2014 ";
 	private SimpleCursorAdapter adapter;
 	private String roomNumber = "126";
-	
+
 	private AlarmManager am;
 	private int lessonID;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		am = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-		if(getArguments()!=null)
-		{
-			roomNumber = getArguments().getString(ScheduleHostFragment.ROOM_NUMBER);
+		am = (AlarmManager) getActivity().getSystemService(
+				Context.ALARM_SERVICE);
+		if (getArguments() != null) {
+			roomNumber = getArguments().getString(
+					ScheduleHostFragment.ROOM_NUMBER);
 		}
 		setHasOptionsMenu(true);
 		asyncLoadPresentationsAndSpeakers();
@@ -65,38 +73,51 @@ public class ScheduleListFragment extends ListFragment implements
 	}
 
 	@Override
-	public void onListItemClick(final ListView l, View v, final int position, long id) {
-		
+	public void onListItemClick(final ListView l, View v, final int position,
+			long id) {
+
 		tglFavo = (ToggleButton) v.findViewById(R.id.toggleFavo);
 		tglFavo.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				switch(v.getId()){
-					case R.id.toggleFavo:
-						Toast.makeText(getActivity(), "State: " + tglFavo.isChecked(), Toast.LENGTH_SHORT).show();
-						if(tglFavo.isChecked()){
-							Cursor cursor = ((SimpleCursorAdapter) l.getAdapter()).getCursor();
-							cursor.moveToPosition(position);
-							lessonID = Integer.parseInt(cursor
-									.getString(cursor
-											.getColumnIndex(DevcrowdTables.PRESENTATION_ID)));
-							Alarms.setAlarm(lessonID, System.currentTimeMillis()+15000, getActivity(), am);
-							break;
-						} else {
-							Cursor cursor = ((SimpleCursorAdapter) l.getAdapter()).getCursor();
-							cursor.moveToPosition(position);
-							lessonID = Integer.parseInt(cursor
-									.getString(cursor
-											.getColumnIndex(DevcrowdTables.PRESENTATION_ID)));
-							Alarms.cancelAlarm(lessonID, getActivity(), am);
-							break;
-						}
+				switch (v.getId()) {
+				case R.id.toggleFavo:
+					if (tglFavo.isChecked()) {
+						Cursor cursor = ((SimpleCursorAdapter) l.getAdapter())
+								.getCursor();
+						cursor.moveToPosition(position);
+						lessonID = Integer.parseInt(cursor.getString(cursor
+								.getColumnIndex(DevcrowdTables.PRESENTATION_ID)));
+						Calendar cal = CalendarUtils.getCurrentTime();
+						
+						StringBuilder tmp = new StringBuilder(PRESENTATION_DATE
+								+ getPresentationStartTime(
+										Integer.toString(lessonID),
+										getActivity()) + ":00");
+						
+						DebugLog.d(tmp.toString());
+
+						cal = CalendarUtils.getDateDifferBySeconds(-600,
+								tmp.toString());
+
+						Alarms.setAlarm(lessonID, cal.getTimeInMillis(),
+								getActivity(), am);
+						break;
+					} else {
+						Cursor cursor = ((SimpleCursorAdapter) l.getAdapter())
+								.getCursor();
+						cursor.moveToPosition(position);
+						lessonID = Integer.parseInt(cursor.getString(cursor
+								.getColumnIndex(DevcrowdTables.PRESENTATION_ID)));
+						Alarms.cancelAlarm(lessonID, getActivity(), am);
+						break;
+					}
 				}
 			}
 		});
-		
+
 		if (isAdded()) {
 			Cursor cursor = ((SimpleCursorAdapter) l.getAdapter()).getCursor();
 			cursor.moveToPosition(position);
@@ -114,12 +135,15 @@ public class ScheduleListFragment extends ListFragment implements
 	private void fillData() {
 		// Fields from the database (projection)
 		// Must include the _id column for the adapter to work
-		String[] from = new String[] { DevcrowdTables.PRESENTATION_TITLE,
+		String[] from = new String[] {
+				DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.PRESENTATION_HOUR_JOIN,
 				DevcrowdTables.SPEAKER_COLUMN_NAME,
-				DevcrowdTables.TABLE_PRESENTATIONS + "." + DevcrowdTables.PRESENTATION_ID };
+				DevcrowdTables.TABLE_PRESENTATIONS + "."
+						+ DevcrowdTables.PRESENTATION_ID };
 		// Fields on the UI to which we map
-		int[] to = new int[] { R.id.textItemTopic, R.id.textItemHour, R.id.textItemSpeaker };
+		int[] to = new int[] { R.id.textItemTopic, R.id.textItemHour,
+				R.id.textItemSpeaker };
 
 		getLoaderManager().initLoader(LOADER_ID, null, this);
 
@@ -132,10 +156,12 @@ public class ScheduleListFragment extends ListFragment implements
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		String[] projection = { DevcrowdTables.PRESENTATION_TITLE,
-				DevcrowdTables.TABLE_PRESENTATIONS + "." + DevcrowdTables.PRESENTATION_ID,
+		String[] projection = {
+				DevcrowdTables.PRESENTATION_TITLE,
+				DevcrowdTables.TABLE_PRESENTATIONS + "."
+						+ DevcrowdTables.PRESENTATION_ID,
 				DevcrowdTables.PRESENTATION_HOUR_JOIN,
-				DevcrowdTables.SPEAKER_COLUMN_NAME};
+				DevcrowdTables.SPEAKER_COLUMN_NAME };
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
 				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,
 				DevcrowdTables.PRESENTATION_ROOM + " =? ",
@@ -157,4 +183,27 @@ public class ScheduleListFragment extends ListFragment implements
 		adapter.swapCursor(null);
 	}
 
+	private String getPresentationStartTime(String id, Context context) {
+		Cursor cursor = getCursor(
+				DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, context);
+		if (cursor == null) {
+			return null;
+		}
+
+		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+			if (cursor.getString(
+					cursor.getColumnIndex(DevcrowdTables.PRESENTATION_ID))
+					.equals(id)) {
+
+				return cursor.getString(cursor
+						.getColumnIndex(DevcrowdTables.PRESENTATION_START));
+			}
+		}
+		return null;
+	}
+
+	private Cursor getCursor(Uri uri, Context context) {
+		return context.getContentResolver().query(uri, null, null, null,
+				DevcrowdTables.PRESENTATION_ID + " DESC");
+	}
 }
