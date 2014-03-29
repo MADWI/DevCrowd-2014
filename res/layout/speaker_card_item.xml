@@ -55,7 +55,8 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/relativeLayout1"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/sponsorsTextView" />
+            android:textColor="@color/sponsorsTextView"
+            android:maxLines="3" />
     </RelativeLayout>
 
     <TextView

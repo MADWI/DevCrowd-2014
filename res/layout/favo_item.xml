@@ -16,9 +16,8 @@
         android:baselineAligned="false" >
 
         <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25" >
+            android:layout_width="75dp"
+            android:layout_height="wrap_content" >
 
             <TextView
                 android:id="@+id/textFavoItemHour"
@@ -30,13 +29,13 @@
                 android:paddingBottom="@dimen/cardMargin"
                 android:paddingTop="@dimen/cardMargin"
                 android:text="10.15\n11.15"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/sponsorsTextView" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.75" >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
             <RelativeLayout
                 android:layout_width="1dp"
@@ -62,7 +61,8 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="@dimen/cardMargin"
                     android:text="Przykładowy temat"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/sponsorsTextView" />
 
                 <TextView
                     android:id="@+id/textFavoItemSpeaker"
@@ -73,7 +73,10 @@
                     android:layout_below="@+id/textFavoItemTopic"
                     android:layout_marginLeft="@dimen/cardMargin"
                     android:text="Jan Kowalski"
-                    android:textAppearance="?android:attr/textAppearance" />
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textAppearance="?android:attr/textAppearance"
+                    android:textColor="@color/sponsorsTextView" />
 
                 <TextView
                     android:id="@+id/textFavoRoom"
@@ -85,7 +88,8 @@
                     android:layout_toRightOf="@+id/textFavoItemTopic"
                     android:gravity="center"
                     android:text="Sala: 128"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/sponsorsTextView" />
 
             </RelativeLayout>
 

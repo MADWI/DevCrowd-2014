@@ -20,7 +20,7 @@
     <color name="sponsorsFrameBorder">#96ccff</color>
     
     <color name="tabhostBg">#F7F7F7</color>
-    <color name="listItemDivider">#E69529</color>
+    <color name="listItemDivider">#80E69529</color>
     
     <!-- custom light theme: -->
 	<color name="dialog_message_text">#333333</color>

@@ -4,7 +4,6 @@ import pl.devcrowd.app.R;
 import pl.devcrowd.app.db.DevcrowdTables;
 import android.content.Context;
 import android.database.Cursor;
-import android.sax.StartElementListener;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
