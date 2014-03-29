@@ -57,7 +57,7 @@ public class ScheduleHostFragment extends Fragment implements
 				R.drawable.tab_background);
 		TextView title = (TextView) mTabHost.getCurrentTabView().findViewById(
 				android.R.id.title);
-		title.setTextColor(Color.BLACK);
+		title.setTextColor(getResources().getColor(R.color.drawer_list_title_color));
 	}
 
 	private void resetTabsView() {
@@ -66,7 +66,7 @@ public class ScheduleHostFragment extends Fragment implements
 					.setBackgroundResource(R.drawable.tab_background_unselected);
 			TextView title = (TextView) mTabHost.getTabWidget().getChildAt(i)
 					.findViewById(android.R.id.title);
-			title.setTextColor(Color.BLACK);
+			title.setTextColor(getResources().getColor(R.color.drawer_list_title_color));
 		}
 	}
 

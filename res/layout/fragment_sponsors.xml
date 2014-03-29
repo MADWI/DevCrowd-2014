@@ -244,31 +244,6 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/rounded_corners_border"
             android:padding="@dimen/sponsorMargin" >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corners"
-                android:padding="8dp" >
-
-                <TextView
-                    android:id="@+id/tvCreatedBy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/createdBy"
-                    android:textColor="@color/sponsorsTextView"
-                    android:textSize="20sp" />
-
-                <ImageView
-                    android:id="@+id/createdByMAD"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tvCreatedBy"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/mad_logo" />
-            </RelativeLayout>
         </RelativeLayout>
 
         <RelativeLayout

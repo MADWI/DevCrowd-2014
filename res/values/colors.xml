@@ -8,7 +8,7 @@
     <color name="list_background_pressed">#fa7000</color>
     <color name="list_divider">#b20900</color>
     <color name="list_title_color">#034E8A</color>
-    <color name="drawer_list_title_color">#FFF</color>
+    <color name="drawer_list_title_color">#4B4B4B</color>
     
     <color name="Dark_blue">#006699</color>
     <color name="Light_blue">#AEE1F3</color>
