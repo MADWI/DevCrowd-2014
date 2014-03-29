@@ -91,12 +91,12 @@ public class ScheduleListFragment extends ListFragment implements
 						lessonID = Integer.parseInt(cursor.getString(cursor
 								.getColumnIndex(DevcrowdTables.PRESENTATION_ID)));
 						Calendar cal = CalendarUtils.getCurrentTime();
-						
+
 						StringBuilder tmp = new StringBuilder(PRESENTATION_DATE
 								+ getPresentationStartTime(
 										Integer.toString(lessonID),
 										getActivity()) + ":00");
-						
+
 						DebugLog.d(tmp.toString());
 
 						cal = CalendarUtils.getDateDifferBySeconds(-600,
@@ -138,7 +138,7 @@ public class ScheduleListFragment extends ListFragment implements
 		String[] from = new String[] {
 				DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.PRESENTATION_HOUR_JOIN,
-				DevcrowdTables.SPEAKER_COLUMN_NAME,
+				"speakersNames",
 				DevcrowdTables.TABLE_PRESENTATIONS + "."
 						+ DevcrowdTables.PRESENTATION_ID };
 		// Fields on the UI to which we map
@@ -161,7 +161,8 @@ public class ScheduleListFragment extends ListFragment implements
 				DevcrowdTables.TABLE_PRESENTATIONS + "."
 						+ DevcrowdTables.PRESENTATION_ID,
 				DevcrowdTables.PRESENTATION_HOUR_JOIN,
-				DevcrowdTables.SPEAKER_COLUMN_NAME };
+				"GROUP_CONCAT(" + DevcrowdTables.SPEAKER_COLUMN_NAME
+						+ ",', ') AS speakersNames" };
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
 				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,
 				DevcrowdTables.PRESENTATION_ROOM + " =? ",

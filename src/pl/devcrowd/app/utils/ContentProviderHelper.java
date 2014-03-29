@@ -15,6 +15,7 @@ import android.net.Uri;
 
 public final class ContentProviderHelper {
 	private static final String DEFAULT_SORT = " DESC";
+	private static final String IS_FAVOURITE = "ok";
 
 	private ContentProviderHelper() {
 	};
@@ -140,6 +141,19 @@ public final class ContentProviderHelper {
 		ContentValues values = new ContentValues();
 		values.put(DevcrowdTables.PRESENTATION_TOPIC_GRADE, topiGrade);
 		values.put(DevcrowdTables.PRESENTATION_SPEAKER_GRADE, speakerGrade);
+		asyncHandler.startUpdate(-1, null,
+				DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, values,
+				DevcrowdTables.PRESENTATION_TITLE + "=?",
+				new String[] { presentationTitle });
+	}
+	
+	public static void updateFavourite(final ContentResolver resolver,
+			final String presentationTitle, boolean isFavourite) {
+		AsyncQueryHandler asyncHandler = new AsyncQueryHandler(resolver) {
+		};
+		String favourite = (isFavourite) ? IS_FAVOURITE : "";
+		ContentValues values = new ContentValues();
+		values.put(DevcrowdTables.PRESENTATION_FAVOURITE, favourite);
 		asyncHandler.startUpdate(-1, null,
 				DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, values,
 				DevcrowdTables.PRESENTATION_TITLE + "=?",

@@ -17,9 +17,9 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.widget.ListView;
 
-public class FavouritesListFragment extends ListFragment 
-	implements LoaderManager.LoaderCallbacks<Cursor>{
-	
+public class FavouritesListFragment extends ListFragment implements
+		LoaderManager.LoaderCallbacks<Cursor> {
+
 	private static final int LOADER_ID = 1;
 	private static final int NO_FLAGS = 0;
 	private static final String IS_FAVOURITE = "ok";
@@ -56,21 +56,25 @@ public class FavouritesListFragment extends ListFragment
 					ScheduleDetailsActivity.class));
 		}
 	}
-	
+
 	private void fillData() {
 		// Fields from the database (projection)
 		// Must include the _id column for the adapter to work
-		String[] from = new String[] { DevcrowdTables.PRESENTATION_TITLE,
+		String[] from = new String[] {
+				DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.PRESENTATION_HOUR_JOIN,
-				DevcrowdTables.SPEAKER_COLUMN_NAME,
-				DevcrowdTables.TABLE_PRESENTATIONS + "." + DevcrowdTables.PRESENTATION_ID };
+				"speakersNames",
+				DevcrowdTables.PRESENTATION_START,
+				DevcrowdTables.TABLE_PRESENTATIONS + "."
+						+ DevcrowdTables.PRESENTATION_ID };
 		// Fields on the UI to which we map
-		int[] to = new int[] { R.id.textFavoItemTopic, R.id.textFavoItemHour, R.id.textFavoItemSpeaker };
+		int[] to = new int[] { R.id.textFavoItemTopic, R.id.textFavoItemHour,
+				R.id.textFavoItemSpeaker };
 
 		getLoaderManager().initLoader(LOADER_ID, null, this);
 
-		adapter = new SimpleCursorAdapter(getActivity(),
-				R.layout.favo_item, null, from, to, NO_FLAGS);
+		adapter = new SimpleCursorAdapter(getActivity(), R.layout.favo_item,
+				null, from, to, NO_FLAGS);
 
 		setListAdapter(adapter);
 
@@ -78,11 +82,15 @@ public class FavouritesListFragment extends ListFragment
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		String[] projection = { DevcrowdTables.PRESENTATION_TITLE,
-				DevcrowdTables.TABLE_PRESENTATIONS + "." + DevcrowdTables.PRESENTATION_ID,
+		String[] projection = {
+				DevcrowdTables.PRESENTATION_TITLE,
+				DevcrowdTables.TABLE_PRESENTATIONS + "."
+						+ DevcrowdTables.PRESENTATION_ID,
 				DevcrowdTables.PRESENTATION_HOUR_JOIN,
-				DevcrowdTables.SPEAKER_COLUMN_NAME,
-				DevcrowdTables.PRESENTATION_FAVOURITE};
+				"GROUP_CONCAT(" + DevcrowdTables.SPEAKER_COLUMN_NAME
+						+ ",', ') AS speakersNames",
+				DevcrowdTables.PRESENTATION_FAVOURITE,
+				DevcrowdTables.PRESENTATION_START };
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
 				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,
 				DevcrowdTables.PRESENTATION_FAVOURITE + " =? ",

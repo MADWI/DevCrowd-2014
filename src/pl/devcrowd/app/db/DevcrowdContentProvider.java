@@ -15,7 +15,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 public class DevcrowdContentProvider extends ContentProvider {
-	
+
 	// database
 	private DevcrowdDatabaseHelper database;
 
@@ -25,7 +25,6 @@ public class DevcrowdContentProvider extends ContentProvider {
 	private static final int SPEAKERS = 30;
 	private static final int SPEAKER_ID = 40;
 	private static final int JOIN = 50;
-	
 
 	private static final String AUTHORITY = "pl.devcrowd.app.db";
 
@@ -75,8 +74,7 @@ public class DevcrowdContentProvider extends ContentProvider {
 		// Uisng SQLiteQueryBuilder instead of query() method
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 
-		// Check if the caller has requested a column which does not exists
-		checkColumns(projection);
+		String groupBy = null;
 
 		int uriType = sURIMatcher.match(uri);
 		switch (uriType) {
@@ -103,6 +101,8 @@ public class DevcrowdContentProvider extends ContentProvider {
 					+ " LEFT OUTER JOIN " + DevcrowdTables.TABLE_SPEAKERS
 					+ " ON (" + DevcrowdTables.PRESENTATION_TITLE + " = "
 					+ DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_TITLE + ")");
+			groupBy = DevcrowdTables.TABLE_PRESENTATIONS + "."
+					+ DevcrowdTables.PRESENTATION_TITLE;
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -110,7 +110,7 @@ public class DevcrowdContentProvider extends ContentProvider {
 
 		SQLiteDatabase db = database.getWritableDatabase();
 		Cursor cursor = queryBuilder.query(db, projection, selection,
-				selectionArgs, null, null, sortOrder);
+				selectionArgs, groupBy, null, sortOrder);
 		// Make sure that potential listeners are getting notified
 		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		DebugLog.d("query rows:" + cursor.getCount());
@@ -175,35 +175,5 @@ public class DevcrowdContentProvider extends ContentProvider {
 		}
 		getContext().getContentResolver().notifyChange(uri, null);
 		return rowsUpdated;
-	}
-
-	private void checkColumns(String[] projection) {
-		String[] available = { DevcrowdTables.PRESENTATION_ID,
-				DevcrowdTables.TABLE_PRESENTATIONS + "." + DevcrowdTables.PRESENTATION_ID,
-				DevcrowdTables.PRESENTATION_TITLE,
-				DevcrowdTables.PRESENTATION_ROOM,
-				DevcrowdTables.PRESENTATION_START,
-				DevcrowdTables.PRESENTATION_END,
-				DevcrowdTables.PRESENTATION_DESCRIPTION,
-				DevcrowdTables.PRESENTATION_TOPIC_GRADE,
-				DevcrowdTables.PRESENTATION_SPEAKER_GRADE,
-				DevcrowdTables.PRESENTATION_HOUR_JOIN,
-				DevcrowdTables.PRESENTATION_FAVOURITE,
-				DevcrowdTables.SPEAKER_COLUMN_ID,
-				DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_TITLE,
-				DevcrowdTables.SPEAKER_COLUMN_NAME,
-				DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION,
-				DevcrowdTables.SPEAKER_COLUMN_FOTO };
-		if (projection != null) {
-			HashSet<String> requestedColumns = new HashSet<String>(
-					Arrays.asList(projection));
-			HashSet<String> availableColumns = new HashSet<String>(
-					Arrays.asList(available));
-			// Check if all columns which are requested are available
-			if (!availableColumns.containsAll(requestedColumns)) {
-				throw new IllegalArgumentException(
-						"Unknown columns in projection");
-			}
-		}
 	}
 }
