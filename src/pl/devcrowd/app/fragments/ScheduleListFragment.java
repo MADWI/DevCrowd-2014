@@ -122,7 +122,7 @@ public class ScheduleListFragment extends ListFragment implements
 		});
 
 		if (isAdded()) {
-			Cursor cursor = ((SimpleCursorAdapter) l.getAdapter()).getCursor();
+			Cursor cursor = ((ScheduleItemsCursorAdapter) l.getAdapter()).getCursor();
 			cursor.moveToPosition(position);
 			Intent iDetails = new Intent(getActivity(),
 					ScheduleDetailsActivity.class);
