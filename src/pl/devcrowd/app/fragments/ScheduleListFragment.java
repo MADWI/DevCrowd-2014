@@ -7,7 +7,6 @@ import pl.devcrowd.app.activities.ScheduleDetailsActivity;
 import pl.devcrowd.app.adapters.ScheduleItemsCursorAdapter;
 import pl.devcrowd.app.adapters.ScheduleItemsCursorAdapter.AdapterInterface;
 import pl.devcrowd.app.alarms.Alarms;
-import pl.devcrowd.app.broadcasts.AlarmReceiver;
 import pl.devcrowd.app.db.DevcrowdContentProvider;
 import pl.devcrowd.app.db.DevcrowdTables;
 import pl.devcrowd.app.services.ApiService;
@@ -15,26 +14,21 @@ import pl.devcrowd.app.utils.CalendarUtils;
 import pl.devcrowd.app.utils.ContentProviderHelper;
 import pl.devcrowd.app.utils.DebugLog;
 import android.app.AlarmManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
+
 
 public class ScheduleListFragment extends ListFragment implements
 		LoaderCallbacks<Cursor>, AdapterInterface {
-
-	private ToggleButton tglFavo;
 
 	private static final int LOADER_ID = 1;
 	private static final int NO_FLAGS = 0;
@@ -43,7 +37,6 @@ public class ScheduleListFragment extends ListFragment implements
 	private String roomNumber = "126";
 
 	private AlarmManager am;
-	private int lessonID;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -78,51 +71,9 @@ public class ScheduleListFragment extends ListFragment implements
 	@Override
 	public void onListItemClick(final ListView l, View v, final int position,
 			long id) {
-
-		tglFavo = (ToggleButton) v.findViewById(R.id.toggleFavo);
-		tglFavo.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				switch (v.getId()) {
-				case R.id.toggleFavo:
-					if (tglFavo.isChecked()) {
-						Cursor cursor = ((SimpleCursorAdapter) l.getAdapter())
-								.getCursor();
-						cursor.moveToPosition(position);
-						lessonID = Integer.parseInt(cursor.getString(cursor
-								.getColumnIndex(DevcrowdTables.PRESENTATION_ID)));
-						Calendar cal = CalendarUtils.getCurrentTime();
-
-						StringBuilder tmp = new StringBuilder(PRESENTATION_DATE
-								+ getPresentationStartTime(
-										Integer.toString(lessonID),
-										getActivity()) + ":00");
-
-						DebugLog.d(tmp.toString());
-
-						cal = CalendarUtils.getDateDifferBySeconds(-600,
-								tmp.toString());
-
-						Alarms.setAlarm(lessonID, cal.getTimeInMillis(),
-								getActivity(), am);
-						break;
-					} else {
-						Cursor cursor = ((SimpleCursorAdapter) l.getAdapter())
-								.getCursor();
-						cursor.moveToPosition(position);
-						lessonID = Integer.parseInt(cursor.getString(cursor
-								.getColumnIndex(DevcrowdTables.PRESENTATION_ID)));
-						Alarms.cancelAlarm(lessonID, getActivity(), am);
-						break;
-					}
-				}
-			}
-		});
-
 		if (isAdded()) {
-			Cursor cursor = ((ScheduleItemsCursorAdapter) l.getAdapter()).getCursor();
+			Cursor cursor = ((ScheduleItemsCursorAdapter) l.getAdapter())
+					.getCursor();
 			cursor.moveToPosition(position);
 			Intent iDetails = new Intent(getActivity(),
 					ScheduleDetailsActivity.class);
@@ -189,35 +140,28 @@ public class ScheduleListFragment extends ListFragment implements
 		adapter.swapCursor(null);
 	}
 
-	private String getPresentationStartTime(String id, Context context) {
-		Cursor cursor = getCursor(
-				DevcrowdContentProvider.CONTENT_URI_PRESENATIONS, context);
-		if (cursor == null) {
-			return null;
-		}
-
-		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-			if (cursor.getString(
-					cursor.getColumnIndex(DevcrowdTables.PRESENTATION_ID))
-					.equals(id)) {
-
-				return cursor.getString(cursor
-						.getColumnIndex(DevcrowdTables.PRESENTATION_START));
-			}
-		}
-		return null;
-	}
-
-	private Cursor getCursor(Uri uri, Context context) {
-		return context.getContentResolver().query(uri, null, null, null,
-				DevcrowdTables.PRESENTATION_ID + " DESC");
-	}
-
 	@Override
 	public void buttonPressed(String presentationTitle, String hourStart,
-			boolean isChecked) {
-		Toast.makeText(getActivity(), presentationTitle + ":" + hourStart,
-				Toast.LENGTH_SHORT).show();
-		ContentProviderHelper.updateFavourite(getActivity().getContentResolver(), presentationTitle, isChecked);
+			String presentationID, boolean isChecked) {
+		ContentProviderHelper.updateFavourite(getActivity()
+				.getContentResolver(), presentationTitle, isChecked);
+
+		if (isChecked) {
+			Calendar cal = CalendarUtils.getCurrentTime();
+
+			StringBuilder tmp = new StringBuilder(PRESENTATION_DATE + hourStart
+					+ ":00");
+
+			cal = CalendarUtils.getDateDifferBySeconds(-600, tmp.toString());
+
+			Alarms.setAlarm(Integer.parseInt(presentationID),
+					cal.getTimeInMillis(), getActivity(), am);
+			
+			Toast.makeText(getActivity(), "Date: " + tmp.toString() + "\nState: " + isChecked,
+					Toast.LENGTH_LONG).show();
+		} else {
+			Alarms.cancelAlarm(Integer.parseInt(presentationID), getActivity(),
+					am);
+		}
 	}
 }

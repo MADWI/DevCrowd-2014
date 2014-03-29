@@ -17,7 +17,7 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter {
 	
 	public interface AdapterInterface {
         public void buttonPressed(String presentationTitle,
-        		String hourStart, boolean isChecked);
+        		String hourStart, String presentationID, boolean isChecked);
     }
 	
 	private LayoutInflater mInflater;
@@ -39,6 +39,7 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter {
 		
 		final String presentationTitle = cursor.getString(cursor.getColumnIndex(DevcrowdTables.PRESENTATION_TITLE));
 		final String hourStart = cursor.getString(cursor.getColumnIndex(DevcrowdTables.PRESENTATION_START));
+		final String presentationID = cursor.getString(cursor.getColumnIndex(DevcrowdTables.PRESENTATION_ID));
 		
 		textItemHour.setText(cursor.getString(cursor.getColumnIndex(DevcrowdTables.PRESENTATION_HOUR_JOIN)));
 		textItemTopic.setText(presentationTitle);
@@ -52,7 +53,7 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				mAdapterInterface.buttonPressed(presentationTitle, hourStart, isChecked);
+				mAdapterInterface.buttonPressed(presentationTitle, hourStart, presentationID, isChecked);
 			}
 		});
 	}
