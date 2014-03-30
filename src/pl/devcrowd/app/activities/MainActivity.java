@@ -9,6 +9,7 @@ import pl.devcrowd.app.drawer.NavigationDrawerItem;
 import pl.devcrowd.app.drawer.NavigationDrawerListAdapter;
 import pl.devcrowd.app.fragments.FavouritesListFragment;
 import pl.devcrowd.app.fragments.HomeFragment;
+import pl.devcrowd.app.fragments.HomeFragment.OnDevCrowdLogoClickListener;
 import pl.devcrowd.app.fragments.ScheduleHostFragment;
 import pl.devcrowd.app.fragments.SponsorFragment;
 import pl.devcrowd.app.utils.DebugLog;
@@ -35,7 +36,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoClickListener {
 	private static final int DRAWER_HOME_NUM = 0;
 	private static final int DRAWER_SCHEDULE_NUM = 1;
 	private static final int DRAWER_FAVOURITES_NUM = 2;
@@ -242,6 +243,11 @@ public class MainActivity extends ActionBarActivity {
 	public void onStop() {
 		super.onStop();
 		unregisterReceiver(reciever);
+	}
+
+	@Override
+	public void onDevCrowdLogoClick() {
+		displayView(DRAWER_SCHEDULE_NUM);
 	}
 
 }

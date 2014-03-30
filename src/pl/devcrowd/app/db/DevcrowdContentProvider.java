@@ -143,7 +143,6 @@ public class DevcrowdContentProvider extends ContentProvider {
 
 	@Override
 	public int delete(Uri arg0, String arg1, String[] arg2) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
