@@ -60,7 +60,9 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="@dimen/cardMargin"
+                    android:layout_toLeftOf="@+id/textFavoRoom"
                     android:text="Przykładowy temat"
+                    android:singleLine="true"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/sponsorsTextView" />
 
@@ -72,20 +74,18 @@
                     android:layout_alignRight="@+id/textFavoItemTopic"
                     android:layout_below="@+id/textFavoItemTopic"
                     android:layout_marginLeft="@dimen/cardMargin"
-                    android:text="Jan Kowalski"
-                    android:maxLines="2"
                     android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="Jan Kowalski"
                     android:textAppearance="?android:attr/textAppearance"
                     android:textColor="@color/sponsorsTextView" />
 
                 <TextView
                     android:id="@+id/textFavoRoom"
-                    android:layout_width="wrap_content"
+                    android:layout_width="58dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="2dp"
-                    android:layout_toRightOf="@+id/textFavoItemTopic"
                     android:gravity="center"
                     android:text="Sala: 128"
                     android:textAppearance="?android:attr/textAppearanceMedium"
