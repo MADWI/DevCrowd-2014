@@ -25,7 +25,10 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,6 +41,7 @@ public class ScheduleListFragment extends ListFragment implements
 	private static final String PRESENTATION_DATE = "04/12/2014 ";	
 	private ScheduleItemsCursorAdapter adapter;
 	private String roomNumber = "126";
+	private ListView list;
 
 	private AlarmManager am;
 
@@ -98,11 +102,13 @@ public class ScheduleListFragment extends ListFragment implements
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		getListView().setDivider(null);
-		getListView().setSelector(android.R.color.transparent);
-	}
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.elements_list_view, container, false);
+        list = (ListView)view.findViewById(android.R.id.list);
+        list.setSelector(android.R.color.transparent);
+        return view;
+    }
 
 	@Override
 	public void onListItemClick(final ListView l, View v, final int position,
@@ -123,18 +129,6 @@ public class ScheduleListFragment extends ListFragment implements
 	}
 
 	private void fillData() {
-		// Fields from the database (projection)
-		// Must include the _id column for the adapter to work
-		String[] from = new String[] {
-				DevcrowdTables.PRESENTATION_TITLE,
-				DevcrowdTables.PRESENTATION_HOUR_JOIN,
-				DevcrowdTables.JOIN_SPEAKERS_NAMES,
-				DevcrowdTables.TABLE_PRESENTATIONS + "."
-						+ DevcrowdTables.PRESENTATION_ID };
-		// Fields on the UI to which we map
-		int[] to = new int[] { R.id.textItemTopic, R.id.textItemHour,
-				R.id.textItemSpeaker };
-
 		getLoaderManager().initLoader(LOADER_ID, null, this);
 
 		adapter = new ScheduleItemsCursorAdapter(getActivity(), null, NO_FLAGS,

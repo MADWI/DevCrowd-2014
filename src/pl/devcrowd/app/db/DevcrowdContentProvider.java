@@ -1,8 +1,5 @@
 package pl.devcrowd.app.db;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 import pl.devcrowd.app.utils.DebugLog;
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -159,11 +156,8 @@ public class DevcrowdContentProvider extends ContentProvider {
 		int rowsUpdated = 0;
 		switch (uriType) {
 		case PRESENTATIONS:
-			if (TextUtils.isEmpty(selection)) {
-				rowsUpdated = sqlDB.update(DevcrowdTables.TABLE_PRESENTATIONS,
-						values, selection, selectionArgs);
-				DebugLog.d(rowsUpdated + "");
-			}
+			rowsUpdated = sqlDB.update(DevcrowdTables.TABLE_PRESENTATIONS,
+					values, selection, selectionArgs);
 			break;
 		case SPEAKERS:
 			if (TextUtils.isEmpty(selection)) {

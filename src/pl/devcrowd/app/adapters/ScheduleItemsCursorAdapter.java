@@ -35,7 +35,7 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter {
 		TextView textItemTopic = (TextView) view.findViewById(R.id.textItemTopic);
 		TextView textItemSpeaker = (TextView) view.findViewById(R.id.textItemSpeaker);
 		
-		ToggleButton starButton = (ToggleButton) view.findViewById(R.id.toggleFavo);
+		final ToggleButton starButton = (ToggleButton) view.findViewById(R.id.toggleFavo);
 		
 		final String presentationTitle = cursor.getString(cursor.getColumnIndex(DevcrowdTables.PRESENTATION_TITLE));
 		final String hourStart = cursor.getString(cursor.getColumnIndex(DevcrowdTables.PRESENTATION_START));

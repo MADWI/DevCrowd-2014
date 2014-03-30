@@ -14,7 +14,9 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
 public class FavouritesListFragment extends ListFragment implements
@@ -23,6 +25,7 @@ public class FavouritesListFragment extends ListFragment implements
 	private static final int LOADER_ID = 1;
 	private static final int NO_FLAGS = 0;
 	private SimpleCursorAdapter adapter;
+	private ListView list;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,19 +37,32 @@ public class FavouritesListFragment extends ListFragment implements
 		}
 		fillData();
 	}
-
+	
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		getListView().setDivider(null);
-		getListView().setSelector(android.R.color.transparent);
-	}
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.elements_list_view, container, false);
+        list = (ListView)view.findViewById(android.R.id.list);
+        list.setSelector(android.R.color.transparent);
+        return view;
+    }
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		if (isAdded()) {
-			startActivity(new Intent(getActivity(),
-					ScheduleDetailsActivity.class));
+			if (isAdded()) {
+				Cursor cursor = ((SimpleCursorAdapter) l.getAdapter())
+						.getCursor();
+				cursor.moveToPosition(position);
+				Intent iDetails = new Intent(getActivity(),
+						ScheduleDetailsActivity.class);
+				iDetails.putExtra(DevcrowdTables.PRESENTATION_ID, cursor
+						.getString(cursor
+								.getColumnIndex(DevcrowdTables.PRESENTATION_ID)));
+				startActivity(iDetails);
+				getActivity().overridePendingTransition(R.anim.slide_left_enter,
+						R.anim.slide_left_exit);
+			}
 		}
 	}
 

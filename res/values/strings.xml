@@ -47,4 +47,5 @@
     <string name="partners">Partnerzy</string>
     <string name="createdBy">Autorzy aplikacji</string>
     <string name="hour">Godzina:</string>
+    <string name="no_data">Brak prezentacji do pokazania</string>
 </resources>
