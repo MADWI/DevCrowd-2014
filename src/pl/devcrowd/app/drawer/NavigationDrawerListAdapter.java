@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class NavigationDrawerListAdapter extends BaseAdapter {
@@ -49,7 +50,12 @@ public class NavigationDrawerListAdapter extends BaseAdapter {
 		} else {
 			createdView = convertView;
 		}
-
+		
+		if (((ListView) parent).isItemChecked(position))
+			createdView.setBackgroundResource(R.drawable.drawer_item_background_pressed);
+		else
+			createdView.setBackgroundResource(android.R.color.transparent);
+		
 		ImageView imgIcon = (ImageView) createdView.findViewById(R.id.icon);
 		TextView txtTitle = (TextView) createdView.findViewById(R.id.title);
 
