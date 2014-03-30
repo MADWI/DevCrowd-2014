@@ -73,12 +73,13 @@ public class FavouritesListFragment extends ListFragment implements
 				DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.PRESENTATION_HOUR_JOIN,
 				DevcrowdTables.JOIN_SPEAKERS_NAMES,
+				DevcrowdTables.PRESENTATION_ROOM,
 				DevcrowdTables.PRESENTATION_START,
 				DevcrowdTables.TABLE_PRESENTATIONS + "."
 						+ DevcrowdTables.PRESENTATION_ID };
 		// Fields on the UI to which we map
 		int[] to = new int[] { R.id.textFavoItemTopic, R.id.textFavoItemHour,
-				R.id.textFavoItemSpeaker };
+				R.id.textFavoItemSpeaker, R.id.textFavoRoom };
 
 		getLoaderManager().initLoader(LOADER_ID, null, this);
 
@@ -99,7 +100,8 @@ public class FavouritesListFragment extends ListFragment implements
 				"GROUP_CONCAT(" + DevcrowdTables.SPEAKER_COLUMN_NAME
 						+ ",', ') AS " + DevcrowdTables.JOIN_SPEAKERS_NAMES,
 				DevcrowdTables.PRESENTATION_FAVOURITE,
-				DevcrowdTables.PRESENTATION_START };
+				DevcrowdTables.PRESENTATION_START,
+				DevcrowdTables.PRESENTATION_ROOM };
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
 				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,
 				DevcrowdTables.PRESENTATION_FAVOURITE + " =? ",
