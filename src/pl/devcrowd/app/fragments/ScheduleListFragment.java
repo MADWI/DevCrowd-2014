@@ -58,6 +58,12 @@ public class ScheduleListFragment extends ListFragment implements
 		asyncLoadPresentationsAndSpeakers();
 	}
 
+	@Override
+	public void onStart() {
+		super.onStart();
+		getLoaderManager().restartLoader(LOADER_ID, null, this);
+	}
+
 	private void asyncLoadPresentationsAndSpeakers() {
 
 		if (isAdded()) {
@@ -187,10 +193,9 @@ public class ScheduleListFragment extends ListFragment implements
 			Alarms.setAlarm(Integer.parseInt(presentationID),
 					cal.getTimeInMillis(), getActivity(), am);
 
-			Toast.makeText(
-					getActivity(),
-					getString(R.string.added_presentation_alarm_info)
-							+ tmp.toString(), Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(),
+					getString(R.string.added_presentation_alarm_info),
+					Toast.LENGTH_LONG).show();
 
 		} else {
 			Alarms.cancelAlarm(Integer.parseInt(presentationID), getActivity(),

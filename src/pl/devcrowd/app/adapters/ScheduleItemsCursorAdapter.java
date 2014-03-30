@@ -47,6 +47,7 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter {
 		textItemSpeaker.setText(cursor.getString(cursor.getColumnIndex(DevcrowdTables.JOIN_SPEAKERS_NAMES)));
 		
 		final String checked = cursor.getString(cursor.getColumnIndex(DevcrowdTables.PRESENTATION_FAVOURITE));
+		DebugLog.d("checked="+checked);
 		final boolean isChecked = (checked.equals(DevcrowdTables.PRESENTATION_FAVOURITE_FLAG)) ? true : false;
 		DebugLog.d("isChecked toggle fav ="+ isChecked);
 		starButton.setChecked(isChecked);
