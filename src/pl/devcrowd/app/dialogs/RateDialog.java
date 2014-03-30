@@ -1,6 +1,5 @@
 package pl.devcrowd.app.dialogs;
 
-import eu.inmite.android.lib.dialogs.BaseDialogFragment;
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.activities.ScheduleDetailsActivity;
 import pl.devcrowd.app.utils.DebugLog;
@@ -14,10 +13,12 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.RatingBar.OnRatingBarChangeListener;
+import android.widget.TextView;
+import eu.inmite.android.lib.dialogs.BaseDialogFragment;
 
 public class RateDialog extends BaseDialogFragment implements
 		OnRatingBarChangeListener {
@@ -67,11 +68,7 @@ public class RateDialog extends BaseDialogFragment implements
 				&& args.getInt(ScheduleDetailsActivity.SPEAKERS_COUNT) > 1) {
 			speakerRatingText.setText(getString(R.string.speakersRate));
 		}
-	}
 
-	@Override
-	public void onStart() {
-		super.onStart();
 		setEnableSendButton(false);
 	}
 
@@ -170,6 +167,7 @@ public class RateDialog extends BaseDialogFragment implements
 						mOnRatingListener.onSendRatingButtonClick(
 								topicRateValue, speakerRateValue, email
 										.getText().toString());
+						dismiss();
 
 					}
 				})
@@ -191,8 +189,11 @@ public class RateDialog extends BaseDialogFragment implements
 	}
 
 	private void setEnableSendButton(boolean value) {
-		dialog.getPositiveButton().setTextColor(
-				value == true ? Color.BLACK : Color.GRAY);
-		dialog.getPositiveButton().setEnabled(value);
+		Button sendButton = dialog.getPositiveButton();
+		if (sendButton != null) {
+			sendButton.setTextColor(value == true ? Color.BLACK : Color.GRAY);
+			sendButton.setEnabled(value);
+
+		}
 	}
 }

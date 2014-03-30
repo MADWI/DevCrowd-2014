@@ -1,8 +1,5 @@
 package pl.devcrowd.app.activities;
 
-import com.applidium.shutterbug.utils.ShutterbugManager;
-import com.applidium.shutterbug.utils.ShutterbugManager.ShutterbugManagerListener;
-
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.db.DevcrowdContentProvider;
 import pl.devcrowd.app.db.DevcrowdTables;
@@ -28,14 +25,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.applidium.shutterbug.utils.ShutterbugManager;
+import com.applidium.shutterbug.utils.ShutterbugManager.ShutterbugManagerListener;
 
 public class ScheduleDetailsActivity extends ActionBarActivity implements
 		OnRatingListener {
@@ -47,9 +48,12 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 
 	private RelativeLayout rootView;
 	private int viewId = 0;
-	
+
 	public static final String SPEAKERS_COUNT = "SPEAKERS_COUNT";
 	private int speakersCount = 0;
+	protected boolean isConnected = false;
+	private RatingBar ratingBar;
+	private String presentationTopic = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +65,6 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 
 		Bundle extras = getIntent().getExtras();
 
-		
 		ProgressUtils.show(this);
 		rootView = (RelativeLayout) findViewById(R.id.rootView);
 		fillPresentationData(extras.getString(DevcrowdTables.PRESENTATION_ID));
@@ -127,7 +130,7 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 					.getString(
 							cursor.getColumnIndex(DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_TITLE))
 					.equals(presentationName)) {
-				
+
 				speakersCount++;
 				rootView.addView(createSperakerCardView(
 						cursor.getString(cursor
@@ -140,7 +143,7 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		}
 
 	}
-	
+
 	private String parseSpeakerName(String speakerName) {
 		String[] split = speakerName.split("\\s+");
 		StringBuilder builder = new StringBuilder();
@@ -148,7 +151,7 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 			if (i == (split.length - 1)) {
 				builder.append("\n");
 			}
-			builder.append(split[i]+" ");
+			builder.append(split[i] + " ");
 		}
 		return builder.toString();
 	}
@@ -161,6 +164,8 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 	private View createTopicCardView(String topic, String hour, String content) {
 		final View topicCard = getLayoutInflater().inflate(
 				R.layout.topic_card_item, null);
+
+		presentationTopic = topic;
 
 		TextView textTopic = (TextView) topicCard.findViewById(R.id.textTopic);
 		TextView textHour = (TextView) topicCard.findViewById(R.id.textHour);
@@ -239,8 +244,7 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		ratingCard.setLayoutParams(createLayoutParams(viewId));
 		ratingCard.setId(++viewId);
 
-		RatingBar ratingBar = (RatingBar) ratingCard
-				.findViewById(R.id.ratingBar);
+		ratingBar = (RatingBar) ratingCard.findViewById(R.id.ratingBar);
 		ratingBar.setOnTouchListener(new View.OnTouchListener() {
 
 			@Override
@@ -334,14 +338,15 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 	@Override
 	public void onSendRatingButtonClick(float topicGrade, float overallGrade,
 			String email) {
-		// ratingBar.setRating((topicGrade + overallGrade) / 2);
-
-		// TEST PRESENTATION RATE
-		String presentationTitle = "Some title"; // title of current
-													// presentation
-		asyncRatePresentation(presentationTitle, topicGrade, overallGrade,
-				email);
-		// -----------------------
+		if (isConnected) {
+			ratingBar.setRating((topicGrade + overallGrade) / 2);
+			asyncRatePresentation(presentationTopic, topicGrade, overallGrade,
+					email);
+		} else {
+			Toast.makeText(this,
+					getString(R.string.no_internet_send_rates_info),
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	private void asyncRatePresentation(String presentationTitle,
@@ -364,7 +369,7 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		float px = dp * (metrics.densityDpi / 160f);
 		return Math.round(px);
 	}
-	
+
 	private BroadcastReceiver reciever = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -377,8 +382,10 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 
 			if (currentNetworkInfo != null && currentNetworkInfo.isConnected()) {
 				infoLayout.setVisibility(View.GONE);
+				isConnected = true;
 			} else {
 				infoLayout.setVisibility(View.VISIBLE);
+				isConnected = false;
 			}
 		}
 

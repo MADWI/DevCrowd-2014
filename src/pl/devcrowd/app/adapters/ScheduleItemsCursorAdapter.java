@@ -2,6 +2,7 @@ package pl.devcrowd.app.adapters;
 
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.db.DevcrowdTables;
+import pl.devcrowd.app.utils.DebugLog;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
@@ -47,6 +48,7 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter {
 		
 		final String checked = cursor.getString(cursor.getColumnIndex(DevcrowdTables.PRESENTATION_FAVOURITE));
 		final boolean isChecked = (checked.equals(DevcrowdTables.PRESENTATION_FAVOURITE_FLAG)) ? true : false;
+		DebugLog.d("isChecked toggle fav ="+ isChecked);
 		starButton.setChecked(isChecked);
 		
 		starButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {

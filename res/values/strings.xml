@@ -48,4 +48,8 @@
     <string name="createdBy">Autorzy aplikacji</string>
     <string name="hour">Godzina:</string>
     <string name="no_data">Brak prezentacji do pokazania</string>
+    <string name="no_internet_send_rates_info">Wysyłanie nieudane, brak połączenia z Internetem</string>
+    <string name="added_presentation_alarm_info">Dodano przypomnienie o prezentacji: </string>
+    
+    
 </resources>
