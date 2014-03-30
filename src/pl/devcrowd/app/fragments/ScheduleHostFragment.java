@@ -1,15 +1,14 @@
 package pl.devcrowd.app.fragments;
 
 import pl.devcrowd.app.R;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.TabHost.OnTabChangeListener;
+import android.widget.TextView;
 
 public class ScheduleHostFragment extends Fragment implements
 		OnTabChangeListener {
@@ -33,8 +32,9 @@ public class ScheduleHostFragment extends Fragment implements
 		room1.putString(ROOM_NUMBER, "126");
 		Bundle room2 = new Bundle();
 		room2.putString(ROOM_NUMBER, "226");
-		
-		mTabHost.getTabWidget().setBackgroundColor(getResources().getColor(R.color.tabhostBg));
+
+		mTabHost.getTabWidget().setBackgroundColor(
+				getResources().getColor(R.color.tabhostBg));
 		mTabHost.addTab(
 				mTabHost.newTabSpec(TEMP_ROOM_NAME_1).setIndicator(
 						TEMP_ROOM_NAME_1), ScheduleListFragment.class, room1);
@@ -57,16 +57,19 @@ public class ScheduleHostFragment extends Fragment implements
 				R.drawable.tab_background);
 		TextView title = (TextView) mTabHost.getCurrentTabView().findViewById(
 				android.R.id.title);
-		title.setTextColor(getResources().getColor(R.color.drawer_list_title_color));
+		title.setTextColor(getResources().getColor(
+				R.color.drawer_list_title_color));
 	}
 
 	private void resetTabsView() {
 		for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
-			mTabHost.getTabWidget().getChildAt(i)
+			mTabHost.getTabWidget()
+					.getChildAt(i)
 					.setBackgroundResource(R.drawable.tab_background_unselected);
 			TextView title = (TextView) mTabHost.getTabWidget().getChildAt(i)
 					.findViewById(android.R.id.title);
-			title.setTextColor(getResources().getColor(R.color.drawer_list_title_color));
+			title.setTextColor(getResources().getColor(
+					R.color.drawer_list_title_color));
 		}
 	}
 

@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?> 
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/speakerCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/normal_card_shape" >
+    android:background="@drawable/normal_card_shape"
+    tools:ignore="ContentDescription" >
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
@@ -24,7 +26,6 @@
             android:layout_marginRight="1dp"
             android:layout_marginTop="12dp"
             android:background="#A0F0F0F0" >
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -45,7 +46,6 @@
                 android:layout_alignParentTop="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/head_simple" />
-
         </RelativeLayout>
 
         <TextView
@@ -54,9 +54,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/relativeLayout1"
+            android:maxLines="3"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/sponsorsTextView"
-            android:maxLines="3" />
+            android:textColor="@color/sponsorsTextView" />
     </RelativeLayout>
 
     <TextView
@@ -69,8 +69,8 @@
         android:paddingLeft="@dimen/cardMargin"
         android:paddingRight="@dimen/cardMargin"
         android:paddingTop="@dimen/cardMargin"
-        android:visibility="gone"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/imageMoreSpeaker"

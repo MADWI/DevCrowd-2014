@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent" >
+    android:background="@android:color/transparent"
+    tools:ignore="HardcodedText" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,9 +31,9 @@
                 android:gravity="center"
                 android:paddingBottom="@dimen/cardMargin"
                 android:paddingTop="@dimen/cardMargin"
+                android:text="12:00\n13:00"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/sponsorsTextView"
-                android:text="12:00\n13:00" />
+                android:textColor="@color/sponsorsTextView" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -75,8 +77,8 @@
                     android:layout_alignRight="@+id/textItemTopic"
                     android:layout_below="@+id/textItemTopic"
                     android:layout_marginLeft="@dimen/cardMargin"
-                    android:maxLines="2"
                     android:ellipsize="end"
+                    android:maxLines="2"
                     android:text="Jan Kowalski"
                     android:textAppearance="?android:attr/textAppearance"
                     android:textColor="@color/sponsorsTextView" />

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    tools:ignore="ContentDescription" >
 
     <ListView
         android:id="@android:id/list"
@@ -10,10 +12,30 @@
         android:layout_height="match_parent"
         android:divider="@null" />
 
-    <TextView
+    <RelativeLayout
         android:id="@android:id/empty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/no_data" />
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/noElementsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/no_data"
+            android:textColor="@color/emptyViewTextColor"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/imgSadIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_above="@id/noElementsText"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/sad_icon"
+            android:text="@string/no_data"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
 </LinearLayout>

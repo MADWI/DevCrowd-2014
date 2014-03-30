@@ -33,5 +33,7 @@
 	<color name="dialog_button_separator">#25000000</color> <!-- 7% opacity -->
 	<color name="background">#FFA500</color>
 	<color name="waringBackgroundColor">#777777</color>
+	
+	<color name="emptyViewTextColor">#838383</color>
 
 </resources>

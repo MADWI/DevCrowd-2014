@@ -58,7 +58,6 @@ public class EmailAutoCompleteTextView extends AutoCompleteTextView implements
 	private OnClearClicked mOnClearClickListener;
 	private int mClearButtonResId = DEFAULT_CLEAR_BUTTON;
 	private boolean mClearButtonEnabled = true;
-	private DefaultTextChangedListener mDefaultTextChangeListener;
 
 	/* Constructors */
 

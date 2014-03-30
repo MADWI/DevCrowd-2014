@@ -130,8 +130,8 @@ public final class JSONParser {
 	 *            - index of current object
 	 * 
 	 * */
-	private static List<Speaker> parseSpeakerObject(final JSONArray responseArray,
-			int index) {
+	private static List<Speaker> parseSpeakerObject(
+			final JSONArray responseArray, int index) {
 		List<Speaker> listOfSpeakers = new ArrayList<Speaker>();
 		try {
 			final JSONObject arrayElement = responseArray.getJSONObject(index);
@@ -160,12 +160,6 @@ public final class JSONParser {
 	private static String getStringFromArray(final JSONObject arrayElement,
 			final String key) throws JSONException {
 		return arrayElement.has(key) ? arrayElement.getString(key) : "";
-	}
-
-	private static JSONObject getArrayFromArray(final JSONObject arrayElement,
-			final String key) throws JSONException {
-		return arrayElement.has(key) ? arrayElement.getJSONObject(key)
-				: new JSONObject();
 	}
 
 }

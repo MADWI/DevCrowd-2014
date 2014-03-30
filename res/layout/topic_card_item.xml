@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/topicCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/normal_card_shape"
     android:layout_marginLeft="@dimen/cardMargin"
     android:layout_marginRight="@dimen/cardMargin"
-    android:layout_marginTop="@dimen/cardMargin" >
+    android:layout_marginTop="@dimen/cardMargin"
+    android:background="@drawable/normal_card_shape"
+    tools:ignore="ContentDescription" >
 
     <TextView
         android:id="@+id/textTopic"

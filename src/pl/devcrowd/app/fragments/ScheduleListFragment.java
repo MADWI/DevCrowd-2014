@@ -28,7 +28,6 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,7 +37,7 @@ public class ScheduleListFragment extends ListFragment implements
 	private static final int LOADER_ID = 1;
 	private static final int NO_FLAGS = 0;
 	private static final int ALARM_DELAY_MS = -600;
-	private static final String PRESENTATION_DATE = "04/12/2014 ";	
+	private static final String PRESENTATION_DATE = "04/12/2014 ";
 	private ScheduleItemsCursorAdapter adapter;
 	private String roomNumber = "126";
 	private ListView list;
@@ -102,13 +101,14 @@ public class ScheduleListFragment extends ListFragment implements
 	}
 
 	@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.elements_list_view, container, false);
-        list = (ListView)view.findViewById(android.R.id.list);
-        list.setSelector(android.R.color.transparent);
-        return view;
-    }
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.elements_list_view, container,
+				false);
+		list = (ListView) view.findViewById(android.R.id.list);
+		list.setSelector(android.R.color.transparent);
+		return view;
+	}
 
 	@Override
 	public void onListItemClick(final ListView l, View v, final int position,
@@ -181,7 +181,8 @@ public class ScheduleListFragment extends ListFragment implements
 			StringBuilder tmp = new StringBuilder(PRESENTATION_DATE + hourStart
 					+ ":00");
 
-			cal = CalendarUtils.getDateDifferBySeconds(ALARM_DELAY_MS, tmp.toString());
+			cal = CalendarUtils.getDateDifferBySeconds(ALARM_DELAY_MS,
+					tmp.toString());
 
 			Alarms.setAlarm(Integer.parseInt(presentationID),
 					cal.getTimeInMillis(), getActivity(), am);
