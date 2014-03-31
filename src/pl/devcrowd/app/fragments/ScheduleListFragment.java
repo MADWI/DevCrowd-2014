@@ -196,14 +196,14 @@ public class ScheduleListFragment extends ListFragment implements
 
 			Toast.makeText(getActivity(),
 					getString(R.string.added_presentation_alarm_info) + " \"" + presentationTitle +"\"",
-					Toast.LENGTH_LONG).show();
+					Toast.LENGTH_SHORT).show();
 
 		} else {
 			Alarms.cancelAlarm(Integer.parseInt(presentationID), getActivity(),
 					am);
 			Toast.makeText(getActivity(),
 					getString(R.string.removed_presentation_alarm_info) + " \"" + presentationTitle +"\"",
-					Toast.LENGTH_LONG).show();
+					Toast.LENGTH_SHORT).show();
 			
 
 		}
