@@ -53,9 +53,7 @@ public class ApiService extends IntentService {
 	private static final float DEFAULT_GRADE = 1.0f;
 
 	private static final String RATING_URL = "http://2014.devcrowd.pl/mad-api/oceny.php";
-	// private static final String API_URL = "http://2014.devcrowd.pl/mad-api";
-	// Dev API
-	private static final String API_URL = "http://crashreports.bl.ee/android/DevCrowd_14_crash/dev_endpoint.php";
+	private static final String API_URL = "http://2014.devcrowd.pl/mad-api";
 
 	private Handler toastHandler;
 

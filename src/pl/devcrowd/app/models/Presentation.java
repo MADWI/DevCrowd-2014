@@ -107,10 +107,14 @@ public class Presentation {
 
 	@Override
 	public String toString() {
-		return "Presentation [hourStart=" + hourStart + ", hourEnd=" + hourEnd
+		if (speakers == null || speakers.size() == 0) {
+			return "Presentation [empty]";
+		} else {
+			return "Presentation [hourStart=" + hourStart + ", hourEnd=" + hourEnd
 				+ ", room=" + room + ", description=" + description
 				+ ", title=" + title + ", speaker=" + speakers.get(0) + ", gradeTopic=" + gradeTopic 
 				+ ", gradeSpeaker=" + gradeSpeaker + "]";
+		}
 	}
 	
 	
