@@ -13,6 +13,7 @@ import pl.devcrowd.app.fragments.HomeFragment.OnDevCrowdLogoClickListener;
 import pl.devcrowd.app.fragments.ScheduleHostFragment;
 import pl.devcrowd.app.fragments.SponsorFragment;
 import pl.devcrowd.app.utils.DebugLog;
+import pl.devcrowd.app.utils.ProgressUtils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -180,7 +181,7 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 			fragmentTransaction.replace(R.id.frame_container, fragment);
 			fragmentTransaction.commit();
 			setSelection(position);
-
+			ProgressUtils.hide(this);
 		} else {
 			DebugLog.e("Error in creating fragment");
 		}

@@ -31,21 +31,22 @@ public class FavouritesListFragment extends ListFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		
+
 		if (isAdded()) {
 			ProgressUtils.show(getActivity());
 		}
 		fillData();
 	}
-	
+
 	@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.elements_list_view, container, false);
-        list = (ListView)view.findViewById(android.R.id.list);
-        list.setSelector(android.R.color.transparent);
-        return view;
-    }
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.elements_list_view, container,
+				false);
+		list = (ListView) view.findViewById(android.R.id.list);
+		list.setSelector(android.R.color.transparent);
+		return view;
+	}
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
@@ -56,12 +57,13 @@ public class FavouritesListFragment extends ListFragment implements
 				cursor.moveToPosition(position);
 				Intent iDetails = new Intent(getActivity(),
 						ScheduleDetailsActivity.class);
-				iDetails.putExtra(DevcrowdTables.PRESENTATION_ID, cursor
-						.getString(cursor
+				iDetails.putExtra(
+						DevcrowdTables.PRESENTATION_ID,
+						cursor.getString(cursor
 								.getColumnIndex(DevcrowdTables.PRESENTATION_ID)));
 				startActivity(iDetails);
-				getActivity().overridePendingTransition(R.anim.slide_left_enter,
-						R.anim.slide_left_exit);
+				getActivity().overridePendingTransition(
+						R.anim.slide_left_enter, R.anim.slide_left_exit);
 			}
 		}
 	}
@@ -106,8 +108,9 @@ public class FavouritesListFragment extends ListFragment implements
 				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,
 				DevcrowdTables.PRESENTATION_FAVOURITE + " =? ",
 				new String[] { DevcrowdTables.PRESENTATION_FAVOURITE_FLAG },
-				DevcrowdTables.TABLE_PRESENTATIONS + "."
-						+ DevcrowdTables.PRESENTATION_ID + " DESC");
+				"CAST(" + DevcrowdTables.TABLE_PRESENTATIONS + "."
+						+ DevcrowdTables.PRESENTATION_START
+						+ " as datetime) ASC");
 		return cursorLoader;
 	}
 

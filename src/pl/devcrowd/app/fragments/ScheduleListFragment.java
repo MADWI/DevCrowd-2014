@@ -54,7 +54,7 @@ public class ScheduleListFragment extends ListFragment implements
 					ScheduleHostFragment.ROOM_NUMBER);
 		}
 		setHasOptionsMenu(true);
-		fillData();
+		getLoaderManager().initLoader(LOADER_ID, null, this);
 		asyncLoadPresentationsAndSpeakers();
 	}
 
@@ -134,15 +134,6 @@ public class ScheduleListFragment extends ListFragment implements
 		}
 	}
 
-	private void fillData() {
-		getLoaderManager().initLoader(LOADER_ID, null, this);
-
-		adapter = new ScheduleItemsCursorAdapter(getActivity(), null, NO_FLAGS,
-				this);
-
-		setListAdapter(adapter);
-
-	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -158,14 +149,24 @@ public class ScheduleListFragment extends ListFragment implements
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
 				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,
 				DevcrowdTables.PRESENTATION_ROOM + " =? ",
-				new String[] { roomNumber }, DevcrowdTables.TABLE_PRESENTATIONS
-						+ "." + DevcrowdTables.PRESENTATION_ID + " DESC");
+				new String[] { roomNumber }, "CAST("
+						+ DevcrowdTables.TABLE_PRESENTATIONS + "."
+						+ DevcrowdTables.PRESENTATION_START
+						+ " as datetime) ASC");
 		return cursorLoader;
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		DebugLog.d("onLoadFinished rows:" + data.getCount());
+		
+		if(adapter == null)
+		{
+			adapter = new ScheduleItemsCursorAdapter(getActivity(), data, NO_FLAGS,
+					this);
+
+			setListAdapter(adapter);
+		}
 		adapter.swapCursor(data);
 	}
 
@@ -194,12 +195,16 @@ public class ScheduleListFragment extends ListFragment implements
 					cal.getTimeInMillis(), getActivity(), am);
 
 			Toast.makeText(getActivity(),
-					getString(R.string.added_presentation_alarm_info),
+					getString(R.string.added_presentation_alarm_info) + " \"" + presentationTitle +"\"",
 					Toast.LENGTH_LONG).show();
 
 		} else {
 			Alarms.cancelAlarm(Integer.parseInt(presentationID), getActivity(),
 					am);
+			Toast.makeText(getActivity(),
+					getString(R.string.removed_presentation_alarm_info) + " \"" + presentationTitle +"\"",
+					Toast.LENGTH_LONG).show();
+			
 
 		}
 	}
