@@ -37,8 +37,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-public class MainActivity extends ActionBarActivity implements
-		OnDevCrowdLogoClickListener {
+public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoClickListener {
 	private static final int DRAWER_HOME_NUM = 0;
 	private static final int DRAWER_SCHEDULE_NUM = 1;
 	private static final int DRAWER_FAVOURITES_NUM = 2;
@@ -178,11 +177,13 @@ public class MainActivity extends ActionBarActivity implements
 
 		if (fragment != null) {
 			FragmentManager fragmentManager = getSupportFragmentManager();
+			fragmentManager.popBackStack(String.valueOf(position), FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction fragmentTransaction = fragmentManager
 					.beginTransaction();
 			fragmentTransaction.replace(R.id.frame_container, fragment);
-			if (!firstFragmentChange) {
-				fragmentTransaction.addToBackStack(null);
+			if(!firstFragmentChange )
+ {
+				fragmentTransaction.addToBackStack(String.valueOf(position));
 			}
 			fragmentTransaction.commit();
 			firstFragmentChange = false;
