@@ -95,18 +95,20 @@ public class ScheduleListFragment extends ListFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		swipeLayout = (SwipeRefreshLayout) inflater.inflate(
-				R.layout.schedule_list_view, container, false);
+		View view = inflater.inflate(R.layout.schedule_list_view, container,
+				false);
 
+		swipeLayout = (SwipeRefreshLayout) view
+				.findViewById(R.id.swipe_container);
 		swipeLayout.setOnRefreshListener(this);
 		swipeLayout.setColorScheme(R.color.swipeRefreshColor1,
 				R.color.swipeRefreshColor2, R.color.swipeRefreshColor3,
 				R.color.swipeRefreshColor4);
 
-		list = (ListView) swipeLayout.findViewById(android.R.id.list);
+		list = (ListView) view.findViewById(android.R.id.list);
 		list.setSelector(android.R.color.transparent);
 
-		return swipeLayout;
+		return view;
 	}
 
 	@Override
@@ -178,16 +180,19 @@ public class ScheduleListFragment extends ListFragment implements
 	}
 
 	@Override
-	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		DebugLog.d("onLoadFinished rows:" + data.getCount());
+	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+		DebugLog.d("onLoadFinished rows:" + cursor.getCount());
 
 		if (adapter == null) {
-			adapter = new ScheduleItemsCursorAdapter(getActivity(), data,
+			adapter = new ScheduleItemsCursorAdapter(getActivity(), cursor,
 					NO_FLAGS, this);
 
 			setListAdapter(adapter);
+		} else {
+			adapter.updateTogglesList(cursor);
 		}
-		adapter.swapCursor(data);
+
+		adapter.swapCursor(cursor);
 	}
 
 	@Override

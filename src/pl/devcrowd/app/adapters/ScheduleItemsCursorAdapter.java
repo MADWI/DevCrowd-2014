@@ -25,7 +25,7 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 
 	private LayoutInflater mInflater;
 	private AdapterInterface mAdapterInterface;
-	private List<Boolean> tooglesStates = new ArrayList<Boolean>();
+	private List<Boolean> tooglesStates;
 
 	public ScheduleItemsCursorAdapter(Context context, Cursor cursor,
 			int flags, AdapterInterface mAdapterInterface) {
@@ -34,6 +34,17 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.mAdapterInterface = mAdapterInterface;
 
+		populateNewTogglesList(cursor);
+	}
+	
+	public void updateTogglesList(Cursor cursor)
+	{
+		populateNewTogglesList(cursor);
+	}
+	
+	private void populateNewTogglesList(Cursor cursor)
+	{
+		tooglesStates = new ArrayList<Boolean>();
 		while (cursor.moveToNext()) {
 
 			String checked = cursor.getString(cursor
@@ -43,7 +54,6 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 					: false;
 			tooglesStates.add(isChecked);
 		}
-
 	}
 
 	@Override
@@ -72,7 +82,9 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 		holder.textItemTopic.setText(presentationTitle);
 		holder.textItemSpeaker.setText(itemData.speaker);
 
-		holder.starButton.setChecked(tooglesStates.get(cursor.getPosition()));
+		if (tooglesStates.size() > itemData.position) {
+			holder.starButton.setChecked(tooglesStates.get(itemData.position));
+		}		
 		holder.starButton.setTag(itemData);
 	}
 
@@ -102,7 +114,8 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 			ItemData itemData = (ItemData) view.getTag();
 			mAdapterInterface.buttonPressed(itemData.topic, itemData.hourStart,
 					itemData.id, checked);
-			tooglesStates.set(itemData.position, checked);
+				tooglesStates.set(itemData.position, checked);
+			
 		}
 
 	}
