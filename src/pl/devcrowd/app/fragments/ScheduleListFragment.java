@@ -147,15 +147,34 @@ public class ScheduleListFragment extends ListFragment implements
 			Cursor cursor = ((ScheduleItemsCursorAdapter) l.getAdapter())
 					.getCursor();
 			cursor.moveToPosition(position);
+			DebugLog.d(getStringValue(cursor,
+					DevcrowdTables.PRESENTATION_DESCRIPTION));
+
+			if (getStringValue(cursor, DevcrowdTables.PRESENTATION_DESCRIPTION)
+					.equals("")) {
+				return;
+			}
+			
 			Intent iDetails = new Intent(getActivity(),
 					ScheduleDetailsActivity.class);
-			iDetails.putExtra(DevcrowdTables.PRESENTATION_ID, cursor
-					.getString(cursor
-							.getColumnIndex(DevcrowdTables.PRESENTATION_ID)));
+			iDetails.putExtra(DevcrowdTables.PRESENTATION_ID,
+					getStringValue(cursor, DevcrowdTables.PRESENTATION_ID));
 			startActivity(iDetails);
 			getActivity().overridePendingTransition(R.anim.slide_left_enter,
 					R.anim.slide_left_exit);
 		}
+	}
+
+	private String getStringValue(Cursor cursor, String columnName) {
+		String value = "";
+		int columnIndex = cursor.getColumnIndex(columnName);
+		if (columnIndex >= 0) {
+			value = cursor.getString(columnIndex);
+			if (value == null) {
+				value = "";
+			}
+		}
+		return value;
 	}
 
 	@Override
@@ -168,7 +187,8 @@ public class ScheduleListFragment extends ListFragment implements
 				"GROUP_CONCAT(" + DevcrowdTables.SPEAKER_COLUMN_NAME
 						+ ",', ') AS " + DevcrowdTables.JOIN_SPEAKERS_NAMES,
 				DevcrowdTables.PRESENTATION_START,
-				DevcrowdTables.PRESENTATION_FAVOURITE };
+				DevcrowdTables.PRESENTATION_FAVOURITE,
+				DevcrowdTables.PRESENTATION_DESCRIPTION };
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
 				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,
 				DevcrowdTables.PRESENTATION_ROOM + " =? ",

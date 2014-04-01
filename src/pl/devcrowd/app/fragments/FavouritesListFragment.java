@@ -54,17 +54,34 @@ public class FavouritesListFragment extends ListFragment implements
 				Cursor cursor = ((SimpleCursorAdapter) l.getAdapter())
 						.getCursor();
 				cursor.moveToPosition(position);
+				
+				if (getStringValue(cursor, DevcrowdTables.PRESENTATION_DESCRIPTION)
+						.equals("")) {
+					return;
+				}
+				
 				Intent iDetails = new Intent(getActivity(),
 						ScheduleDetailsActivity.class);
 				iDetails.putExtra(
 						DevcrowdTables.PRESENTATION_ID,
-						cursor.getString(cursor
-								.getColumnIndex(DevcrowdTables.PRESENTATION_ID)));
+						getStringValue(cursor, DevcrowdTables.PRESENTATION_ID));
 				startActivity(iDetails);
 				getActivity().overridePendingTransition(
 						R.anim.slide_left_enter, R.anim.slide_left_exit);
 			}
 		}
+	}
+	
+	private String getStringValue(Cursor cursor, String columnName) {
+		String value = "";
+		int columnIndex = cursor.getColumnIndex(columnName);
+		if (columnIndex >= 0) {
+			value = cursor.getString(columnIndex);
+			if (value == null) {
+				value = "";
+			}
+		}
+		return value;
 	}
 
 	private void fillData() {
@@ -99,7 +116,8 @@ public class FavouritesListFragment extends ListFragment implements
 						+ ",', ') AS " + DevcrowdTables.JOIN_SPEAKERS_NAMES,
 				DevcrowdTables.PRESENTATION_FAVOURITE,
 				DevcrowdTables.PRESENTATION_START,
-				DevcrowdTables.PRESENTATION_ROOM };
+				DevcrowdTables.PRESENTATION_ROOM,
+				DevcrowdTables.PRESENTATION_DESCRIPTION };
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
 				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,
 				DevcrowdTables.PRESENTATION_FAVOURITE + " =? ",
