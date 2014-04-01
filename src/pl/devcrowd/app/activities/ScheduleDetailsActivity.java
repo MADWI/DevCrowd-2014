@@ -20,6 +20,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -82,21 +83,14 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
 			if (cursor.getString(
 					cursor.getColumnIndex(DevcrowdTables.PRESENTATION_ID))
-					.equals(id)) {
-
+					.equals(id)) {				
+				
 				rootView.addView(createTopicCardView(
-						cursor.getString(cursor
-								.getColumnIndex(DevcrowdTables.PRESENTATION_TITLE)),
-						getString(R.string.hour)
-								+ " "
-								+ cursor.getString(cursor
-										.getColumnIndex(DevcrowdTables.PRESENTATION_START))
-								+ " - "
-								+ cursor.getString(cursor
-										.getColumnIndex(DevcrowdTables.PRESENTATION_END)),
-						cursor.getString(cursor
-								.getColumnIndex(DevcrowdTables.PRESENTATION_DESCRIPTION))));
-
+						getStringValue(cursor, DevcrowdTables.PRESENTATION_TITLE),
+						getString(R.string.hour) + " " + 
+						getStringValue(cursor, DevcrowdTables.PRESENTATION_START) + " - " + 
+								getStringValue(cursor, DevcrowdTables.PRESENTATION_END),
+						getStringValue(cursor, DevcrowdTables.PRESENTATION_DESCRIPTION)));
 				break;
 			}
 		}
@@ -133,20 +127,36 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 
 				speakersCount++;
 				rootView.addView(createSperakerCardView(
-						cursor.getString(cursor
-								.getColumnIndex(DevcrowdTables.SPEAKER_COLUMN_FOTO)),
-						parseSpeakerName(cursor.getString(cursor
-								.getColumnIndex(DevcrowdTables.SPEAKER_COLUMN_NAME))),
-						cursor.getString(cursor
-								.getColumnIndex(DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION))));
+						getStringValue(cursor, DevcrowdTables.SPEAKER_COLUMN_FOTO),
+						parseSpeakerName(getStringValue(cursor,
+								DevcrowdTables.SPEAKER_COLUMN_NAME)),
+						getStringValue(cursor, DevcrowdTables.SPEAKER_COLUMN_DESCRIPTION)));
 			}
 		}
 
 	}
+	
+	private String getStringValue(Cursor cursor, String columnName) {
+		String value = "";
+		int columnIndex = cursor.getColumnIndex(columnName);
+		if (columnIndex >= 0) {
+			value = cursor.getString(columnIndex);
+			if (value != null) {
+				value = stripHtml(value);
+			} else {
+				value = "";
+			}
+		}
+		return value;
+	}
+	
+	private String stripHtml(String html) {
+	    return Html.fromHtml(html).toString();
+	}
 
 	private String parseSpeakerName(String speakerName) {
+		StringBuilder builder = new StringBuilder("");
 		String[] split = speakerName.split("\\s+");
-		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < split.length; i++) {
 			if (i == (split.length - 1)) {
 				builder.append("\n");
@@ -201,7 +211,30 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 				.findViewById(R.id.textSpeaker);
 		final TextView textSpeakerDetails = (TextView) speakerCard
 				.findViewById(R.id.textSpeakerDetails);
+		final ImageView imageMore = (ImageView) speakerCard
+				.findViewById(R.id.imageMoreSpeaker);
+		
+		setSpeakerImage(imageSpeaker, url);
+		textSpeakerName.setText(name);
+		textSpeakerDetails.setText(content);
 
+		speakerCard.setLayoutParams(createLayoutParams(viewId));
+		speakerCard.setId(++viewId);
+		if (!textSpeakerDetails.getText().toString().equals("")) {
+			speakerCard.setOnClickListener(new OnClickListener() {
+	
+				@Override
+				public void onClick(View v) {
+					toggleDetailsVisibility(textSpeakerDetails, imageMore);
+				}
+			});
+		} else {
+			imageMore.setVisibility(View.GONE);
+		}
+		return speakerCard;
+	}
+	
+	private void setSpeakerImage(final ImageView image, String url) {
 		ProgressUtils.show(this);
 		ShutterbugManager.getSharedImageManager(this).download(url,
 				new ShutterbugManagerListener() {
@@ -209,33 +242,17 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 					@Override
 					public void onImageSuccess(ShutterbugManager sm,
 							Bitmap bmp, String arg2) {
-						imageSpeaker.setImageBitmap(bmp);
+						image.setImageBitmap(bmp);
 						ProgressUtils.hide(ScheduleDetailsActivity.this);
 					}
 
 					@Override
 					public void onImageFailure(ShutterbugManager arg0,
 							String arg1) {
-						imageSpeaker.setImageResource(R.drawable.head_simple);
+						image.setImageResource(R.drawable.head_simple);
 						ProgressUtils.hide(ScheduleDetailsActivity.this);
 					}
 				});
-		textSpeakerName.setText(name);
-		textSpeakerDetails.setText(content);
-
-		speakerCard.setLayoutParams(createLayoutParams(viewId));
-		speakerCard.setId(++viewId);
-		speakerCard.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				ImageView imageSpeaker = (ImageView) speakerCard
-						.findViewById(R.id.imageMoreSpeaker);
-				toggleDetailsVisibility(textSpeakerDetails, imageSpeaker);
-			}
-
-		});
-		return speakerCard;
 	}
 
 	private View createRatingCardView() {
