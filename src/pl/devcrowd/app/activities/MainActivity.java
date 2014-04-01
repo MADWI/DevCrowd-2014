@@ -37,7 +37,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoClickListener {
+public class MainActivity extends ActionBarActivity implements
+		OnDevCrowdLogoClickListener {
 	private static final int DRAWER_HOME_NUM = 0;
 	private static final int DRAWER_SCHEDULE_NUM = 1;
 	private static final int DRAWER_FAVOURITES_NUM = 2;
@@ -57,6 +58,7 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 	private String[] navigationMenuTitles;
 	private TypedArray navigationMenuIcons;
 	private int lastPosition;
+	private boolean firstFragmentChange = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -179,7 +181,11 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 			FragmentTransaction fragmentTransaction = fragmentManager
 					.beginTransaction();
 			fragmentTransaction.replace(R.id.frame_container, fragment);
+			if (!firstFragmentChange) {
+				fragmentTransaction.addToBackStack(null);
+			}
 			fragmentTransaction.commit();
+			firstFragmentChange = false;
 			setSelection(position);
 			ProgressUtils.hide(this);
 		} else {
