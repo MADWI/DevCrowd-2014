@@ -25,6 +25,8 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +34,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class ScheduleListFragment extends ListFragment implements
-		LoaderCallbacks<Cursor>, AdapterInterface {
+		LoaderCallbacks<Cursor>, AdapterInterface, OnRefreshListener {
 
 	private static final int LOADER_ID = 1;
 	private static final int NO_FLAGS = 0;
@@ -43,6 +45,7 @@ public class ScheduleListFragment extends ListFragment implements
 	private ListView list;
 
 	private AlarmManager am;
+	private SwipeRefreshLayout swipeLayout;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -55,31 +58,13 @@ public class ScheduleListFragment extends ListFragment implements
 		}
 		setHasOptionsMenu(true);
 		getLoaderManager().initLoader(LOADER_ID, null, this);
-		asyncLoadPresentationsAndSpeakers();
+
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
 		getLoaderManager().restartLoader(LOADER_ID, null, this);
-	}
-
-	private void asyncLoadPresentationsAndSpeakers() {
-
-		if (isAdded()) {
-			ProgressUtils.show(getActivity());
-		}
-
-		Intent intent = new Intent(getActivity(), ApiService.class);
-		intent.setAction(ApiService.ACTION_GET_PRESENTATIONS);
-		intent.putExtra(ApiService.RECEIVER_KEY, new ServiceResultReceiver(
-				new Handler()));
-		getActivity().startService(intent);
-		intent = new Intent(getActivity(), ApiService.class);
-		intent.setAction(ApiService.ACTION_GET_SPEAKERS);
-		intent.putExtra(ApiService.RECEIVER_KEY, new ServiceResultReceiver(
-				new Handler()));
-		getActivity().startService(intent);
 	}
 
 	private class ServiceResultReceiver extends ResultReceiver {
@@ -102,6 +87,7 @@ public class ScheduleListFragment extends ListFragment implements
 							getString(R.string.error_loading_presentations),
 							Toast.LENGTH_LONG).show();
 				}
+				swipeLayout.setRefreshing(false);
 			}
 		}
 	}
@@ -109,11 +95,47 @@ public class ScheduleListFragment extends ListFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.elements_list_view, container,
-				false);
-		list = (ListView) view.findViewById(android.R.id.list);
+		swipeLayout = (SwipeRefreshLayout) inflater.inflate(
+				R.layout.schedule_list_view, container, false);
+
+		swipeLayout.setOnRefreshListener(this);
+		swipeLayout.setColorScheme(R.color.swipeRefreshColor1,
+				R.color.swipeRefreshColor2, R.color.swipeRefreshColor3,
+				R.color.swipeRefreshColor4);
+
+		list = (ListView) swipeLayout.findViewById(android.R.id.list);
 		list.setSelector(android.R.color.transparent);
-		return view;
+
+		return swipeLayout;
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		asyncLoadPresentationsAndSpeakers();
+	}
+
+	private void asyncLoadPresentationsAndSpeakers() {
+
+		if (swipeLayout != null) {
+			swipeLayout.setRefreshing(true);
+		}
+
+		Intent intent = new Intent(getActivity(), ApiService.class);
+		intent.setAction(ApiService.ACTION_GET_PRESENTATIONS);
+		intent.putExtra(ApiService.RECEIVER_KEY, new ServiceResultReceiver(
+				new Handler()));
+		getActivity().startService(intent);
+		intent = new Intent(getActivity(), ApiService.class);
+		intent.setAction(ApiService.ACTION_GET_SPEAKERS);
+		intent.putExtra(ApiService.RECEIVER_KEY, new ServiceResultReceiver(
+				new Handler()));
+		getActivity().startService(intent);
+	}
+
+	@Override
+	public void onRefresh() {
+		asyncLoadPresentationsAndSpeakers();
 	}
 
 	@Override
@@ -133,7 +155,6 @@ public class ScheduleListFragment extends ListFragment implements
 					R.anim.slide_left_exit);
 		}
 	}
-
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -159,11 +180,10 @@ public class ScheduleListFragment extends ListFragment implements
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		DebugLog.d("onLoadFinished rows:" + data.getCount());
-		
-		if(adapter == null)
-		{
-			adapter = new ScheduleItemsCursorAdapter(getActivity(), data, NO_FLAGS,
-					this);
+
+		if (adapter == null) {
+			adapter = new ScheduleItemsCursorAdapter(getActivity(), data,
+					NO_FLAGS, this);
 
 			setListAdapter(adapter);
 		}
@@ -194,17 +214,20 @@ public class ScheduleListFragment extends ListFragment implements
 			Alarms.setAlarm(Integer.parseInt(presentationID),
 					cal.getTimeInMillis(), getActivity(), am);
 
-			Toast.makeText(getActivity(),
-					getString(R.string.added_presentation_alarm_info) + " \"" + presentationTitle +"\"",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(
+					getActivity(),
+					getString(R.string.added_presentation_alarm_info) + " \""
+							+ presentationTitle + "\"", Toast.LENGTH_SHORT)
+					.show();
 
 		} else {
 			Alarms.cancelAlarm(Integer.parseInt(presentationID), getActivity(),
 					am);
-			Toast.makeText(getActivity(),
-					getString(R.string.removed_presentation_alarm_info) + " \"" + presentationTitle +"\"",
-					Toast.LENGTH_SHORT).show();
-			
+			Toast.makeText(
+					getActivity(),
+					getString(R.string.removed_presentation_alarm_info) + " \""
+							+ presentationTitle + "\"", Toast.LENGTH_SHORT)
+					.show();
 
 		}
 	}

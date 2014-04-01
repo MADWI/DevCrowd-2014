@@ -36,4 +36,10 @@
 	
 	<color name="emptyViewTextColor">#838383</color>
 
+	
+	<color name="swipeRefreshColor1">#e69529</color>
+	<color name="swipeRefreshColor2">#006699</color>
+	<color name="swipeRefreshColor3">#e69529</color>
+	<color name="swipeRefreshColor4">#006699</color>
+	
 </resources>

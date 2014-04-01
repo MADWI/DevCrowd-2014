@@ -41,8 +41,7 @@ public class FavouritesListFragment extends ListFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.elements_list_view, container,
-				false);
+		View view = inflater.inflate(R.layout.favo_list_view, container, false);
 		list = (ListView) view.findViewById(android.R.id.list);
 		list.setSelector(android.R.color.transparent);
 		return view;
@@ -69,8 +68,6 @@ public class FavouritesListFragment extends ListFragment implements
 	}
 
 	private void fillData() {
-		// Fields from the database (projection)
-		// Must include the _id column for the adapter to work
 		String[] from = new String[] {
 				DevcrowdTables.PRESENTATION_TITLE,
 				DevcrowdTables.PRESENTATION_HOUR_JOIN,
@@ -79,7 +76,6 @@ public class FavouritesListFragment extends ListFragment implements
 				DevcrowdTables.PRESENTATION_START,
 				DevcrowdTables.TABLE_PRESENTATIONS + "."
 						+ DevcrowdTables.PRESENTATION_ID };
-		// Fields on the UI to which we map
 		int[] to = new int[] { R.id.textFavoItemTopic, R.id.textFavoItemHour,
 				R.id.textFavoItemSpeaker, R.id.textFavoRoom };
 
@@ -126,7 +122,6 @@ public class FavouritesListFragment extends ListFragment implements
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 		DebugLog.d("onLoaderReset");
-		// data is not available anymore, delete reference
 		adapter.swapCursor(null);
 	}
 }
