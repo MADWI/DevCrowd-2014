@@ -147,10 +147,8 @@ public class ScheduleListFragment extends ListFragment implements
 			Cursor cursor = ((ScheduleItemsCursorAdapter) l.getAdapter())
 					.getCursor();
 			cursor.moveToPosition(position);
-			DebugLog.d(getStringValue(cursor,
-					DevcrowdTables.PRESENTATION_DESCRIPTION));
 
-			if (getStringValue(cursor, DevcrowdTables.PRESENTATION_DESCRIPTION)
+			if (getStringValue(cursor, DevcrowdTables.SPEAKER_COLUMN_NAME)
 					.equals("")) {
 				return;
 			}
@@ -188,7 +186,7 @@ public class ScheduleListFragment extends ListFragment implements
 						+ ",', ') AS " + DevcrowdTables.JOIN_SPEAKERS_NAMES,
 				DevcrowdTables.PRESENTATION_START,
 				DevcrowdTables.PRESENTATION_FAVOURITE,
-				DevcrowdTables.PRESENTATION_DESCRIPTION };
+				DevcrowdTables.SPEAKER_COLUMN_NAME };
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
 				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,
 				DevcrowdTables.PRESENTATION_ROOM + " =? ",

@@ -55,7 +55,7 @@ public class FavouritesListFragment extends ListFragment implements
 						.getCursor();
 				cursor.moveToPosition(position);
 				
-				if (getStringValue(cursor, DevcrowdTables.PRESENTATION_DESCRIPTION)
+				if (getStringValue(cursor, DevcrowdTables.SPEAKER_COLUMN_NAME)
 						.equals("")) {
 					return;
 				}
@@ -117,7 +117,7 @@ public class FavouritesListFragment extends ListFragment implements
 				DevcrowdTables.PRESENTATION_FAVOURITE,
 				DevcrowdTables.PRESENTATION_START,
 				DevcrowdTables.PRESENTATION_ROOM,
-				DevcrowdTables.PRESENTATION_DESCRIPTION };
+				DevcrowdTables.SPEAKER_COLUMN_NAME };
 		CursorLoader cursorLoader = new CursorLoader(this.getActivity(),
 				DevcrowdContentProvider.CONTENT_URI_JOIN, projection,
 				DevcrowdTables.PRESENTATION_FAVOURITE + " =? ",
