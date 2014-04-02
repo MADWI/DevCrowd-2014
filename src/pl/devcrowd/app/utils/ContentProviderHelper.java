@@ -223,13 +223,14 @@ public final class ContentProviderHelper {
 	}
 
 	public static boolean speakerExist(final ContentResolver resolver,
-			final String name) {
+			final String name, final String presentationTitle) {
 
 		Cursor cursor = resolver.query(
 				DevcrowdContentProvider.CONTENT_URI_SPEAKERS,
 				new String[] { DevcrowdTables.SPEAKER_COLUMN_NAME },
-				DevcrowdTables.SPEAKER_COLUMN_NAME + "=?",
-				new String[] { name }, DevcrowdTables.SPEAKER_COLUMN_ID
+				DevcrowdTables.SPEAKER_COLUMN_NAME + "=? AND " +
+				DevcrowdTables.SPEAKER_COLUMN_PRESENTATION_TITLE + " =? ",
+				new String[] { name, presentationTitle }, DevcrowdTables.SPEAKER_COLUMN_ID
 						+ DEFAULT_SORT);
 
 		return cursor.getCount() > 0 ? true : false;

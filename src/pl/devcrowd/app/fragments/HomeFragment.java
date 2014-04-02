@@ -8,17 +8,26 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-public class HomeFragment extends Fragment implements OnClickListener {
+public class HomeFragment extends Fragment implements OnClickListener,
+		OnLongClickListener {
 
 	public interface OnDevCrowdLogoClickListener {
 		public void onDevCrowdLogoClick();
 	}
+	
+	public interface OnDevCrowdLogoLongClickListener {
+		public void onDevCrowdLogoLongClick(TextView viewTop, TextView viewBottom);
+	}
 
 	private ImageView imgLogoDevCrowd;
+	private TextView tvTitle, tvSubtitle;
 	private OnDevCrowdLogoClickListener onDevCrowdLogoClickListener;
+	private OnDevCrowdLogoLongClickListener onDevCrowdLogoLongClickListener;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -33,7 +42,10 @@ public class HomeFragment extends Fragment implements OnClickListener {
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
 
 		imgLogoDevCrowd = (ImageView) view.findViewById(R.id.imgLogoDevCrowd);
+		tvTitle = (TextView) view.findViewById(R.id.txtDevCrowdTitle);
+		tvSubtitle = (TextView) view.findViewById(R.id.txtDevCrowdSubtitle);
 		imgLogoDevCrowd.setOnClickListener(this);
+		imgLogoDevCrowd.setOnLongClickListener(this);
 
 		return view;
 	}
@@ -49,6 +61,14 @@ public class HomeFragment extends Fragment implements OnClickListener {
 			DebugLog.e(message);
 			throw new IllegalArgumentException(message);
 		}
+		try {
+			onDevCrowdLogoLongClickListener = (OnDevCrowdLogoLongClickListener) activity;
+		} catch (ClassCastException e) {
+			String message = activity.toString()
+					+ " must implement OnDevCrowdLogoLongClickListener";
+			DebugLog.e(message);
+			throw new IllegalArgumentException(message);
+		}
 	}
 
 	@Override
@@ -57,6 +77,14 @@ public class HomeFragment extends Fragment implements OnClickListener {
 			onDevCrowdLogoClickListener.onDevCrowdLogoClick();
 
 		}
+	}
+
+	@Override
+	public boolean onLongClick(View view) {
+		if (view.getId() == R.id.imgLogoDevCrowd) {
+			onDevCrowdLogoLongClickListener.onDevCrowdLogoLongClick(tvTitle,tvSubtitle);			
+		}
+		return true;
 	}
 
 }

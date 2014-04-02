@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.devcrowd.app.R;
+import pl.devcrowd.app.db.DevCrowdEGProvider;
+import pl.devcrowd.app.db.DevCrowdEGProvider.OnDevCrowdProviderFinish;
 import pl.devcrowd.app.dialogs.AboutDialog;
 import pl.devcrowd.app.drawer.NavigationDrawerItem;
 import pl.devcrowd.app.drawer.NavigationDrawerListAdapter;
 import pl.devcrowd.app.fragments.FavouritesListFragment;
 import pl.devcrowd.app.fragments.HomeFragment;
 import pl.devcrowd.app.fragments.HomeFragment.OnDevCrowdLogoClickListener;
+import pl.devcrowd.app.fragments.HomeFragment.OnDevCrowdLogoLongClickListener;
 import pl.devcrowd.app.fragments.ScheduleHostFragment;
 import pl.devcrowd.app.fragments.SponsorFragment;
 import pl.devcrowd.app.utils.DebugLog;
@@ -18,6 +21,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.net.ConnectivityManager;
@@ -36,27 +40,38 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoClickListener {
+public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoClickListener,
+		OnDevCrowdLogoLongClickListener, OnDevCrowdProviderFinish {
 	private static final int DRAWER_HOME_NUM = 0;
 	private static final int DRAWER_SCHEDULE_NUM = 1;
 	private static final int DRAWER_FAVOURITES_NUM = 2;
 	private static final int DRAWER_SPONSORS_NUM = 3;
 	private static final int DRAWER_ABOUT_NUM = 4;
+	private static final int NORMAL_MODE = 5;
+	private static final int RAGE_MODE = 6;
 	private static final int RESOURCE_NOT_DEFINED_INDEX = -1;
+	private static final String SAVED_PREFS = "MySave";
+	private static final String SAVED_LABEL = "MySaveLabel";
 	private static final String ABOUT_DIALOG_TAG = "about_dialog";
 
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
+	private DevCrowdEGProvider mDevcrowdProvider;
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
 
 	private List<NavigationDrawerItem> navigationDrawerItems;
+	private SharedPreferences save;
 	private NavigationDrawerListAdapter adapter;
 	private String[] navigationMenuTitles;
 	private TypedArray navigationMenuIcons;
+	private TextView tvScore;
 	private int lastPosition;
+	private int mode,topCount,count=0;
 	private boolean firstFragmentChange = true;
 
 	@Override
@@ -66,6 +81,7 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 		setContentView(R.layout.activity_main);
 
 		mTitle = mDrawerTitle = getTitle();
+		save = getSharedPreferences(SAVED_PREFS, 0);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -74,12 +90,12 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 		if (savedInstanceState == null) {
 			displayView(DRAWER_HOME_NUM);
 		}
-
 	}
 
 	private void initNavigationDrawer() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
+		
 
 		navigationMenuTitles = getResources().getStringArray(
 				R.array.navigation_drawer_items);
@@ -91,6 +107,7 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 		adapter = new NavigationDrawerListAdapter(getApplicationContext(),
 				navigationDrawerItems);
 		mDrawerList.setAdapter(adapter);
+		mode = NORMAL_MODE;
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_navigation_drawer, R.string.app_name,
@@ -102,6 +119,10 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 			}
 
 			public void onDrawerOpened(View drawerView) {
+				if (mode == RAGE_MODE) {
+					mDevcrowdProvider.cancelProviderAction();
+					saveData();
+				}
 				getSupportActionBar().setTitle(mDrawerTitle);
 				supportInvalidateOptionsMenu();
 			}
@@ -181,8 +202,7 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 			FragmentTransaction fragmentTransaction = fragmentManager
 					.beginTransaction();
 			fragmentTransaction.replace(R.id.frame_container, fragment);
-			if(!firstFragmentChange )
- {
+			if (!firstFragmentChange) {
 				fragmentTransaction.addToBackStack(String.valueOf(position));
 			}
 			fragmentTransaction.commit();
@@ -219,6 +239,10 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		mDrawerToggle.onConfigurationChanged(newConfig);
+		if(mDevcrowdProvider!=null) {
+			mDevcrowdProvider.cancel();
+			mode = NORMAL_MODE;
+		}
 	}
 
 	private BroadcastReceiver reciever = new BroadcastReceiver() {
@@ -255,7 +279,39 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 
 	@Override
 	public void onDevCrowdLogoClick() {
-		displayView(DRAWER_SCHEDULE_NUM);
+		if(mode != RAGE_MODE)
+			displayView(DRAWER_SCHEDULE_NUM);
+		else
+			count++;
 	}
 
+	@Override
+	public void onDevCrowdLogoLongClick(TextView viewTop, TextView viewBottom) {
+		mDevcrowdProvider = new DevCrowdEGProvider(viewTop, viewBottom, this);
+		mDevcrowdProvider.setCurrentYearValue();
+		tvScore = viewBottom;
+		getData();
+		mode = RAGE_MODE;
+	}
+	
+	private void saveData() {
+		Toast.makeText(this, "Wynik: " + count, Toast.LENGTH_SHORT).show();
+		if (count > topCount) {
+			SharedPreferences.Editor editor = save.edit();
+			editor.putInt(SAVED_LABEL, count);
+			editor.apply();
+		}
+		mode = NORMAL_MODE;
+		count = 0;
+	}
+	
+	private void getData() {
+		topCount = save.getInt(SAVED_LABEL, 0);
+		tvScore.setText("Top score: " + topCount);
+	}
+
+	@Override
+	public void onDevCrowdProviderFinish() {
+		saveData();
+	}
 }

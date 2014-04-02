@@ -131,7 +131,7 @@ public class ApiService extends IntentService {
 		for (Speaker speaker : speakers) {
 
 			if (ContentProviderHelper.speakerExist(getContentResolver(),
-					speaker.getName())) {
+					speaker.getName(), speaker.getPresenationName())) {
 				ContentProviderHelper.updateSpeaker(getContentResolver(),
 						speaker.getName(), speaker);
 			} else {
