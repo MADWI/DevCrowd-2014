@@ -8,7 +8,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 
 public final class Notifications {
@@ -31,7 +30,7 @@ public final class Notifications {
 				.setContentText(message)
 				.setDefaults(Notification.DEFAULT_VIBRATE)
 				.setTicker(tickerText)
-				.setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+				//.setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
 				.setContentIntent(contentIntent);
 
 		NotificationManager mNotificationManager = (NotificationManager) mContext
