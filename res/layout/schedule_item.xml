@@ -49,39 +49,49 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relativeLayout1"
+                android:id="@+id/relativeItemTextContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true" >
 
-                <TextView
-                    android:id="@+id/textItemTopic"
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="@dimen/cardMargin"
-                    android:layout_toLeftOf="@+id/toggleFavo"
-                    android:singleLine="true"
-                    android:text="Przykładowy temat"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/sponsorsTextView" />
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/toggleFavo" >
+                    
+                     <TextView
+                         android:id="@+id/textItemTopic"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_alignParentLeft="true"
+                         android:layout_alignParentRight="true"
+                         android:layout_alignParentTop="true"
+                         android:layout_marginLeft="@dimen/cardMargin"
+                         android:singleLine="true"
+                         android:text="Przykładowy temat"
+                         android:textAppearance="?android:attr/textAppearanceMedium"
+                         android:textColor="@color/sponsorsTextView" />
+	
+	                <TextView
+	                    android:id="@+id/textItemSpeaker"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_alignParentLeft="true"
+	                    android:layout_alignParentRight="true"
+	                    android:layout_below="@+id/textItemTopic"
+	                    android:layout_marginLeft="@dimen/cardMargin"
+	                    android:ellipsize="end"
+	                    android:maxLines="2"
+	                    android:text="Jan Kowalski"
+	                    android:textAppearance="?android:attr/textAppearance"
+	                    android:textColor="@color/sponsorsTextView" />
+                    
+                </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/textItemSpeaker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignRight="@+id/textItemTopic"
-                    android:layout_below="@+id/textItemTopic"
-                    android:layout_marginLeft="@dimen/cardMargin"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:text="Jan Kowalski"
-                    android:textAppearance="?android:attr/textAppearance"
-                    android:textColor="@color/sponsorsTextView" />
 
                 <ToggleButton
                     android:id="@+id/toggleFavo"

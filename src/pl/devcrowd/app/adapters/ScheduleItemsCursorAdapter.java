@@ -26,7 +26,7 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 	private LayoutInflater mInflater;
 	private AdapterInterface mAdapterInterface;
 	private List<Boolean> tooglesStates;
-
+	
 	public ScheduleItemsCursorAdapter(Context context, Cursor cursor,
 			int flags, AdapterInterface mAdapterInterface) {
 		super(context, cursor, flags);
@@ -36,14 +36,12 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 
 		populateNewTogglesList(cursor);
 	}
-	
-	public void updateTogglesList(Cursor cursor)
-	{
+
+	public void updateTogglesList(Cursor cursor) {
 		populateNewTogglesList(cursor);
 	}
-	
-	private void populateNewTogglesList(Cursor cursor)
-	{
+
+	private void populateNewTogglesList(Cursor cursor) {
 		tooglesStates = new ArrayList<Boolean>();
 		while (cursor.moveToNext()) {
 
@@ -57,16 +55,16 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 	}
 
 	@Override
-	public void bindView(View view, Context context, final Cursor cursor) {
+	public void bindView(View view, Context context, Cursor cursor) {
 
 		ScheduleItemHolder holder = (ScheduleItemHolder) view.getTag();
 
-		String presentationTitle = cursor.getString(cursor
-				.getColumnIndex(DevcrowdTables.PRESENTATION_TITLE));
-		String hourStart = cursor.getString(cursor
-				.getColumnIndex(DevcrowdTables.PRESENTATION_START));
-		String presentationID = cursor.getString(cursor
-				.getColumnIndex(DevcrowdTables.PRESENTATION_ID));
+		String presentationTitle = getStringValue(cursor,
+				DevcrowdTables.PRESENTATION_TITLE);
+		String hourStart = getStringValue(cursor,
+				DevcrowdTables.PRESENTATION_START);
+		String presentationID = getStringValue(cursor,
+				DevcrowdTables.PRESENTATION_ID);
 
 		ItemData itemData = new ItemData();
 		itemData.id = presentationID;
@@ -81,10 +79,16 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 		holder.textItemHour.setText(itemData.hour);
 		holder.textItemTopic.setText(presentationTitle);
 		holder.textItemSpeaker.setText(itemData.speaker);
+		
+		if (holder.textItemSpeaker.getText().toString().equals("")) {
+			holder.textItemSpeaker.setVisibility(View.GONE);
+		} else {
+			holder.textItemSpeaker.setVisibility(View.VISIBLE);
+		}
 
 		if (tooglesStates.size() > itemData.position) {
 			holder.starButton.setChecked(tooglesStates.get(itemData.position));
-		}		
+		}
 		holder.starButton.setTag(itemData);
 	}
 
@@ -98,7 +102,7 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 		holder.textItemTopic = (TextView) view.findViewById(R.id.textItemTopic);
 		holder.textItemSpeaker = (TextView) view
 				.findViewById(R.id.textItemSpeaker);
-
+		
 		holder.starButton = (ToggleButton) view.findViewById(R.id.toggleFavo);
 		holder.starButton.setOnClickListener(this);
 
@@ -114,10 +118,22 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 			ItemData itemData = (ItemData) view.getTag();
 			mAdapterInterface.buttonPressed(itemData.topic, itemData.hourStart,
 					itemData.id, checked);
-				tooglesStates.set(itemData.position, checked);
-			
+			tooglesStates.set(itemData.position, checked);
+
 		}
 
+	}
+
+	private String getStringValue(Cursor cursor, String columnName) {
+		String value = "";
+		int columnIndex = cursor.getColumnIndex(columnName);
+		if (columnIndex >= 0) {
+			value = cursor.getString(columnIndex);
+			if (value == null) {
+				value = "";
+			}
+		}
+		return value;
 	}
 
 	private static class ScheduleItemHolder {
