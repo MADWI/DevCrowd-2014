@@ -51,5 +51,9 @@
     <string name="no_internet_send_rates_info">Wysyłanie nieudane, brak połączenia z Internetem</string>
     <string name="added_presentation_alarm_info">Dodano przypomnienie o prezentacji</string>
     <string name="removed_presentation_alarm_info">Usunięto przypomnienie o prezentacji</string>
-    
+    <string name="devCrowdWWW">http://2014.devcrowd.pl</string>
+    <string name="authorsWWW">http://www.mad.zut.edu.pl</string>
+    <string name="authors">Dawid Gliński\nRafał Mielnik\nMarcin Mierzejewski\nSebastian Peryt\nSebastian Świerczek\nMichał Wojtalewicz</string>
+    <string name="authors_mentor_title">Opiekun koła</string>
+    <string name="authors_mentor">dr inż. Radosław Maciaszczyk</string>
 </resources>
