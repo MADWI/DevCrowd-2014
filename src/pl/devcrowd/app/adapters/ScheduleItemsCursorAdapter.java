@@ -116,11 +116,9 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 		if (view instanceof ToggleButton) {
 			boolean checked = ((ToggleButton) view).isChecked();
 			ItemData itemData = (ItemData) view.getTag();
-			View toggleView = view.findViewById(R.id.toggleFavo);
 			mAdapterInterface.buttonPressed(itemData.topic, itemData.hourStart,
-					itemData.id, checked, toggleView);
+					itemData.id, checked, view);
 			tooglesStates.set(itemData.position, checked);
-
 		}
 
 	}

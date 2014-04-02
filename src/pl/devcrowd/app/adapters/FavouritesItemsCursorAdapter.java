@@ -2,7 +2,6 @@ package pl.devcrowd.app.adapters;
 
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.db.DevcrowdTables;
-import pl.devcrowd.app.utils.DebugLog;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
