@@ -8,7 +8,7 @@
     <string name="about_dialog_title">O aplikacji</string>
     <string name="about_dialog_subtitle">DevCrowd App</string>
     <string name="about_dialog_devcrowd_www">www.2014.devcrowd.pl</string>
-    <string name="about_dialog_app_version">v1.1.0-beta</string>
+    <string name="about_dialog_app_version">v1.2.0-beta</string>
     <string name="about_dialog_authors_title">Autorzy</string>
     <string name="about_dialog_authors_name">SKN Mobile Applications Developers WI ZUT</string>
     <string name="about_dialog_authors_www">www.mad.zut.edu.pl</string>
