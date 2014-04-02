@@ -17,10 +17,12 @@ import pl.devcrowd.app.utils.ProgressUtils;
 import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
@@ -33,9 +35,13 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.espian.showcaseview.ShowcaseView;
+import com.espian.showcaseview.targets.ViewTarget;
+
 public class ScheduleListFragment extends ListFragment implements
 		LoaderCallbacks<Cursor>, AdapterInterface, OnRefreshListener {
 
+	private static final String SHOWN_FAVOURITE = "SHOWN_FAVOURITE";
 	private static final int LOADER_ID = 1;
 	private static final int NO_FLAGS = 0;
 	private static final int ALARM_DELAY_MS = -600;
@@ -46,6 +52,9 @@ public class ScheduleListFragment extends ListFragment implements
 
 	private AlarmManager am;
 	private SwipeRefreshLayout swipeLayout;
+
+	private SharedPreferences pref;
+	private SharedPreferences.Editor editor;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +68,8 @@ public class ScheduleListFragment extends ListFragment implements
 		setHasOptionsMenu(true);
 		getLoaderManager().initLoader(LOADER_ID, null, this);
 
+		pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		editor = pref.edit();
 	}
 
 	@Override
@@ -115,6 +126,7 @@ public class ScheduleListFragment extends ListFragment implements
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		asyncLoadPresentationsAndSpeakers();
+
 	}
 
 	private void asyncLoadPresentationsAndSpeakers() {
@@ -152,7 +164,7 @@ public class ScheduleListFragment extends ListFragment implements
 					.equals("")) {
 				return;
 			}
-			
+
 			Intent iDetails = new Intent(getActivity(),
 					ScheduleDetailsActivity.class);
 			iDetails.putExtra(DevcrowdTables.PRESENTATION_ID,
@@ -221,7 +233,7 @@ public class ScheduleListFragment extends ListFragment implements
 
 	@Override
 	public void buttonPressed(String presentationTitle, String hourStart,
-			String presentationID, boolean isChecked) {
+			String presentationID, boolean isChecked, View toggleView) {
 		ContentProviderHelper.updateFavourite(getActivity()
 				.getContentResolver(), presentationTitle, isChecked);
 
@@ -237,21 +249,17 @@ public class ScheduleListFragment extends ListFragment implements
 			Alarms.setAlarm(Integer.parseInt(presentationID),
 					cal.getTimeInMillis(), getActivity(), am);
 
-			Toast.makeText(
-					getActivity(),
-					getString(R.string.added_presentation_alarm_info) + " \""
-							+ presentationTitle + "\"", Toast.LENGTH_SHORT)
-					.show();
+			if (!pref.getBoolean(SHOWN_FAVOURITE, false)) {
+				ViewTarget target = new ViewTarget(toggleView);
+				ShowcaseView.insertShowcaseView(target, getActivity(),
+						R.string.favoTitle, R.string.favoDetails);
+				editor.putBoolean(SHOWN_FAVOURITE, true);
+				editor.commit();
+			}
 
 		} else {
 			Alarms.cancelAlarm(Integer.parseInt(presentationID), getActivity(),
 					am);
-			Toast.makeText(
-					getActivity(),
-					getString(R.string.removed_presentation_alarm_info) + " \""
-							+ presentationTitle + "\"", Toast.LENGTH_SHORT)
-					.show();
-
 		}
 	}
 }

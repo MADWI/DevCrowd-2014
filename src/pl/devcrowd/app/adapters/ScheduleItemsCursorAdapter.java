@@ -20,7 +20,7 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 
 	public interface AdapterInterface {
 		public void buttonPressed(String presentationTitle, String hourStart,
-				String presentationID, boolean isChecked);
+				String presentationID, boolean isChecked, View toggleView);
 	}
 
 	private LayoutInflater mInflater;
@@ -116,8 +116,9 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 		if (view instanceof ToggleButton) {
 			boolean checked = ((ToggleButton) view).isChecked();
 			ItemData itemData = (ItemData) view.getTag();
+			View toggleView = view.findViewById(R.id.toggleFavo);
 			mAdapterInterface.buttonPressed(itemData.topic, itemData.hourStart,
-					itemData.id, checked);
+					itemData.id, checked, toggleView);
 			tooglesStates.set(itemData.position, checked);
 
 		}
@@ -146,9 +147,9 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 	private static class ItemData {
 		public String id;
 		public String hourStart;
-		String hour;
-		String topic;
-		String speaker;
+		public String hour;
+		public String topic;
+		public String speaker;
 		int position;
 	}
 

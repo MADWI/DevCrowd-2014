@@ -56,4 +56,6 @@
     <string name="authors">Dawid Gliński\nRafał Mielnik\nMarcin Mierzejewski\nSebastian Peryt\nSebastian Świerczek\nMichał Wojtalewicz</string>
     <string name="authors_mentor_title">Opiekun koła</string>
     <string name="authors_mentor">dr inż. Radosław Maciaszczyk</string>
+    <string name="favoTitle">Ulubione</string>
+    <string name="favoDetails">Dodaj prezentację do ulubionych, aby otrzymać powiadomienie.</string>
 </resources>
