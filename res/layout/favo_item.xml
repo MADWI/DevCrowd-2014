@@ -53,32 +53,46 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true" >
 
-                <TextView
-                    android:id="@+id/textFavoItemTopic"
+                <RelativeLayout
+                    android:id="@+id/relativeFavoItemTextContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="@dimen/cardMargin"
-                    android:layout_toLeftOf="@+id/roomContainer"
-                    android:singleLine="true"
-                    android:text="Przykładowy temat"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/sponsorsTextView" />
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/roomContainer" >
 
-                <TextView
-                    android:id="@+id/textFavoItemSpeaker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/textFavoItemTopic"
-                    android:layout_marginLeft="@dimen/cardMargin"
-                    android:layout_toLeftOf="@+id/roomContainer"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:text="Jan Kowalski"
-                    android:textAppearance="?android:attr/textAppearance"
-                    android:textColor="@color/sponsorsTextView" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:orientation="vertical"
+                        android:layout_centerVertical="true" >
+
+                        <TextView
+                            android:id="@+id/textFavoItemTopic"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/cardMargin"
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:text="Przykładowy temat"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/sponsorsTextView" />
+
+                        <TextView
+                            android:id="@+id/textFavoItemSpeaker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/cardMargin"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="Jan Kowalski"
+                            android:textAppearance="?android:attr/textAppearance"
+                            android:textColor="@color/sponsorsTextView"
+                            android:visibility="visible" />
+                    </LinearLayout>
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/roomContainer"
@@ -108,7 +122,6 @@
                         android:textColor="@color/sponsorsTextView" />
                 </RelativeLayout>
             </RelativeLayout>
-
         </RelativeLayout>
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package pl.devcrowd.app.fragments;
 
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.activities.ScheduleDetailsActivity;
+import pl.devcrowd.app.adapters.FavouritesItemsCursorAdapter;
 import pl.devcrowd.app.db.DevcrowdContentProvider;
 import pl.devcrowd.app.db.DevcrowdTables;
 import pl.devcrowd.app.utils.DebugLog;
@@ -13,7 +14,6 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +24,7 @@ public class FavouritesListFragment extends ListFragment implements
 
 	private static final int LOADER_ID = 1;
 	private static final int NO_FLAGS = 0;
-	private SimpleCursorAdapter adapter;
+	private FavouritesItemsCursorAdapter adapter;
 	private ListView list;
 
 	@Override
@@ -51,19 +51,18 @@ public class FavouritesListFragment extends ListFragment implements
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		if (isAdded()) {
 			if (isAdded()) {
-				Cursor cursor = ((SimpleCursorAdapter) l.getAdapter())
+				Cursor cursor = ((FavouritesItemsCursorAdapter) l.getAdapter())
 						.getCursor();
 				cursor.moveToPosition(position);
-				
+
 				if (getStringValue(cursor, DevcrowdTables.SPEAKER_COLUMN_NAME)
 						.equals("")) {
 					return;
 				}
-				
+
 				Intent iDetails = new Intent(getActivity(),
 						ScheduleDetailsActivity.class);
-				iDetails.putExtra(
-						DevcrowdTables.PRESENTATION_ID,
+				iDetails.putExtra(DevcrowdTables.PRESENTATION_ID,
 						getStringValue(cursor, DevcrowdTables.PRESENTATION_ID));
 				startActivity(iDetails);
 				getActivity().overridePendingTransition(
@@ -71,7 +70,7 @@ public class FavouritesListFragment extends ListFragment implements
 			}
 		}
 	}
-	
+
 	private String getStringValue(Cursor cursor, String columnName) {
 		String value = "";
 		int columnIndex = cursor.getColumnIndex(columnName);
@@ -85,21 +84,10 @@ public class FavouritesListFragment extends ListFragment implements
 	}
 
 	private void fillData() {
-		String[] from = new String[] {
-				DevcrowdTables.PRESENTATION_TITLE,
-				DevcrowdTables.PRESENTATION_HOUR_JOIN,
-				DevcrowdTables.JOIN_SPEAKERS_NAMES,
-				DevcrowdTables.PRESENTATION_ROOM,
-				DevcrowdTables.PRESENTATION_START,
-				DevcrowdTables.TABLE_PRESENTATIONS + "."
-						+ DevcrowdTables.PRESENTATION_ID };
-		int[] to = new int[] { R.id.textFavoItemTopic, R.id.textFavoItemHour,
-				R.id.textFavoItemSpeaker, R.id.textFavoRoom };
-
 		getLoaderManager().initLoader(LOADER_ID, null, this);
 
-		adapter = new SimpleCursorAdapter(getActivity(), R.layout.favo_item,
-				null, from, to, NO_FLAGS);
+		adapter = new FavouritesItemsCursorAdapter(getActivity(), null,
+				NO_FLAGS);
 
 		setListAdapter(adapter);
 
