@@ -43,11 +43,11 @@ public class DevCrowdEGProvider extends CountDownTimer {
 
 	@Override
 	public void onTick(long millisUntilFinished) {
-		tvInfo.setText("Are you M.A.D?\nTime left:" + (millisUntilFinished/1000));
+		tvInfo.setText("Are you M.A.D.?\nTime left:" + (millisUntilFinished/1000));
 	}
 	
 	public boolean setCurrentYearValue() {
-		tvInfo.setText("Are you M.A.D?");
+		tvInfo.setText("Are you M.A.D.?");
 		this.start();
 		return true;
 	}
