@@ -118,7 +118,7 @@ public final class ContentProviderHelper {
 		values.put(DevcrowdTables.PRESENTATION_DESCRIPTION,
 				presentation.getDescription());
 		values.put(DevcrowdTables.PRESENTATION_ROOM, presentation.getRoom());
-		values.put(DevcrowdTables.PRESENTATION_START, presentation.getHourEnd());
+		values.put(DevcrowdTables.PRESENTATION_START, presentation.getHourStart());
 		values.put(DevcrowdTables.PRESENTATION_END, presentation.getHourEnd());
 		
 		asyncHandler.startUpdate(-1, null,
