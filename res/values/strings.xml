@@ -13,7 +13,7 @@
     <string name="about_dialog_authors_name">SKN Mobile Applications Developers WI ZUT</string>
     <string name="about_dialog_authors_www">www.mad.zut.edu.pl</string>
     <string name="devcrowd_info_title">DevCrowd\'14</string>
-    <string name="devcrowd_info_body">Dziel się wiedzą, dziel się pasją</string>
+    <string name="devcrowd_info_body">Dziel się wiedzą,\ndziel się pasją</string>
     <string name="drawer_open">Drawer otwarty</string>
     <string name="drawer_close">Drawer zamknięty</string>
     <string name="waitforit">Pobieram dane#8230;</string>
