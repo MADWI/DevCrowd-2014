@@ -16,10 +16,9 @@ import eu.inmite.android.lib.dialogs.BaseDialogFragment;
 
 public class AboutDialog extends BaseDialogFragment implements OnClickListener {
 
-	private int website = 0;
-	private final String ACTION = "android.intent.action.VIEW";
-	private final String urlDevCrowd = "http://2014.devcrowd.pl";
-	private final String urlAuthors = "http://www.mad.zut.edu.pl";
+	private static final String ACTION_WWW = "android.intent.action.VIEW";
+	private static final String URL_DEVCROWD = "http://2014.devcrowd.pl";
+	private static final String URL_AUTHORS = "http://www.mad.zut.edu.pl";
 
 	public static void show(FragmentActivity activity, String tag) {
 		AboutDialog dialog = new AboutDialog();
@@ -31,11 +30,12 @@ public class AboutDialog extends BaseDialogFragment implements OnClickListener {
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		View aboutView = inflater.inflate(R.layout.about_dialog_layout, null);
 
-		ImageView logoDevCrowd, logoMAD;
-		logoDevCrowd = (ImageView) aboutView.findViewById(R.id.devCrowdLogo);
+		ImageView logoDevCrowd = (ImageView) aboutView
+				.findViewById(R.id.devCrowdLogo);
 		logoDevCrowd.setOnClickListener(this);
 
-		logoMAD = (ImageView) aboutView.findViewById(R.id.authorsLogo);
+		ImageView logoMAD = (ImageView) aboutView
+				.findViewById(R.id.authorsLogo);
 		logoMAD.setOnClickListener(this);
 
 		initialBuilder.setView(aboutView).setTitle(R.string.about_dialog_title)
@@ -65,27 +65,12 @@ public class AboutDialog extends BaseDialogFragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.devCrowdLogo:
-			website = 1;
-			launchWebsite(website);
+			startActivity(new Intent(ACTION_WWW, Uri.parse(URL_DEVCROWD)));
 			break;
 
 		case R.id.authorsLogo:
-			website = 2;
-			launchWebsite(website);
+			startActivity(new Intent(ACTION_WWW, Uri.parse(URL_AUTHORS)));
 			break;
-		}
-	}
-
-	private void launchWebsite(int website) {
-
-		if (website == 1) {
-			Intent intent = new Intent(ACTION, Uri.parse(urlDevCrowd));
-			startActivity(intent);
-		}
-
-		if (website == 2) {
-			Intent intent = new Intent(ACTION, Uri.parse(urlAuthors));
-			startActivity(intent);
 		}
 	}
 }

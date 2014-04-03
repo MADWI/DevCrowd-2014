@@ -128,7 +128,10 @@ public class FavouritesListFragment extends ListFragment implements
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		DebugLog.d("onLoadFinished rows:" + data.getCount());
-		adapter.swapCursor(data);
+
+		if (adapter != null) {
+			adapter.swapCursor(data);
+		}
 		if (isAdded()) {
 			ProgressUtils.hide(getActivity());
 		}
@@ -137,6 +140,8 @@ public class FavouritesListFragment extends ListFragment implements
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 		DebugLog.d("onLoaderReset");
-		adapter.swapCursor(null);
+		if (adapter != null) {
+			adapter.swapCursor(null);
+		}
 	}
 }

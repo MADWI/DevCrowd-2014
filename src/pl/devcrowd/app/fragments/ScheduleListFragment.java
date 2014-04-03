@@ -222,13 +222,17 @@ public class ScheduleListFragment extends ListFragment implements
 			adapter.updateTogglesList(cursor);
 		}
 
-		adapter.swapCursor(cursor);
+		if (adapter != null) {
+			adapter.swapCursor(cursor);
+		}
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 		DebugLog.d("onLoaderReset");
-		adapter.swapCursor(null);
+		if (adapter != null) {
+			adapter.swapCursor(null);
+		}
 	}
 
 	@Override
