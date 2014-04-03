@@ -39,6 +39,15 @@ public class FavouritesListFragment extends ListFragment implements
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+
+		if (adapter != null) {
+			getLoaderManager().restartLoader(LOADER_ID, null, this);
+		}
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.favo_list_view, container, false);

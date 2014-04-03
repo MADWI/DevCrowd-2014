@@ -65,7 +65,7 @@
             android:layout_alignLeft="@+id/appTitleTV"
             android:layout_below="@+id/devCrowdWWW"
             android:layout_marginTop="8dp"
-            android:text="@string/about_dialog_app_version" />
+            android:text="" />
 
         <TextView
             android:id="@+id/devCrowdWWW"

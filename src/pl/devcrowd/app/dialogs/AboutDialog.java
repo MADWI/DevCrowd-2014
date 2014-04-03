@@ -1,13 +1,17 @@
 package pl.devcrowd.app.dialogs;
 
 import pl.devcrowd.app.R;
+import pl.devcrowd.app.utils.DebugLog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.TextView;
 import eu.inmite.android.lib.dialogs.BaseDialogFragment;
 
 public class AboutDialog extends BaseDialogFragment implements OnClickListener {
@@ -43,6 +47,17 @@ public class AboutDialog extends BaseDialogFragment implements OnClickListener {
 
 					}
 				});
+
+		TextView versionNumber = (TextView) aboutView
+				.findViewById(R.id.appVersionTV);
+		try {
+			PackageInfo pInfo = getActivity().getPackageManager()
+					.getPackageInfo(getActivity().getPackageName(), 0);
+			versionNumber.setText("v" + pInfo.versionName);
+		} catch (NameNotFoundException e) {
+			DebugLog.d("Cannot find app version number");
+		}
+
 		return initialBuilder;
 	}
 
