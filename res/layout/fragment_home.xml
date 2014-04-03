@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="contentDescription"
     android:layout_width="match_parent"
@@ -9,6 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_margin="5dp" >
 
         <TextView
@@ -36,16 +37,15 @@
             android:id="@+id/txtDevCrowdSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/imgLogoDevCrowd"
             android:gravity="center_vertical|center"
-			android:textSize="25sp"
             android:text="@string/devcrowd_info_body"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/list_title_color"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textSize="25sp" />
 
     </RelativeLayout>
 
-</ScrollView>
+</RelativeLayout>
