@@ -45,7 +45,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/tvPlatiniumSponsors"
-                    android:layout_marginTop="5dp" >
+                    android:layout_marginTop="5dp"
+                    android:baselineAligned="false" >
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -59,7 +60,6 @@
                             android:layout_centerInParent="true"
                             android:layout_marginTop="8dp"
                             android:background="@drawable/consileon_it_180" />
-
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -74,13 +74,9 @@
                             android:layout_centerInParent="true"
                             android:layout_marginTop="8dp"
                             android:background="@drawable/bls_logo" />
-
                     </RelativeLayout>
-
                 </LinearLayout>
-
             </RelativeLayout>
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -113,7 +109,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/tvSponsors"
-                    android:layout_marginTop="5dp" >
+                    android:layout_marginTop="5dp"
+                    android:baselineAligned="false" >
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -127,7 +124,6 @@
                             android:layout_centerInParent="true"
                             android:layout_marginTop="8dp"
                             android:background="@drawable/cognifide_corporate_logo" />
-
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -142,12 +138,9 @@
                             android:layout_centerInParent="true"
                             android:layout_marginTop="8dp"
                             android:background="@drawable/sml_mainlogo_rgb" />
-
                     </RelativeLayout>
                 </LinearLayout>
-
             </RelativeLayout>
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -185,7 +178,8 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false" >
 
                         <RelativeLayout
                             android:layout_width="0dp"
@@ -218,7 +212,8 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false" >
 
                         <RelativeLayout
                             android:layout_width="0dp"
@@ -231,7 +226,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:background="@drawable/netcamp_logo" />
-
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -245,13 +239,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:background="@drawable/crossweb" />
-
                         </RelativeLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false" >
 
                         <RelativeLayout
                             android:layout_width="0dp"
@@ -264,7 +258,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:background="@drawable/klaster_it" />
-
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -279,14 +272,10 @@
                                 android:layout_centerInParent="true"
                                 android:layout_marginTop="51dp"
                                 android:background="@drawable/tp_full" />
-
                         </RelativeLayout>
-
                     </LinearLayout>
-
                 </LinearLayout>
             </RelativeLayout>
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -319,41 +308,64 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/tvPartners"
-                    android:layout_marginTop="5dp" >
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical" >
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false" >
 
-                        <ImageView
-                            android:id="@+id/partnerWI"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_marginTop="8dp"
-                            android:background="@drawable/wi" />
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" >
 
-                    </RelativeLayout>
+                            <ImageView
+                                android:id="@+id/partnerWI"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="8dp"
+                                android:background="@drawable/wi" />
+                        </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" >
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" >
 
-                        <ImageView
-                            android:id="@+id/partnerJUGSzczecin"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_marginTop="16dp"
-                            android:background="@drawable/logojug_b_x50" />
+                            <ImageView
+                                android:id="@+id/partnerJUGSzczecin"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="16dp"
+                                android:background="@drawable/logojug_b_x50" />
+                        </RelativeLayout>
+                    </LinearLayout>
 
-                    </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false" >
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" >
+
+                            <ImageView
+                                android:id="@+id/partner4Developers"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="8dp"
+                                android:background="@drawable/fourdevelopers" />
+                        </RelativeLayout>
+                    </LinearLayout>
                 </LinearLayout>
-
             </RelativeLayout>
-
         </RelativeLayout>
 
         <RelativeLayout

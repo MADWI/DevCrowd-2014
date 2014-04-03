@@ -28,6 +28,7 @@ public class SponsorFragment extends Fragment implements OnClickListener{
 	
 	private ImageView wiZUT;
 	private ImageView szczecinJUG;
+	private ImageView fourDevelopers;
 	
 	private static final String CONSILEON_WEBSITE = "http://www.consileon.pl/pl/";
 	private static final String BLSTREAM_WEBSITE = "http://blstream.com/";
@@ -41,6 +42,7 @@ public class SponsorFragment extends Fragment implements OnClickListener{
 	private static final String TECHNOPARK_WEBSITE = "http://www.technopark-pomerania.pl/pl/";
 	private static final String WIZUT_WEBSITE = "http://wi.zut.edu.pl/";
 	private static final String SZCZECINJUG_WEBSITE = "http://szjug.pl/";
+	private static final String FOUR_DEVELOPERS_WEBSITE = "http://2014.4developers.org.pl/pl/";
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,7 @@ public class SponsorFragment extends Fragment implements OnClickListener{
 		technoPark = (ImageView) view.findViewById(R.id.patronateTechnoPark);
 		wiZUT = (ImageView) view.findViewById(R.id.partnerWI);
 		szczecinJUG = (ImageView) view.findViewById(R.id.partnerJUGSzczecin);
+		fourDevelopers = (ImageView) view.findViewById(R.id.partner4Developers);
 		
 		consileon.setOnClickListener(this);
 		blstream.setOnClickListener(this);
@@ -78,6 +81,7 @@ public class SponsorFragment extends Fragment implements OnClickListener{
 		technoPark.setOnClickListener(this);
 		wiZUT.setOnClickListener(this);
 		szczecinJUG.setOnClickListener(this);
+		fourDevelopers.setOnClickListener(this);
 		
 		return view;
 	}
@@ -131,6 +135,10 @@ public class SponsorFragment extends Fragment implements OnClickListener{
 				
 			case R.id.partnerJUGSzczecin:
 				openURL(SZCZECINJUG_WEBSITE);
+				break;
+				
+			case R.id.partner4Developers:
+				openURL(FOUR_DEVELOPERS_WEBSITE);
 				break;
 				
 				default:
