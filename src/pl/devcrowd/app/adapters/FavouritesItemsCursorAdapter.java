@@ -2,6 +2,7 @@ package pl.devcrowd.app.adapters;
 
 import pl.devcrowd.app.R;
 import pl.devcrowd.app.db.DevcrowdTables;
+import pl.devcrowd.app.utils.DebugLog;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
@@ -65,7 +66,12 @@ public class FavouritesItemsCursorAdapter extends CursorAdapter {
 		String value = "";
 		int columnIndex = cursor.getColumnIndex(columnName);
 		if (columnIndex >= 0) {
-			value = cursor.getString(columnIndex);
+			try {
+				value = cursor.getString(columnIndex);
+			} catch (IndexOutOfBoundsException e) {
+				DebugLog.e(e.toString());
+				value = null;
+			}
 			if (value == null) {
 				value = "";
 			}

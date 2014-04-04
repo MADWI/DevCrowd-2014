@@ -8,44 +8,52 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_margin="5dp" >
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="25dp" >
+        
+        <RelativeLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:layout_margin="5dp" >
 
-        <TextView
-            android:id="@+id/txtDevCrowdTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:textSize="35sp"
-            android:textStyle="bold"
-            android:textColor="@color/list_title_color"
-            android:text="@string/devcrowd_info_title"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <ImageView
-            android:id="@+id/imgLogoDevCrowd"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_below="@+id/txtDevCrowdTitle"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="20dp"
-            android:src="@drawable/duger_big" />
-
-        <TextView
-            android:id="@+id/txtDevCrowdSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/imgLogoDevCrowd"
-            android:gravity="center_vertical|center"
-            android:text="@string/devcrowd_info_body"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/list_title_color"
-            android:textSize="21sp" />
-
+	        <TextView
+	            android:id="@+id/txtDevCrowdTitle"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentTop="true"
+	            android:layout_centerHorizontal="true"
+	            android:textSize="35sp"
+	            android:textStyle="bold"
+	            android:textColor="@color/list_title_color"
+	            android:text="@string/devcrowd_info_title"
+	            android:textAppearance="?android:attr/textAppearanceLarge" />
+	
+	        <ImageView
+	            android:id="@+id/imgLogoDevCrowd"
+	            android:layout_width="150dp"
+	            android:layout_height="150dp"
+	            android:layout_below="@+id/txtDevCrowdTitle"
+	            android:layout_centerHorizontal="true"
+	            android:layout_margin="20dp"
+	            android:src="@drawable/duger_big" />
+	
+	        <TextView
+	            android:id="@+id/txtDevCrowdSubtitle"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:layout_alignParentRight="true"
+	            android:layout_below="@+id/imgLogoDevCrowd"
+	            android:gravity="center_vertical|center"
+	            android:text="@string/devcrowd_info_body"
+	            android:textAppearance="?android:attr/textAppearanceMedium"
+	            android:textColor="@color/list_title_color"
+	            android:textSize="21sp" />
+	
+	    </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

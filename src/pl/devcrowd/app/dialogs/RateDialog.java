@@ -64,12 +64,22 @@ public class RateDialog extends BaseDialogFragment implements
 				.findViewById(R.id.textSpeakerRating);
 
 		Bundle args = getArguments();
-		if (args != null
-				&& args.getInt(ScheduleDetailsActivity.SPEAKERS_COUNT) > 1) {
+		if (getArg(args, ScheduleDetailsActivity.SPEAKERS_COUNT) > 1f) {
 			speakerRatingText.setText(getString(R.string.speakersRate));
 		}
+		topicRate.setRating(getArg(args, ScheduleDetailsActivity.TOPIC_GRADE));
+		speakerRate.setRating(getArg(args,
+				ScheduleDetailsActivity.SPEAKER_GRADE));
 
 		setEnableSendButton(false);
+	}
+
+	private float getArg(Bundle args, String key) {
+		float value = 0;
+		if (args != null && args.containsKey(key)) {
+			value = args.getFloat(key);
+		}
+		return value;
 	}
 
 	@Override

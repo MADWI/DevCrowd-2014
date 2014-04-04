@@ -84,7 +84,12 @@ public class FavouritesListFragment extends ListFragment implements
 		String value = "";
 		int columnIndex = cursor.getColumnIndex(columnName);
 		if (columnIndex >= 0) {
-			value = cursor.getString(columnIndex);
+			try {
+				value = cursor.getString(columnIndex);
+			} catch (IndexOutOfBoundsException e) {
+				DebugLog.e(e.toString());
+				value = null;
+			}
 			if (value == null) {
 				value = "";
 			}
