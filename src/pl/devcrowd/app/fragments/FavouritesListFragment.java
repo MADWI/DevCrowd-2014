@@ -58,11 +58,13 @@ public class FavouritesListFragment extends ListFragment implements
 
 		list = (ListView) view.findViewById(android.R.id.list);
 		list.setSelector(android.R.color.transparent);
+		
 		return view;
 	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
 		setRefreshing(true);
 	}
 
@@ -136,10 +138,7 @@ public class FavouritesListFragment extends ListFragment implements
 					NO_FLAGS);
 			setListAdapter(adapter);
 		}
-		if(data !=null )
-		{
-			DebugLog.d("Data not null");
-		}
+		
 		setAdapterData(data);
 		setRefreshing(false);
 	}
