@@ -140,6 +140,20 @@ public class ScheduleItemsCursorAdapter extends CursorAdapter implements
 		}
 		return value;
 	}
+	
+	@Override
+	public boolean areAllItemsEnabled() {
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled(int position) {
+		Cursor cursor = getCursor();
+		cursor.moveToPosition(position);
+
+		return getStringValue(cursor, DevcrowdTables.SPEAKER_COLUMN_NAME)
+				.equals("") ? false : true;
+	}
 
 	private static class ScheduleItemHolder {
 		public TextView textItemHour;

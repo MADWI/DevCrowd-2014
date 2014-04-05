@@ -35,10 +35,10 @@ public class FavouritesItemsCursorAdapter extends CursorAdapter {
 				DevcrowdTables.JOIN_SPEAKERS_NAMES));
 		holder.textFavoRoom.setText(getStringValue(cursor,
 				DevcrowdTables.PRESENTATION_ROOM));
-		
+
 		CharSequence speaker = holder.textFavoItemSpeaker.getText();
-		
-		if (speaker!=null && speaker.toString().equals("")) {
+
+		if (speaker != null && speaker.toString().equals("")) {
 			holder.textFavoItemSpeaker.setVisibility(View.GONE);
 		} else {
 			holder.textFavoItemSpeaker.setVisibility(View.VISIBLE);
@@ -77,6 +77,20 @@ public class FavouritesItemsCursorAdapter extends CursorAdapter {
 			}
 		}
 		return value;
+	}
+
+	@Override
+	public boolean areAllItemsEnabled() {
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled(int position) {
+		Cursor cursor = getCursor();
+		cursor.moveToPosition(position);
+
+		return getStringValue(cursor, DevcrowdTables.SPEAKER_COLUMN_NAME)
+				.equals("") ? false : true;
 	}
 
 	private static class FavouritesItemHolder {

@@ -154,11 +154,6 @@ public class ScheduleListFragment extends ListFragment implements
 					.getCursor();
 			cursor.moveToPosition(position);
 
-			if (getStringValue(cursor, DevcrowdTables.SPEAKER_COLUMN_NAME)
-					.equals("")) {
-				return;
-			}
-
 			Intent iDetails = new Intent(getActivity(),
 					ScheduleDetailsActivity.class);
 			iDetails.putExtra(DevcrowdTables.PRESENTATION_ID,
