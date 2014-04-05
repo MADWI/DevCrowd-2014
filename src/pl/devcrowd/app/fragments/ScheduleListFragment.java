@@ -13,7 +13,6 @@ import pl.devcrowd.app.services.ApiService;
 import pl.devcrowd.app.utils.CalendarUtils;
 import pl.devcrowd.app.utils.ContentProviderHelper;
 import pl.devcrowd.app.utils.DebugLog;
-import pl.devcrowd.app.utils.ProgressUtils;
 import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
@@ -75,7 +74,7 @@ public class ScheduleListFragment extends ListFragment implements
 	@Override
 	public void onStart() {
 		super.onStart();
-		getLoaderManager().restartLoader(LOADER_ID, null, this);
+		forceRefreshList();
 	}
 
 	private class ServiceResultReceiver extends ResultReceiver {
@@ -88,8 +87,6 @@ public class ScheduleListFragment extends ListFragment implements
 		public void onReceiveResult(int resultCode, Bundle resultData) {
 			super.onReceiveResult(resultCode, resultData);
 			if (isAdded()) {
-				ProgressUtils.hide(getActivity());
-
 				if (resultCode == ApiService.LOADING_SUCCESS) {
 					getLoaderManager().restartLoader(LOADER_ID, null,
 							ScheduleListFragment.this);
@@ -98,7 +95,7 @@ public class ScheduleListFragment extends ListFragment implements
 							getString(R.string.error_loading_presentations),
 							Toast.LENGTH_LONG).show();
 				}
-				swipeLayout.setRefreshing(false);
+				setRefreshing(false);
 			}
 		}
 	}
@@ -130,10 +127,7 @@ public class ScheduleListFragment extends ListFragment implements
 	}
 
 	private void asyncLoadPresentationsAndSpeakers() {
-
-		if (swipeLayout != null) {
-			swipeLayout.setRefreshing(true);
-		}
+		setRefreshing(true);
 
 		Intent intent = new Intent(getActivity(), ApiService.class);
 		intent.setAction(ApiService.ACTION_GET_PRESENTATIONS);
@@ -217,27 +211,20 @@ public class ScheduleListFragment extends ListFragment implements
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 		DebugLog.d("onLoadFinished rows:" + cursor.getCount());
-
 		if (adapter == null) {
 			adapter = new ScheduleItemsCursorAdapter(getActivity(), cursor,
 					NO_FLAGS, this);
-
 			setListAdapter(adapter);
 		} else {
 			adapter.updateTogglesList(cursor);
 		}
-
-		if (adapter != null) {
-			adapter.swapCursor(cursor);
-		}
+		setAdapterData(cursor);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 		DebugLog.d("onLoaderReset");
-		if (adapter != null) {
-			adapter.swapCursor(null);
-		}
+		setAdapterData(null);
 	}
 
 	@Override
@@ -269,6 +256,25 @@ public class ScheduleListFragment extends ListFragment implements
 		} else {
 			Alarms.cancelAlarm(Integer.parseInt(presentationID), getActivity(),
 					am);
+		}
+	}
+
+	private void forceRefreshList() {
+		if (adapter != null) {
+			setRefreshing(true);
+			getLoaderManager().restartLoader(LOADER_ID, null, this);
+		}
+	}
+
+	private void setRefreshing(boolean refreshing) {
+		if (swipeLayout != null && isAdded()) {
+			swipeLayout.setRefreshing(refreshing);
+		}
+	}
+
+	private void setAdapterData(Cursor data) {
+		if (adapter != null) {
+			adapter.swapCursor(data);
 		}
 	}
 }

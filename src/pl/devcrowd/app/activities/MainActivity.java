@@ -16,7 +16,6 @@ import pl.devcrowd.app.fragments.HomeFragment.OnDevCrowdLogoLongClickListener;
 import pl.devcrowd.app.fragments.ScheduleHostFragment;
 import pl.devcrowd.app.fragments.SponsorFragment;
 import pl.devcrowd.app.utils.DebugLog;
-import pl.devcrowd.app.utils.ProgressUtils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +35,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -77,7 +75,6 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_main);
 
 		mTitle = mDrawerTitle = getTitle();
@@ -208,7 +205,6 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 			fragmentTransaction.commit();
 			firstFragmentChange = false;
 			setSelection(position);
-			ProgressUtils.hide(this);
 		} else {
 			DebugLog.e("Error in creating fragment");
 		}

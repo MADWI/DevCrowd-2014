@@ -6,7 +6,6 @@ import pl.devcrowd.app.adapters.FavouritesItemsCursorAdapter;
 import pl.devcrowd.app.db.DevcrowdContentProvider;
 import pl.devcrowd.app.db.DevcrowdTables;
 import pl.devcrowd.app.utils.DebugLog;
-import pl.devcrowd.app.utils.ProgressUtils;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -14,69 +13,78 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 public class FavouritesListFragment extends ListFragment implements
-		LoaderManager.LoaderCallbacks<Cursor> {
+		LoaderManager.LoaderCallbacks<Cursor>, OnRefreshListener {
 
 	private static final int LOADER_ID = 1;
 	private static final int NO_FLAGS = 0;
 	private FavouritesItemsCursorAdapter adapter;
 	private ListView list;
+	private SwipeRefreshLayout swipeLayout;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+		getLoaderManager().initLoader(LOADER_ID, null, this);
 
-		if (isAdded()) {
-			ProgressUtils.show(getActivity());
-		}
-		fillData();
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-
-		if (adapter != null) {
-			getLoaderManager().restartLoader(LOADER_ID, null, this);
-		}
+		forceRefreshList();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.favo_list_view, container, false);
+
+		swipeLayout = (SwipeRefreshLayout) view
+				.findViewById(R.id.swipe_container_favo);
+		swipeLayout.setOnRefreshListener(this);
+
+		swipeLayout.setColorScheme(R.color.swipeRefreshColor1,
+				R.color.swipeRefreshColor2, R.color.swipeRefreshColor3,
+				R.color.swipeRefreshColor4);
+
 		list = (ListView) view.findViewById(android.R.id.list);
 		list.setSelector(android.R.color.transparent);
 		return view;
 	}
 
 	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		setRefreshing(true);
+	}
+
+	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		if (isAdded()) {
-			if (isAdded()) {
-				Cursor cursor = ((FavouritesItemsCursorAdapter) l.getAdapter())
-						.getCursor();
-				cursor.moveToPosition(position);
+			Cursor cursor = ((FavouritesItemsCursorAdapter) l.getAdapter())
+					.getCursor();
+			cursor.moveToPosition(position);
 
-				if (getStringValue(cursor, DevcrowdTables.SPEAKER_COLUMN_NAME)
-						.equals("")) {
-					return;
-				}
-
-				Intent iDetails = new Intent(getActivity(),
-						ScheduleDetailsActivity.class);
-				iDetails.putExtra(DevcrowdTables.PRESENTATION_ID,
-						getStringValue(cursor, DevcrowdTables.PRESENTATION_ID));
-				startActivity(iDetails);
-				getActivity().overridePendingTransition(
-						R.anim.slide_left_enter, R.anim.slide_left_exit);
+			if (getStringValue(cursor, DevcrowdTables.SPEAKER_COLUMN_NAME)
+					.equals("")) {
+				return;
 			}
+
+			Intent iDetails = new Intent(getActivity(),
+					ScheduleDetailsActivity.class);
+			iDetails.putExtra(DevcrowdTables.PRESENTATION_ID,
+					getStringValue(cursor, DevcrowdTables.PRESENTATION_ID));
+			startActivity(iDetails);
+			getActivity().overridePendingTransition(R.anim.slide_left_enter,
+					R.anim.slide_left_exit);
 		}
 	}
 
@@ -95,16 +103,6 @@ public class FavouritesListFragment extends ListFragment implements
 			}
 		}
 		return value;
-	}
-
-	private void fillData() {
-		getLoaderManager().initLoader(LOADER_ID, null, this);
-
-		adapter = new FavouritesItemsCursorAdapter(getActivity(), null,
-				NO_FLAGS);
-
-		setListAdapter(adapter);
-
 	}
 
 	@Override
@@ -133,20 +131,47 @@ public class FavouritesListFragment extends ListFragment implements
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 		DebugLog.d("onLoadFinished rows:" + data.getCount());
-
-		if (adapter != null) {
-			adapter.swapCursor(data);
+		if (adapter == null) {
+			adapter = new FavouritesItemsCursorAdapter(getActivity(), null,
+					NO_FLAGS);
+			setListAdapter(adapter);
 		}
-		if (isAdded()) {
-			ProgressUtils.hide(getActivity());
+		if(data !=null )
+		{
+			DebugLog.d("Data not null");
 		}
+		setAdapterData(data);
+		setRefreshing(false);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
 		DebugLog.d("onLoaderReset");
+		setAdapterData(null);
+	}
+
+	@Override
+	public void onRefresh() {
+		forceRefreshList();
+	}
+
+	private void forceRefreshList() {
 		if (adapter != null) {
-			adapter.swapCursor(null);
+			setRefreshing(true);
+			getLoaderManager().restartLoader(LOADER_ID, null, this);
+		}
+	}
+
+	private void setRefreshing(boolean refreshing) {
+		if (swipeLayout != null && isAdded()) {
+			swipeLayout.setRefreshing(refreshing);
+		}
+	}
+
+	private void setAdapterData(Cursor data) {
+		if (adapter != null) {
+			DebugLog.d("Adapter not null,swaping cursor..");
+			adapter.swapCursor(data);
 		}
 	}
 }

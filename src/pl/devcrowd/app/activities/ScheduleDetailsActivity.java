@@ -8,7 +8,6 @@ import pl.devcrowd.app.dialogs.RateDialog.OnRatingListener;
 import pl.devcrowd.app.overviews.RoundImageView;
 import pl.devcrowd.app.services.ApiService;
 import pl.devcrowd.app.utils.DebugLog;
-import pl.devcrowd.app.utils.ProgressUtils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -58,7 +57,7 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 	protected boolean isConnected = false;
 	private RatingBar ratingBar;
 	private String presentationTopic = "";
-	
+
 	private float topicGrade;
 	private float speakerGrade;
 
@@ -73,12 +72,10 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		Bundle extras = getIntent().getExtras();
 		String id = extras.getString(DevcrowdTables.PRESENTATION_ID);
 
-		ProgressUtils.show(this);
 		rootView = (RelativeLayout) findViewById(R.id.rootView);
 		fillPresentationData(id);
 		fillSpeakersData(id);
 		fillReateDialogCard(id);
-		ProgressUtils.hide(this);
 	}
 
 	private void fillPresentationData(String id) {
@@ -276,7 +273,6 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 	}
 
 	private void setSpeakerImage(final ImageView image, String url) {
-		ProgressUtils.show(this);
 		ShutterbugManager.getSharedImageManager(this).download(url,
 				new ShutterbugManagerListener() {
 
@@ -284,19 +280,19 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 					public void onImageSuccess(ShutterbugManager sm,
 							Bitmap bmp, String arg2) {
 						image.setImageBitmap(bmp);
-						ProgressUtils.hide(ScheduleDetailsActivity.this);
 					}
 
 					@Override
 					public void onImageFailure(ShutterbugManager arg0,
 							String arg1) {
 						image.setImageResource(R.drawable.head_simple);
-						ProgressUtils.hide(ScheduleDetailsActivity.this);
+
 					}
 				});
 	}
 
-	private View createRatingCardView(String topicGradeString, String speakerGradeString) {
+	private View createRatingCardView(String topicGradeString,
+			String speakerGradeString) {
 		View ratingCard = getLayoutInflater().inflate(
 				R.layout.rating_card_item, null);
 		ratingCard.setLayoutParams(createLayoutParams(viewId));
@@ -305,10 +301,12 @@ public class ScheduleDetailsActivity extends ActionBarActivity implements
 		ratingBar = (RatingBar) ratingCard.findViewById(R.id.ratingBar);
 
 		this.topicGrade = Float
-				.parseFloat(!topicGradeString.equals("") ? topicGradeString : "0");
+				.parseFloat(!topicGradeString.equals("") ? topicGradeString
+						: "0");
 		this.speakerGrade = Float
-				.parseFloat(!speakerGradeString.equals("") ? speakerGradeString : "0");
-		
+				.parseFloat(!speakerGradeString.equals("") ? speakerGradeString
+						: "0");
+
 		if (this.topicGrade != 0 && this.speakerGrade != 0) {
 			float roundGrade = ((this.topicGrade + this.speakerGrade) / 2);
 			ratingBar.setRating(roundGrade);
