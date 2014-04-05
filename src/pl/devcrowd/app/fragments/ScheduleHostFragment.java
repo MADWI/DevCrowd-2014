@@ -1,6 +1,9 @@
 package pl.devcrowd.app.fragments;
 
 import pl.devcrowd.app.R;
+import pl.devcrowd.app.activities.MainActivity;
+import pl.devcrowd.app.utils.DebugLog;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
@@ -13,6 +16,10 @@ import android.widget.TextView;
 public class ScheduleHostFragment extends Fragment implements
 		OnTabChangeListener {
 	private FragmentTabHost mTabHost;
+
+	private OnShowFragment onShowFragment;
+
+	private int fragmentPosition;
 
 	private static final String TEMP_ROOM_NAME_1 = "Sala 126";
 	private static final String TEMP_ROOM_NAME_2 = "Sala 226";
@@ -43,6 +50,8 @@ public class ScheduleHostFragment extends Fragment implements
 						TEMP_ROOM_NAME_2), ScheduleListFragment.class, room2);
 		resetTabsView();
 		selectCurrentTab();
+		fragmentPosition = getArguments().getInt(
+				MainActivity.FRAGMENT_DRAWER_POSITION);
 		return mTabHost;
 	}
 
@@ -78,5 +87,26 @@ public class ScheduleHostFragment extends Fragment implements
 		super.onDestroyView();
 		mTabHost = null;
 	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			onShowFragment = (OnShowFragment) activity;
+		} catch (ClassCastException e) {
+			String message = activity.toString()
+					+ " must implement OnShowFragment";
+			DebugLog.e(message);
+			throw new IllegalArgumentException(message);
+		}
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		onShowFragment.onFragmentShowed(fragmentPosition);
+	}
+	
+	
 
 }

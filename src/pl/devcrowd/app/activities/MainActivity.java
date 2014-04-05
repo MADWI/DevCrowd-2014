@@ -13,6 +13,7 @@ import pl.devcrowd.app.fragments.FavouritesListFragment;
 import pl.devcrowd.app.fragments.HomeFragment;
 import pl.devcrowd.app.fragments.HomeFragment.OnDevCrowdLogoClickListener;
 import pl.devcrowd.app.fragments.HomeFragment.OnDevCrowdLogoLongClickListener;
+import pl.devcrowd.app.fragments.OnShowFragment;
 import pl.devcrowd.app.fragments.ScheduleHostFragment;
 import pl.devcrowd.app.fragments.SponsorFragment;
 import pl.devcrowd.app.utils.DebugLog;
@@ -42,7 +43,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoClickListener,
-		OnDevCrowdLogoLongClickListener, OnDevCrowdProviderFinish {
+		OnDevCrowdLogoLongClickListener, OnDevCrowdProviderFinish, OnShowFragment {
+	
+	public static final String FRAGMENT_DRAWER_POSITION = "fragmentPosition";
+	
 	private static final int DRAWER_HOME_NUM = 0;
 	private static final int DRAWER_SCHEDULE_NUM = 1;
 	private static final int DRAWER_FAVOURITES_NUM = 2;
@@ -54,7 +58,7 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 	private static final String SAVED_PREFS = "MySave";
 	private static final String SAVED_LABEL = "MySaveLabel";
 	private static final String ABOUT_DIALOG_TAG = "about_dialog";
-
+	
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -194,6 +198,10 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 		}
 
 		if (fragment != null) {
+			Bundle bundle = new Bundle();
+			bundle.putInt(FRAGMENT_DRAWER_POSITION, position);
+			fragment.setArguments(bundle);
+			
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			fragmentManager.popBackStack(String.valueOf(position), FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction fragmentTransaction = fragmentManager
@@ -204,10 +212,15 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 			}
 			fragmentTransaction.commit();
 			firstFragmentChange = false;
-			setSelection(position);
+			
 		} else {
 			DebugLog.e("Error in creating fragment");
 		}
+	}
+	
+	@Override
+	public void onFragmentShowed(int drawerPosition) {
+		setSelection(drawerPosition);		
 	}
 
 	private void setSelection(int position) {
@@ -310,4 +323,6 @@ public class MainActivity extends ActionBarActivity implements OnDevCrowdLogoCli
 	public void onDevCrowdProviderFinish() {
 		saveData();
 	}
+
+
 }

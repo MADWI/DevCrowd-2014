@@ -1,11 +1,13 @@
 package pl.devcrowd.app.fragments;
 
 import pl.devcrowd.app.R;
+import pl.devcrowd.app.activities.MainActivity;
 import pl.devcrowd.app.activities.ScheduleDetailsActivity;
 import pl.devcrowd.app.adapters.FavouritesItemsCursorAdapter;
 import pl.devcrowd.app.db.DevcrowdContentProvider;
 import pl.devcrowd.app.db.DevcrowdTables;
 import pl.devcrowd.app.utils.DebugLog;
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -21,13 +23,15 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 public class FavouritesListFragment extends ListFragment implements
-		LoaderManager.LoaderCallbacks<Cursor>, OnRefreshListener {
+		LoaderManager.LoaderCallbacks<Cursor>, OnRefreshListener{
 
 	private static final int LOADER_ID = 1;
 	private static final int NO_FLAGS = 0;
 	private FavouritesItemsCursorAdapter adapter;
 	private ListView list;
 	private SwipeRefreshLayout swipeLayout;
+	private int fragmentPosition;
+	private OnShowFragment onShowFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +44,8 @@ public class FavouritesListFragment extends ListFragment implements
 	@Override
 	public void onStart() {
 		super.onStart();
-		forceRefreshList();
+		onShowFragment.onFragmentShowed(fragmentPosition);
+		forceRefreshList();		
 	}
 
 	@Override
@@ -59,7 +64,24 @@ public class FavouritesListFragment extends ListFragment implements
 		list = (ListView) view.findViewById(android.R.id.list);
 		list.setSelector(android.R.color.transparent);
 		
+		fragmentPosition = getArguments().getInt(
+				MainActivity.FRAGMENT_DRAWER_POSITION);
+		
 		return view;
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		try {
+			onShowFragment = (OnShowFragment) activity;
+		} catch (ClassCastException e) {
+			String message = activity.toString()
+					+ " must implement OnShowFragment";
+			DebugLog.e(message);
+			throw new IllegalArgumentException(message);
+		}
 	}
 
 	@Override

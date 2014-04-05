@@ -1,6 +1,7 @@
 package pl.devcrowd.app.fragments;
 
 import pl.devcrowd.app.R;
+import pl.devcrowd.app.activities.MainActivity;
 import pl.devcrowd.app.utils.DebugLog;
 import android.app.Activity;
 import android.os.Bundle;
@@ -19,15 +20,18 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	public interface OnDevCrowdLogoClickListener {
 		public void onDevCrowdLogoClick();
 	}
-	
+
 	public interface OnDevCrowdLogoLongClickListener {
-		public void onDevCrowdLogoLongClick(TextView viewTop, TextView viewBottom);
+		public void onDevCrowdLogoLongClick(TextView viewTop,
+				TextView viewBottom);
 	}
 
 	private ImageView imgLogoDevCrowd;
 	private TextView tvTitle, tvSubtitle;
 	private OnDevCrowdLogoClickListener onDevCrowdLogoClickListener;
 	private OnDevCrowdLogoLongClickListener onDevCrowdLogoLongClickListener;
+	private OnShowFragment onShowFragment;
+	private int fragmentPosition;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		imgLogoDevCrowd.setOnClickListener(this);
 		imgLogoDevCrowd.setOnLongClickListener(this);
 
+		fragmentPosition = getArguments().getInt(
+				MainActivity.FRAGMENT_DRAWER_POSITION);
 		return view;
 	}
 
@@ -69,6 +75,21 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			DebugLog.e(message);
 			throw new IllegalArgumentException(message);
 		}
+
+		try {
+			onShowFragment = (OnShowFragment) activity;
+		} catch (ClassCastException e) {
+			String message = activity.toString()
+					+ " must implement OnShowFragment";
+			DebugLog.e(message);
+			throw new IllegalArgumentException(message);
+		}
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		onShowFragment.onFragmentShowed(fragmentPosition);
 	}
 
 	@Override
@@ -82,7 +103,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	@Override
 	public boolean onLongClick(View view) {
 		if (view.getId() == R.id.imgLogoDevCrowd) {
-			onDevCrowdLogoLongClickListener.onDevCrowdLogoLongClick(tvTitle,tvSubtitle);			
+			onDevCrowdLogoLongClickListener.onDevCrowdLogoLongClick(tvTitle,
+					tvSubtitle);
 		}
 		return true;
 	}
