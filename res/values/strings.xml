@@ -57,4 +57,6 @@
     <string name="authors_mentor">dr inż. Radosław Maciaszczyk</string>
     <string name="favoTitle">Ulubione</string>
     <string name="favoDetails">Dodaj prezentację do ulubionych, aby otrzymać powiadomienie.</string>
+    <string name="legalNoticesTitle">Legal notices</string>
+    <string name="legalNotices">Application use open source software:\n\n- Styled Dialogs Copyright 2013 Inmite s.r.o. (www.inmite.eu)\n- ACRA Copyright 2013 Kevin Gaudin\n- ShowcaseView Copyright 2012 Alex Curran\n\nLicense:\n\nCopyright 2014 Mobile Applications Developers WI ZUT\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
 </resources>

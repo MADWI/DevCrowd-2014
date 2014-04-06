@@ -112,6 +112,29 @@
             android:layout_below="@+id/authorsMentorTitle"
             android:layout_marginTop="8dp"
             android:text="@string/authors_mentor" />
+
+        <TextView
+            android:id="@+id/legalNoticesTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/authorsLogo"
+            android:layout_alignRight="@+id/authorsMentor"
+            android:layout_below="@+id/authorsWWWTV"
+            android:layout_marginTop="8dp"
+            android:textStyle="bold"
+            android:text="@string/legalNoticesTitle"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/legalNotices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/authorsLogo"
+            android:layout_alignRight="@+id/authorsMentor"
+            android:layout_below="@+id/legalNoticesTitle"
+            android:layout_marginTop="8dp"
+            android:text="@string/legalNotices"
+            android:textSize="12sp" />
     </RelativeLayout>
 
 </ScrollView>
