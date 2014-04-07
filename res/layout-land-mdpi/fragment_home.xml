@@ -39,7 +39,7 @@
                 android:layout_below="@+id/txtDevCrowdTitle"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:gravity="center_vertical|center"
+                android:gravity="center"
                 android:text="@string/devcrowd_info_body"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/list_title_color"
