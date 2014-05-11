@@ -7,6 +7,23 @@ import java.util.Date;
 import java.util.Locale;
 
 public class CalendarUtils {
+	
+	public static boolean compareTwoDates(String alarmDate, String currentDate) {
+
+		try {
+			Date date1 = dateFormat.parse(alarmDate);
+			Date date2 = dateFormat.parse(currentDate);
+			
+			if (date1 != null && date2 != null) {
+	            boolean retVal = date2.before(date1);
+	            return retVal;
+	        }
+	        return false;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return false;
+		}
+    }
 
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat(
 			"MM/dd/yyyy HH:mm:ss", new Locale("pl", "PL"));

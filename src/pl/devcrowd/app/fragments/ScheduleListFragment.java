@@ -227,12 +227,15 @@ public class ScheduleListFragment extends ListFragment implements
 			String presentationID, boolean isChecked, View toggleView) {
 		ContentProviderHelper.updateFavourite(getActivity()
 				.getContentResolver(), presentationTitle, isChecked);
-
-		if (isChecked) {
-			Calendar cal = CalendarUtils.getCurrentTime();
-
-			StringBuilder tmp = new StringBuilder(PRESENTATION_DATE + hourStart
-					+ ":00");
+		
+		Calendar cal = CalendarUtils.getCurrentTime();
+		
+		StringBuilder tmp = new StringBuilder(PRESENTATION_DATE + hourStart
+				+ ":00");
+		
+		StringBuilder currDate = new StringBuilder(CalendarUtils.getDateTimeString(cal));
+		
+		if (isChecked && CalendarUtils.compareTwoDates(tmp.toString(), currDate.toString())) {
 
 			cal = CalendarUtils.getDateDifferBySeconds(ALARM_DELAY_MS,
 					tmp.toString());
