@@ -34,8 +34,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.espian.showcaseview.ShowcaseView;
-import com.espian.showcaseview.targets.ViewTarget;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
 public class ScheduleListFragment extends ListFragment implements
 		LoaderCallbacks<Cursor>, AdapterInterface, OnRefreshListener {
@@ -245,8 +245,13 @@ public class ScheduleListFragment extends ListFragment implements
 
 			if (!pref.getBoolean(SHOWN_FAVOURITE, false)) {
 				ViewTarget target = new ViewTarget(toggleView);
-				ShowcaseView.insertShowcaseView(target, getActivity(),
-						R.string.favoTitle, R.string.favoDetails);
+				/*ShowcaseView.insertShowcaseView(target, getActivity(),
+						R.string.favoTitle, R.string.favoDetails);*/
+				new ShowcaseView.Builder(getActivity())
+						.setContentTitle(R.string.favoTitle)
+						.setContentText(R.string.favoDetails)
+						.setTarget(target)
+						.build();
 				editor.putBoolean(SHOWN_FAVOURITE, true);
 				editor.commit();
 			}

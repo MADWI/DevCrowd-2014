@@ -34,3 +34,8 @@ proguard-project.txt
 
 #  Dependant on appcompat project library
 libs/android-support-v4.jar
+
+# Gradle build files
+.gradle
+.settings
+build/

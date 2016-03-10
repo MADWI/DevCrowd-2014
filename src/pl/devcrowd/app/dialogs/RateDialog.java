@@ -4,9 +4,14 @@ import pl.devcrowd.app.R;
 import pl.devcrowd.app.activities.ScheduleDetailsActivity;
 import pl.devcrowd.app.utils.DebugLog;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,9 +23,8 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
-import eu.inmite.android.lib.dialogs.BaseDialogFragment;
 
-public class RateDialog extends BaseDialogFragment implements
+public class RateDialog extends DialogFragment implements
 		OnRatingBarChangeListener {
 
 	public interface OnRatingListener {
@@ -29,7 +33,6 @@ public class RateDialog extends BaseDialogFragment implements
 	}
 
 	private OnRatingListener mOnRatingListener;
-	private static RateDialog dialog;
 	private RatingBar topicRate;
 	private boolean topicRateChanged = false;
 	private float topicRateValue;
@@ -158,8 +161,10 @@ public class RateDialog extends BaseDialogFragment implements
 		imm.hideSoftInputFromWindow(email.getWindowToken(), 0);
 	}
 
+	@NonNull
 	@Override
-	protected Builder build(Builder initialBuilder) {
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+
 		if (inflater == null) {
 			inflater = LayoutInflater.from(getActivity());
 		}
@@ -167,39 +172,30 @@ public class RateDialog extends BaseDialogFragment implements
 			ratingView = inflater.inflate(R.layout.rating_dialog_layout, null);
 		}
 
-		initialBuilder
+		return new AlertDialog.Builder(getContext())
 				.setView(ratingView)
 				.setTitle(R.string.ratePresentation)
-				.setPositiveButton(R.string.send, new View.OnClickListener() {
+				.setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
 
 					@Override
-					public void onClick(View v) {
+					public void onClick(DialogInterface dialog, int which) {
 						mOnRatingListener.onSendRatingButtonClick(
 								topicRateValue, speakerRateValue, email
 										.getText().toString());
-						dismiss();
-
 					}
 				})
-				.setNeutralButton(R.string.cancel, new View.OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						dismiss();
-					}
-				});
-
-		return initialBuilder;
+				.setNeutralButton(R.string.cancel, null)
+				.create();
 	}
 
 	public static void show(FragmentActivity activity, String tag, Bundle args) {
-		dialog = new RateDialog();
+		RateDialog dialog = new RateDialog();
 		dialog.setArguments(args);
 		dialog.show(activity.getSupportFragmentManager(), tag);
 	}
 
 	private void setEnableSendButton(boolean value) {
-		Button sendButton = dialog.getPositiveButton();
+		Button sendButton = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 		if (sendButton != null) {
 			sendButton.setTextColor(value == true ? Color.BLACK : Color.GRAY);
 			sendButton.setEnabled(value);

@@ -12,7 +12,7 @@ import android.net.Uri;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-	private static final String TICKER_TEXT = "Nie spóŸnij siê na prezentacjê.";
+	private static final String TICKER_TEXT = "Nie spÃ³Åºnij siÄ™ na prezentacjÄ™.";
 	private String MESSAGE_TEXT = "Godzina: ";
 
 	private int lessonID;
